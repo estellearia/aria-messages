@@ -123,7 +123,7 @@
   </div>
 
   <!-- Hidden at first -->
-  <audio id="bgStatic" preload="auto" loop style="display:none">
+  <audio id="bgStatic" preload="auto" style="display:none">
     <source src="https://github.com/estellearia/type-sound/raw/refs/heads/main/60820__erh__radio-t2-lw-static.wav" type="audio/wav">
     Your browser does not support the audio element.
   </audio>
@@ -147,7 +147,17 @@
       // Play the static sound (user gesture, so allowed)
       const bgAudio = document.getElementById("bgStatic");
       bgAudio.volume = 0.2;
+      bgAudio.currentTime = 0;
       bgAudio.play();
+
+      // Loop only first 2 seconds
+      const loopEnd = 2.0;
+      bgAudio.addEventListener('timeupdate', function loopStatic() {
+        if (bgAudio.currentTime >= loopEnd) {
+          bgAudio.currentTime = 0;
+          bgAudio.play();
+        }
+      });
 
       // Begin the typewriter effect
       setTimeout(() => {
