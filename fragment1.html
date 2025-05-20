@@ -150,8 +150,8 @@
       bgAudio.currentTime = 0;
       bgAudio.play();
 
-      // Loop only first 2 seconds
-      const loopEnd = 2.0;
+      // Loop only first 8 seconds
+      const loopEnd = 8.0;
       bgAudio.addEventListener('timeupdate', function loopStatic() {
         if (bgAudio.currentTime >= loopEnd) {
           bgAudio.currentTime = 0;
