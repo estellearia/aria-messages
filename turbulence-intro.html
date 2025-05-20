@@ -2,8 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 body {
-  background: black;
-  color: white;
+  background: #000;
   margin: 0;
   min-height: 100vh;
   font-family: 'Press Start 2P', monospace;
@@ -20,73 +19,82 @@ body {
 .dialogue-wrapper {
   display: flex;
   align-items: center;
-  background: black;
-  color: white;
-  border: 3px solid white;
-  padding: 16px;
-  width: 600px;           /* Fixed width */
-  min-height: 110px;      /* Fixed min height, adjust as needed */
-  margin: 0 auto;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
-  line-height: 1.8;
-  white-space: pre-wrap;
-  box-shadow: 0 0 0 3px black;
-  cursor: pointer;
-  transition: box-shadow 0.2s;
+  background: #000;
+  border: 3px solid #fff;
+  width: 800px;             /* <- Set your fixed width */
+  height: 330px;            /* <- Set your fixed height */
   box-sizing: border-box;
+  margin: 0 auto;
+  box-shadow: 0 0 0 3px #000;
+  position: relative;
 }
 
-.dialogue-wrapper:active { box-shadow: 0 0 0 5px #87cefa; }
-
 .dialogue-avatar {
-  width: 64px;
-  height: 64px;
+  width: 96px;
+  height: 96px;
   image-rendering: pixelated;
-  margin-right: 16px;
+  margin-left: 32px;
+  margin-right: 32px;
   flex-shrink: 0;
 }
 
-.dialogue-text {
+.dialogue-textblock {
   flex: 1;
-  /* prevent shrinking if text is short */
-  min-height: 54px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
 }
 
 .dialogue-name {
-  color: #ffeb3b;
-  display: block;
-  margin-bottom: 8px;
+  color: #ffe347;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 32px;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px #222;
+}
+
+#typedMewby {
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 2.1;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px #222;
+  /* Ensures lines don't wrap short */
+  white-space: pre;
+  margin-left: 8px;
 }
 
 .hey-container {
   text-align: center;
-  margin-top: 16px;
+  margin-top: 32px;
 }
 
 .hey-button {
   display: inline-block;
-  padding: 5px 10px;
+  padding: 8px 20px;
   font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
-  color: white;
-  background: black;
-  border: 2px solid white;
+  font-size: 16px;
+  color: #fff;
+  background: #000;
+  border: 2px solid #fff;
   cursor: pointer;
   transition: 0.2s;
   text-decoration: none;
+  margin-top: 12px;
 }
-
 .hey-button:hover {
-  background: white;
-  color: black;
+  background: #fff;
+  color: #000;
 }
 </style>
 
 <div class="center-outer">
   <div class="dialogue-wrapper" id="clickableDialogue">
     <img class="dialogue-avatar" src="https://64.media.tumblr.com/799c858b2589d12d93d0349e502cde98/9a98a57c72a06121-6b/s250x400/97e4a00ce20e9ae5e799328e66c59517313abd7a.gif" alt="Mister Mewby Avatar">
-    <div class="dialogue-text">
+    <div class="dialogue-textblock">
       <span class="dialogue-name">???</span>
       <div id="typedMewby"></div>
     </div>
@@ -98,8 +106,8 @@ body {
 
 <script>
 const lines = [
-  "* It’s stormy here...\n\n* The kind of place where breaths feel heavier.",
-  "* You’ve been running through storms —\n\n* Hospital walls, endless work shifts,",
+  "* You’ve been running through storms —",
+  "* Hospital walls, endless work shifts,",
   "* And a world that tells us we shouldn’t be.",
   "* It’s unfair. It’s exhausting.",
   "* But you’re still here.",
@@ -114,17 +122,14 @@ let typing = false;
 
 function typeLine(line, callback) {
   container.innerHTML = "";
-  const p = document.createElement("p");
-  container.appendChild(p);
   let charIndex = 0;
   typing = true;
 
   function typeChar() {
     if (charIndex < line.length) {
-      const char = line.charAt(charIndex);
-      p.innerHTML += (char === "\n") ? "<br>" : char;
+      container.innerHTML += line.charAt(charIndex);
       charIndex++;
-      setTimeout(typeChar, char === " " ? 12 : 20 + Math.random() * 18);
+      setTimeout(typeChar, line[charIndex - 1] === " " ? 10 : 16 + Math.random() * 10);
     } else {
       typing = false;
       callback();
@@ -134,11 +139,10 @@ function typeLine(line, callback) {
 }
 
 function nextDialogue() {
-  if (typing) return; // Don't skip typewriter
+  if (typing) return;
   if (lineIndex < lines.length - 1) {
     typeLine(lines[++lineIndex], () => {});
   } else {
-    // Last line: show button
     dialogueBox.style.pointerEvents = "none";
     setTimeout(() => {
       heyContainer.style.display = "block";
@@ -146,12 +150,10 @@ function nextDialogue() {
   }
 }
 
-// Initial
 setTimeout(() => {
   typeLine(lines[0], () => {});
-}, 500);
+}, 400);
 
-// Click or key to continue
 dialogueBox.addEventListener("click", nextDialogue);
 document.addEventListener("keydown", function(e) {
   if ((e.key === "Enter" || e.key === " " || e.key === "ArrowDown") && heyContainer.style.display === "none") {
