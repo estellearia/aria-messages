@@ -1,45 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Fragment 01</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signal Fragment - Aria</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
     body {
-      background: #000;
-      color: #fdf6e3;
+      background: black;
+      padding: 40px 20px;
+      color: white;
       font-family: 'Press Start 2P', monospace;
-      font-size: 10px;
-      padding: 20px;
-      text-align: center;
     }
 
-    .blinking {
-      animation: blink 1s step-start infinite;
-      color: #00ffcc;
-      margin-bottom: 16px;
-    }
-
-    @keyframes blink {
-      50% { opacity: 0; }
-    }
-
-    .scroll-letter {
+    .signal-fragment {
       max-width: 600px;
       margin: 0 auto;
       padding: 24px 20px;
-      background-color: #fdf6e3;
-      border: 4px solid #8b5e3c;
-      color: #3c2f2f;
+      background: repeating-linear-gradient(
+          -45deg,
+          #1a1a1a,
+          #1a1a1a 10px,
+          #222 10px,
+          #222 20px
+      );
+      border: 3px dashed #6ee7b7;
+      color: #c0fff3;
       font-family: 'Press Start 2P', monospace;
       font-size: 10px;
       line-height: 1.8;
       white-space: pre-wrap;
-      box-shadow: 0 0 0 4px black;
+      box-shadow: 0 0 8px #6ee7b7;
       text-align: left;
-      border-radius: 16px;
+      border-radius: 12px;
       position: relative;
+      overflow: hidden;
     }
 
     .avatar {
@@ -48,22 +43,29 @@
       width: 64px;
       height: 64px;
       image-rendering: pixelated;
-      border: 2px solid #8b5e3c;
+      border: 2px solid #6ee7b7;
       border-radius: 8px;
-      background: white;
+      background: black;
       padding: 2px;
+      box-shadow: 0 0 6px #6ee7b7;
     }
 
-    .scroll-letter p {
+    .signal-fragment p {
       margin: 14px 0;
+      animation: flicker 0.15s infinite alternate;
+    }
+
+    @keyframes flicker {
+      0% { opacity: 1; }
+      100% { opacity: 0.96; }
     }
 
     .next-btn {
       display: inline-block;
       padding: 8px 16px;
-      background: #3c2f2f;
-      color: #fdf6e3;
-      border: 2px solid #8b5e3c;
+      background: #111;
+      color: #6ee7b7;
+      border: 2px solid #6ee7b7;
       font-family: 'Press Start 2P', monospace;
       font-size: 10px;
       text-decoration: none;
@@ -73,8 +75,8 @@
     }
 
     .next-btn:hover {
-      background: #5a4131;
-      color: #ffffff;
+      background: #222;
+      color: #a3ffe9;
       transform: translateY(-1px);
       box-shadow: 3px 3px 0 black;
     }
@@ -82,88 +84,66 @@
 </head>
 <body>
 
-<div class="blinking">[DATA FRAGMENT FOUND]</div>
-
-<div class="scroll-letter">
-  <img class="avatar" src="https://i.imgur.com/9OC7GRw.gif" alt="Aria Avatar">
-  <div id="typedLetter"></div>
-  <div id="nextPrompt" style="display:none;">
-    <p>* Signal stable. Ready for next fragment?</p>
-    <a href="#fragment2" class="next-btn">Let's go</a>
+  <div class="signal-fragment">
+    <img class="avatar" src="https://i.imgur.com/9OC7GRw.gif" alt="Aria Avatar">
+    <div id="typedLetter"></div>
+    <div id="nextPrompt" style="display:none;">
+      <p>* Signal stable. Ready for next fragment?</p>
+      <a href="#strength" class="next-btn">Continue ></a>
+    </div>
   </div>
-</div>
 
-<script>
-  // Typewriter effect
-  setTimeout(() => {
-    const paragraphs = [
-      "* Signal fragment recovered... 📡",
-      "...Hello? Can you hear this?",
-      "I didn’t know if my message would make it through.",
-      "But I had to try — even if the world keeps cutting us off.",
-      "You give so much to everyone... always putting yourself last.",
-      "...I wish you'd choose yourself — just once.",
-      "Follow this signal. Let it guide you to me.",
-      "This is only the first piece.\nThere’s more of me out there, waiting for you. 💭"
-    ];
+  <script>
+    setTimeout(() => {
+      const paragraphs = [
+        "* Signal fragment recovered... 📡",
+        "...Hello? Can you hear this?",
+        "I didn’t know if my message would make it through.",
+        "But I had to try — even if the world keeps cutting us off.",
+        "You give so much to everyone... always putting yourself last.",
+        "...I wish you'd choose yourself — just once.",
+        "Follow this signal. Let it guide you to me.",
+        "This is only the first piece.\nThere’s more of me out there, waiting for you. 💭"
+      ];
 
-    const container = document.getElementById("typedLetter");
-    let paraIndex = 0;
+      const container = document.getElementById("typedLetter");
+      let paraIndex = 0;
 
-    function typeParagraph(text, callback) {
-      const p = document.createElement("p");
-      container.appendChild(p);
-      let charIndex = 0;
+      function typeParagraph(text, callback) {
+        const p = document.createElement("p");
+        container.appendChild(p);
+        let charIndex = 0;
 
-      function typeChar() {
-        if (charIndex < text.length) {
-          const char = text.charAt(charIndex);
-          p.innerHTML += (char === "\n") ? "<br>" : char;
-          charIndex++;
-          setTimeout(typeChar, 55);
+        function typeChar() {
+          if (charIndex < text.length) {
+            const char = text.charAt(charIndex);
+            p.innerHTML += (char === "\n") ? "<br>" : char;
+            charIndex++;
+            setTimeout(typeChar, 45 + Math.random() * 40);
+          } else {
+            callback();
+          }
+        }
+
+        typeChar();
+      }
+
+      function typeAllParagraphs() {
+        if (paraIndex < paragraphs.length) {
+          typeParagraph(paragraphs[paraIndex], () => {
+            paraIndex++;
+            setTimeout(typeAllParagraphs, 600);
+          });
         } else {
-          callback();
+          setTimeout(() => {
+            document.getElementById("nextPrompt").style.display = "block";
+          }, 800);
         }
       }
 
-      typeChar();
-    }
-
-    function typeAllParagraphs() {
-      if (paraIndex < paragraphs.length) {
-        typeParagraph(paragraphs[paraIndex], () => {
-          paraIndex++;
-          setTimeout(typeAllParagraphs, 500);
-        });
-      } else {
-        setTimeout(() => {
-          document.getElementById("nextPrompt").style.display = "block";
-        }, 1000);
-      }
-    }
-
-    typeAllParagraphs();
-  }, 500);
-</script>
-
-<script>
-  // Static sound generator using Web Audio API
-  window.addEventListener("load", () => {
-    const context = new (window.AudioContext || window.webkitAudioContext)();
-    const bufferSize = 4096;
-    const noiseNode = context.createScriptProcessor(bufferSize, 1, 1);
-    
-    noiseNode.onaudioprocess = function(e) {
-      const output = e.outputBuffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) {
-        output[i] = (Math.random() * 2 - 1) * Math.exp(-i / 8000);
-      }
-    };
-
-    noiseNode.connect(context.destination);
-    setTimeout(() => noiseNode.disconnect(), 800); // fade after ~1s
-  });
-</script>
+      typeAllParagraphs();
+    }, 500);
+  </script>
 
 </body>
 </html>
