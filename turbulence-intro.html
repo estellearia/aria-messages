@@ -1,171 +1,154 @@
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Turbulence Intro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-body {
-  background: #000;
-  margin: 0;
-  min-height: 100vh;
-  font-family: 'Press Start 2P', monospace;
-}
+    body {
+      background: #000;
+      margin: 0;
+      padding: 0;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-.center-outer {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+    .dialogue-box {
+      display: flex;
+      align-items: flex-start;
+      background: black;
+      border: 3px solid white;
+      box-shadow: 0 0 0 3px black;
+      padding: 16px;
+      max-width: 600px;
+      width: 90%;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
 
-.dialogue-wrapper {
-  display: flex;
-  align-items: flex-start;
-  background: #000;
-  color: #fff;
-  border: 3px solid #fff;
-  width: 620px;                   /* Fixed width for consistency */
-  min-height: 120px;              /* Prevents shrinking, but not too tall */
-  max-width: 96vw;
-  box-sizing: border-box;
-  margin: 0 auto;
-  box-shadow: 0 0 0 3px #000;
-  padding: 18px 32px 18px 22px;   /* Ample but not excessive */
-  transition: box-shadow 0.15s;
-}
+    .dialogue-avatar {
+      width: 64px;
+      height: 64px;
+      margin-right: 16px;
+      image-rendering: pixelated;
+      flex-shrink: 0;
+    }
 
-.dialogue-avatar {
-  width: 64px;
-  height: 64px;
-  image-rendering: pixelated;
-  margin-right: 22px;             /* Keeps space but not too wide */
-  flex-shrink: 0;
-  margin-top: 2px;                /* Align avatar with first line of text */
-}
+    .dialogue-textblock {
+      flex: 1;
+    }
 
-.dialogue-textblock {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 64px;
-}
+    .dialogue-name {
+      color: #ffeb3b;
+      display: block;
+      margin-bottom: 8px;
+    }
 
-.dialogue-name {
-  color: #ffeb3b;
-  display: block;
-  margin-bottom: 10px;
-  font-size: 12px;
-  letter-spacing: 1px;
-}
+    .hey-container {
+      margin-top: 16px;
+      text-align: center;
+      display: none;
+    }
 
-#typedMewby {
-  color: #fff;
-  font-size: 13px;
-  line-height: 2.1;
-  font-family: 'Press Start 2P', monospace;
-  white-space: pre;
-  word-break: break-word;
-  font-weight: normal;
-}
+    .hey-button {
+      display: inline-block;
+      padding: 5px 10px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      color: white;
+      background: black;
+      border: 2px solid white;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
 
-.hey-container {
-  text-align: center;
-  margin-top: 20px;
-}
+    .hey-button:hover {
+      background: white;
+      color: black;
+    }
+  </style>
+</head>
+<body>
 
-.hey-button {
-  display: inline-block;
-  padding: 6px 18px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
-  color: #fff;
-  background: #000;
-  border: 2px solid #fff;
-  cursor: pointer;
-  transition: 0.2s;
-  text-decoration: none;
-  margin-top: 4px;
-  letter-spacing: 1px;
-}
-.hey-button:hover {
-  background: #fff;
-  color: #000;
-}
-
-@media (max-width: 650px) {
-  .dialogue-wrapper { width: 96vw; min-width: 0; padding: 10px 4vw 10px 4vw; }
-  .dialogue-avatar { margin-right: 12px; }
-  #typedMewby { font-size: 10px; }
-  .dialogue-name { font-size: 10px; }
-  .hey-button { font-size: 10px; padding: 4px 10px; }
-}
-</style>
-
-<div class="center-outer">
-  <div class="dialogue-wrapper" id="clickableDialogue">
-    <img class="dialogue-avatar" src="https://64.media.tumblr.com/799c858b2589d12d93d0349e502cde98/9a98a57c72a06121-6b/s250x400/97e4a00ce20e9ae5e799328e66c59517313abd7a.gif" alt="Mister Mewby Avatar">
+<div>
+  <div class="dialogue-box" id="clickableDialogue">
+    <img class="dialogue-avatar" src="https://64.media.tumblr.com/799c858b2589d12d93d0349e502cde98/9a98a57c72a06121-6b/s250x400/97e4a00ce20e9ae5e799328e66c59517313abd7a.gif" alt="Mister Mewby">
     <div class="dialogue-textblock">
       <span class="dialogue-name">???</span>
       <div id="typedMewby"></div>
     </div>
   </div>
-  <div class="hey-container" id="heyContainer" style="display:none;">
+
+  <div class="hey-container" id="heyContainer">
     <a href="#turbulencegame" class="hey-button">Begin</a>
   </div>
 </div>
 
 <script>
-const lines = [
-  "* You’ve been running through storms —",
-  "* Hospital walls, endless work shifts,",
-  "* And a world that tells us we shouldn’t be.",
-  "* It’s unfair. It’s exhausting.",
-  "* But you’re still here.",
-  "* Let’s see how you handle the turbulence..."
-];
+  const lines = [
+    "* You’ve been running through storms —",
+    "* Hospital walls, endless work shifts,",
+    "* And a world that tells us we shouldn’t be.",
+    "* It’s unfair. It’s exhausting.",
+    "* But you’re still here.",
+    "* Let’s see how you handle the turbulence..."
+  ];
 
-const container = document.getElementById("typedMewby");
-const heyContainer = document.getElementById("heyContainer");
-const dialogueBox = document.getElementById("clickableDialogue");
-let lineIndex = 0;
-let typing = false;
+  const container = document.getElementById("typedMewby");
+  const heyContainer = document.getElementById("heyContainer");
+  const dialogueBox = document.getElementById("clickableDialogue");
+  let lineIndex = 0;
+  let typing = false;
 
-function typeLine(line, callback) {
-  container.innerHTML = "";
-  let charIndex = 0;
-  typing = true;
-  function typeChar() {
-    if (charIndex < line.length) {
-      container.innerHTML += line.charAt(charIndex);
-      charIndex++;
-      setTimeout(typeChar, line[charIndex - 1] === " " ? 10 : 13 + Math.random() * 7);
+  function typeLine(line, callback) {
+    container.innerHTML = "";
+    let charIndex = 0;
+    typing = true;
+
+    function typeChar() {
+      if (charIndex < line.length) {
+        container.innerHTML += line.charAt(charIndex);
+        charIndex++;
+        setTimeout(typeChar, line[charIndex - 1] === " " ? 10 : 16 + Math.random() * 10);
+      } else {
+        typing = false;
+        callback();
+      }
+    }
+    typeChar();
+  }
+
+  function nextDialogue() {
+    if (typing) return;
+    if (lineIndex < lines.length - 1) {
+      typeLine(lines[++lineIndex], () => {});
     } else {
-      typing = false;
-      callback();
+      dialogueBox.style.pointerEvents = "none";
+      setTimeout(() => {
+        heyContainer.style.display = "block";
+      }, 400);
     }
   }
-  typeChar();
-}
 
-function nextDialogue() {
-  if (typing) return;
-  if (lineIndex < lines.length - 1) {
-    typeLine(lines[++lineIndex], () => {});
-  } else {
-    dialogueBox.style.pointerEvents = "none";
-    setTimeout(() => {
-      heyContainer.style.display = "block";
-    }, 350);
-  }
-}
+  setTimeout(() => {
+    typeLine(lines[0], () => {});
+  }, 400);
 
-setTimeout(() => {
-  typeLine(lines[0], () => {});
-}, 350);
-
-dialogueBox.addEventListener("click", nextDialogue);
-document.addEventListener("keydown", function(e) {
-  if ((e.key === "Enter" || e.key === " " || e.key === "ArrowDown") && heyContainer.style.display === "none") {
-    nextDialogue();
-  }
-});
+  dialogueBox.addEventListener("click", nextDialogue);
+  document.addEventListener("keydown", function(e) {
+    if ((e.key === "Enter" || e.key === " " || e.key === "ArrowDown") && heyContainer.style.display === "none") {
+      nextDialogue();
+    }
+  });
 </script>
+
+</body>
+</html>
