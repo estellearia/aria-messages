@@ -13,65 +13,75 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .dialogue-wrapper {
-display: flex;
-align-items: center;
-background: black;
-color: white;
-border: 3px solid white;
-padding: 16px;
-max-width: 600px;
-margin: 0 auto;
-font-family: 'Press Start 2P', monospace;
-font-size: 10px;
-line-height: 1.8;
-white-space: pre-wrap;
-box-shadow: 0 0 0 3px black;
+  display: flex;
+  align-items: flex-start;
+  background: black;
+  color: white;
+  border: 3px solid white;
+  padding: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  box-shadow: 0 0 0 3px black;
+  min-height: 120px;
 }
 
-
 .dialogue-avatar {
-width: 64px;
-height: 64px;
-image-rendering: pixelated;
-margin-right: 16px;
-flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+  margin-right: 16px;
+  flex-shrink: 0;
 }
 
 .dialogue-textblock {
   flex: 1;
+  position: relative;
+  height: 80px; /* Fixed height */
+  overflow: hidden;
 }
 
 .dialogue-name {
-color: #ffeb3b;
-display: block;
-margin-bottom: 8px;
+  color: #ffeb3b;
+  display: block;
+  margin-bottom: 8px;
 }
 
+#typedMewby {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+}
 
 .hey-container {
-text-align: center;
-margin-top: 16px;
+  text-align: center;
+  margin-top: 16px;
 }
 
 .hey-button {
-display: inline-block;
-padding: 5px 10px;
-font-family: 'Press Start 2P', monospace;
-font-size: 10px;
-color: white;
-background: black;
-border: none;
-cursor: pointer;
-transition: 0.2s;
-text-decoration: none;
+  display: inline-block;
+  padding: 5px 10px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: white;
+  background: black;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+  text-decoration: none;
 }
 
 .hey-button:hover {
- background: white;
-color: black;
+  background: white;
+  color: black;
 }
 </style>
 
