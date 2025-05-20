@@ -234,10 +234,12 @@
     fragmentPrompt.addEventListener("keydown", handleFragmentPrompt);
 
     // Continue button for Carrd postMessage scrolling
-    document.getElementById("continueBtn").addEventListener("click", function(e) {
-      e.preventDefault();
-      window.parent.postMessage({ scrollTo: "#turbulence1" }, "*");
-    });
+ document.getElementById("continueBtn").addEventListener("click", function(e) {
+  e.preventDefault();
+  setTimeout(function() {
+    window.parent.postMessage({ scrollTo: "#turbulence1" }, "*");
+  }, 300);
+});
   </script>
 </body>
 </html>
