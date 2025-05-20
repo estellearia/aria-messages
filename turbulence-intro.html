@@ -24,13 +24,14 @@ body {
   border: 3px solid white;
   padding: 16px;
   max-width: 600px;
-  margin: 0 auto;
+  width: 90%;
   font-family: 'Press Start 2P', monospace;
   font-size: 10px;
   line-height: 1.8;
   white-space: pre-wrap;
   box-shadow: 0 0 0 3px black;
-  min-height: 120px;
+  height: 130px; /* 🔒 fixed height */
+  overflow: hidden; /* ⛔ prevents expansion */
 }
 
 .dialogue-avatar {
@@ -44,23 +45,22 @@ body {
 .dialogue-textblock {
   flex: 1;
   position: relative;
-  height: 80px; /* Fixed height */
-  overflow: hidden;
 }
 
 .dialogue-name {
   color: #ffeb3b;
   display: block;
   margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
 }
 
 #typedMewby {
-  position: absolute;
-  top: 20px;
-  left: 0;
-  right: 0;
+  position: relative;
+  z-index: 1;
 }
 
+/* Button container */
 .hey-container {
   text-align: center;
   margin-top: 16px;
