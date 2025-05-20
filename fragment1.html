@@ -6,7 +6,6 @@
   <title>Signal Fragment - Aria</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
-
     body {
       background: black;
       color: white;
@@ -15,7 +14,6 @@
       height: 100vh;
       margin: 0;
       padding: 0;
-      /* NO flex here! */
     }
     .main-center {
       min-height: 100vh;
@@ -146,12 +144,12 @@
     <!-- Container 2: Signal Steady -->
     <div class="signal-steady" id="steadyContainer">
       <p>* Signal stable. Ready for next fragment?</p>
-      <a href="#turbulence1" class="next-btn">Continue &gt;</a>
+      <a href="#" class="next-btn" id="continueBtn">Continue &gt;</a>
     </div>
   </div>
 
-  <!-- For demo: target anchor -->
-  <div id="turbulence1" style="margin:100vh 0 0 0;padding:40px 0 0 0;"> <!-- placeholder anchor --></div>
+  <!-- Anchor for jump -->
+  <div id="turbulence1"></div>
 
   <script>
     function startSignalSequence() {
@@ -234,6 +232,12 @@
     const fragmentPrompt = document.getElementById("fragmentPrompt");
     fragmentPrompt.addEventListener("click", handleFragmentPrompt);
     fragmentPrompt.addEventListener("keydown", handleFragmentPrompt);
+
+    // Continue button jump to anchor (no smooth scroll, just instant jump)
+    document.getElementById("continueBtn").addEventListener("click", function(e) {
+      e.preventDefault();
+      window.location.href = "#turbulence1";
+    });
   </script>
 </body>
 </html>
