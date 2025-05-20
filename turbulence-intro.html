@@ -17,77 +17,62 @@ body {
 }
 
 .dialogue-wrapper {
-  display: flex;
-  align-items: center;
-  background: #000;
-  border: 3px solid #fff;
-  width: 800px;             /* <- Set your fixed width */
-  height: 330px;            /* <- Set your fixed height */
-  box-sizing: border-box;
-  margin: 0 auto;
-  box-shadow: 0 0 0 3px #000;
-  position: relative;
+display: flex;
+align-items: center;
+background: black;
+color: white;
+border: 3px solid white;
+padding: 16px;
+max-width: 600px;
+margin: 0 auto;
+font-family: 'Press Start 2P', monospace;
+font-size: 10px;
+line-height: 1.8;
+white-space: pre-wrap;
+box-shadow: 0 0 0 3px black;
 }
 
+
 .dialogue-avatar {
-  width: 96px;
-  height: 96px;
-  image-rendering: pixelated;
-  margin-left: 32px;
-  margin-right: 32px;
-  flex-shrink: 0;
+width: 64px;
+height: 64px;
+image-rendering: pixelated;
+margin-right: 16px;
+flex-shrink: 0;
 }
 
 .dialogue-textblock {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
 }
 
 .dialogue-name {
-  color: #ffe347;
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 32px;
-  letter-spacing: 2px;
-  text-shadow: 1px 1px #222;
+color: #ffeb3b;
+display: block;
+margin-bottom: 8px;
 }
 
-#typedMewby {
-  color: #fff;
-  font-size: 18px;
-  font-weight: bold;
-  line-height: 2.1;
-  letter-spacing: 1px;
-  text-shadow: 1px 1px #222;
-  /* Ensures lines don't wrap short */
-  white-space: pre;
-  margin-left: 8px;
-}
 
 .hey-container {
-  text-align: center;
-  margin-top: 32px;
+text-align: center;
+margin-top: 16px;
 }
 
 .hey-button {
-  display: inline-block;
-  padding: 8px 20px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 16px;
-  color: #fff;
-  background: #000;
-  border: 2px solid #fff;
-  cursor: pointer;
-  transition: 0.2s;
-  text-decoration: none;
-  margin-top: 12px;
+display: inline-block;
+padding: 5px 10px;
+font-family: 'Press Start 2P', monospace;
+font-size: 10px;
+color: white;
+background: black;
+border: none;
+cursor: pointer;
+transition: 0.2s;
+text-decoration: none;
 }
+
 .hey-button:hover {
-  background: #fff;
-  color: #000;
+ background: white;
+color: black;
 }
 </style>
 
