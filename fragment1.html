@@ -129,7 +129,6 @@
       <span style="font-size:10px; color:#6ee7b7;">Click to initialize</span>
     </div>
 
-    <!-- Hidden at first -->
     <audio id="bgStatic" preload="auto" style="display:none">
       <source src="https://github.com/estellearia/type-sound/raw/refs/heads/main/60820__erh__radio-t2-lw-static.wav" type="audio/wav">
       Your browser does not support the audio element.
@@ -148,7 +147,6 @@
     </div>
   </div>
 
-  <!-- Anchor for jump -->
   <div id="turbulence1"></div>
 
   <script>
@@ -233,13 +231,11 @@
     fragmentPrompt.addEventListener("click", handleFragmentPrompt);
     fragmentPrompt.addEventListener("keydown", handleFragmentPrompt);
 
-    // Continue button for Carrd postMessage scrolling
- document.getElementById("continueBtn").addEventListener("click", function(e) {
-  e.preventDefault();
-  setTimeout(function() {
-    window.parent.postMessage({ scrollTo: "#turbulence1" }, "*");
-  }, 300);
-});
+    // Use window.top.location.href for reliable redirect in Carrd
+    document.getElementById("continueBtn").addEventListener("click", function(e) {
+      e.preventDefault();
+      window.top.location.href = "https://frdffsdx.carrd.co/#turbulence1";
+    });
   </script>
 </body>
 </html>
