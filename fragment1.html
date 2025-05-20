@@ -233,8 +233,8 @@
     fragmentPrompt.addEventListener("click", handleFragmentPrompt);
     fragmentPrompt.addEventListener("keydown", handleFragmentPrompt);
 
-    // ✅ Fixed: Correct ID for continue button
-    document.getElementById("continueBtn").addEventListener("click", (e) => {
+    // Continue button for Carrd postMessage scrolling
+    document.getElementById("continueBtn").addEventListener("click", function(e) {
       e.preventDefault();
       window.parent.postMessage({ scrollTo: "#turbulence1" }, "*");
     });
