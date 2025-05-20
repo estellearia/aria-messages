@@ -1,154 +1,170 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Turbulence Intro</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-    body {
-      background: #000;
-      margin: 0;
-      padding: 0;
-      font-family: 'Press Start 2P', monospace;
-      font-size: 10px;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+body {
+  background: black;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: white;
+}
 
-    .dialogue-box {
-      display: flex;
-      align-items: flex-start;
-      background: black;
-      border: 3px solid white;
-      box-shadow: 0 0 0 3px black;
-      padding: 16px;
-      max-width: 600px;
-      width: 90%;
-      line-height: 1.6;
-      white-space: pre-wrap;
-    }
+.dialogue-wrapper {
+  display: none;
+  align-items: flex-start;
+  background: black;
+  color: white;
+  border: 3px solid white;
+  padding: 16px;
+  width: 600px;
+  min-height: 90px;
+  margin: 0 auto 24px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  box-shadow: 0 0 0 3px black;
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+}
+.dialogue-wrapper.active {
+  display: flex;
+}
+.dialogue-avatar {
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+  margin-right: 16px;
+}
+.dialogue-name {
+  color: #ffeb3b;
+  display: block;
+  margin-bottom: 8px;
+}
+.begin-button {
+  display: none;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  padding: 10px 20px;
+  background: white;
+  color: black;
+  border: 3px solid black;
+  cursor: pointer;
+  margin: 0 auto;
+  text-align: center;
+  width: fit-content;
+  transition: background 0.2s, color 0.2s;
+}
+.begin-button:hover {
+  background: #222;
+  color: #ffeb3b;
+}
+@media (max-width: 650px) {
+  .dialogue-wrapper { width: 96vw; min-width: 0; padding: 12px 2vw; }
+}
+</style>
 
-    .dialogue-avatar {
-      width: 64px;
-      height: 64px;
-      margin-right: 16px;
-      image-rendering: pixelated;
-      flex-shrink: 0;
-    }
-
-    .dialogue-textblock {
-      flex: 1;
-    }
-
-    .dialogue-name {
-      color: #ffeb3b;
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    .hey-container {
-      margin-top: 16px;
-      text-align: center;
-      display: none;
-    }
-
-    .hey-button {
-      display: inline-block;
-      padding: 5px 10px;
-      font-family: 'Press Start 2P', monospace;
-      font-size: 10px;
-      color: white;
-      background: black;
-      border: 2px solid white;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-    }
-
-    .hey-button:hover {
-      background: white;
-      color: black;
-    }
-  </style>
-</head>
-<body>
-
-<div>
-  <div class="dialogue-box" id="clickableDialogue">
-    <img class="dialogue-avatar" src="https://64.media.tumblr.com/799c858b2589d12d93d0349e502cde98/9a98a57c72a06121-6b/s250x400/97e4a00ce20e9ae5e799328e66c59517313abd7a.gif" alt="Mister Mewby">
-    <div class="dialogue-textblock">
-      <span class="dialogue-name">???</span>
-      <div id="typedMewby"></div>
-    </div>
+<!-- Dialogue Boxes -->
+<div class="dialogue-wrapper active" onclick="nextDialogue(0)">
+  <img class="dialogue-avatar" src="https://i.imgur.com/9OC7GRw.gif" alt="Aria">
+  <div class="dialogue-text">
+    <span class="dialogue-name">Aria</span>
+    <p id="dialogueText0"></p>
   </div>
-
-  <div class="hey-container" id="heyContainer">
-    <a href="#turbulencegame" class="hey-button">Begin</a>
+</div>
+<div class="dialogue-wrapper" onclick="nextDialogue(1)">
+  <img class="dialogue-avatar" src="https://i.imgur.com/9OC7GRw.gif" alt="Aria">
+  <div class="dialogue-text">
+    <span class="dialogue-name">Aria</span>
+    <p id="dialogueText1"></p>
+  </div>
+</div>
+<div class="dialogue-wrapper" onclick="nextDialogue(2)">
+  <img class="dialogue-avatar" src="https://i.imgur.com/9OC7GRw.gif" alt="Aria">
+  <div class="dialogue-text">
+    <span class="dialogue-name">Aria</span>
+    <p id="dialogueText2"></p>
+  </div>
+</div>
+<div class="dialogue-wrapper" onclick="nextDialogue(3)">
+  <img class="dialogue-avatar" src="https://i.imgur.com/9OC7GRw.gif" alt="Aria">
+  <div class="dialogue-text">
+    <span class="dialogue-name">Aria</span>
+    <p id="dialogueText3"></p>
+  </div>
+</div>
+<div class="dialogue-wrapper" onclick="nextDialogue(4)">
+  <img class="dialogue-avatar" src="https://i.imgur.com/9OC7GRw.gif" alt="Aria">
+  <div class="dialogue-text">
+    <span class="dialogue-name">Aria</span>
+    <p id="dialogueText4"></p>
+  </div>
+</div>
+<div class="dialogue-wrapper" onclick="nextDialogue(5)">
+  <img class="dialogue-avatar" src="https://i.imgur.com/9OC7GRw.gif" alt="Aria">
+  <div class="dialogue-text">
+    <span class="dialogue-name">Aria</span>
+    <p id="dialogueText5"></p>
   </div>
 </div>
 
+<!-- Begin Button -->
+<div class="begin-button" id="beginButton" onclick="location.href='#turbulencegame'">
+  ► Begin
+</div>
+
+<!-- Typing Blip Sound -->
+<audio id="blip" src="https://www.fesliyanstudios.com/play-mp3/387" preload="auto"></audio>
+
 <script>
-  const lines = [
-    "* You’ve been running through storms —",
-    "* Hospital walls, endless work shifts,",
-    "* And a world that tells us we shouldn’t be.",
-    "* It’s unfair. It’s exhausting.",
-    "* But you’re still here.",
-    "* Let’s see how you handle the turbulence..."
-  ];
+const lines = [
+  "* You’ve been running through storms —",
+  "* Hospital walls, endless work shifts,",
+  "* And a world that tells us we shouldn’t be.",
+  "* It’s unfair. It’s exhausting.",
+  "* But you’re still here.",
+  "* Let’s see how you handle the turbulence..."
+];
 
-  const container = document.getElementById("typedMewby");
-  const heyContainer = document.getElementById("heyContainer");
-  const dialogueBox = document.getElementById("clickableDialogue");
-  let lineIndex = 0;
-  let typing = false;
-
-  function typeLine(line, callback) {
-    container.innerHTML = "";
-    let charIndex = 0;
-    typing = true;
-
-    function typeChar() {
-      if (charIndex < line.length) {
-        container.innerHTML += line.charAt(charIndex);
-        charIndex++;
-        setTimeout(typeChar, line[charIndex - 1] === " " ? 10 : 16 + Math.random() * 10);
-      } else {
-        typing = false;
-        callback();
+function typeText(id, text, callback) {
+  const el = document.getElementById(id);
+  const blip = document.getElementById("blip");
+  let i = 0;
+  el.innerText = "";
+  function type() {
+    if (i < text.length) {
+      el.innerText += text.charAt(i);
+      if (text.charAt(i) !== " ") {
+        try { blip.currentTime = 0; blip.play(); } catch(e){}
       }
-    }
-    typeChar();
-  }
-
-  function nextDialogue() {
-    if (typing) return;
-    if (lineIndex < lines.length - 1) {
-      typeLine(lines[++lineIndex], () => {});
-    } else {
-      dialogueBox.style.pointerEvents = "none";
-      setTimeout(() => {
-        heyContainer.style.display = "block";
-      }, 400);
+      i++;
+      setTimeout(type, 36);
+    } else if (callback) {
+      callback();
     }
   }
+  type();
+}
 
-  setTimeout(() => {
-    typeLine(lines[0], () => {});
-  }, 400);
-
-  dialogueBox.addEventListener("click", nextDialogue);
-  document.addEventListener("keydown", function(e) {
-    if ((e.key === "Enter" || e.key === " " || e.key === "ArrowDown") && heyContainer.style.display === "none") {
-      nextDialogue();
-    }
+function nextDialogue(index) {
+  const wrappers = document.getElementsByClassName("dialogue-wrapper");
+  const current = wrappers[index];
+  current.onclick = null;
+  const textId = `dialogueText${index}`;
+  typeText(textId, lines[index], () => {
+    setTimeout(() => {
+      current.classList.remove("active");
+      const next = wrappers[index + 1];
+      if (next) {
+        next.classList.add("active");
+        // type the next dialogue immediately for a smooth experience (optional, remove if you want click-to-type)
+        typeText(`dialogueText${index+1}`, lines[index+1]);
+      } else {
+        document.getElementById("beginButton").style.display = "block";
+      }
+    }, 800);
   });
-</script>
+}
 
-</body>
-</html>
+// Show first line with typewriter immediately
+typeText("dialogueText0", lines[0]);
+</script>
