@@ -1,107 +1,55 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
 body {
-  background: black;
-  color: white;
-  margin: 0;
-  min-height: 100vh;
+  background: black; color: white; margin: 0; min-height: 100vh;
   font-family: 'Press Start 2P', monospace;
 }
-
 .center-outer {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
 }
-
 .dialogue-wrapper {
-  display: flex;
-  align-items: center;
-  background: black;
-  color: white;
-  border: 3px solid white;
-  padding: 16px;
-  max-width: 600px;
-  margin: 0 auto;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
-  line-height: 1.8;
-  white-space: pre-wrap;
-  box-shadow: 0 0 0 3px black;
-  cursor: pointer; /* make it obvious you can click to continue */
+  display: flex; align-items: center; background: black; color: white; border: 3px solid white;
+  padding: 16px; max-width: 600px; margin: 0 auto;
+  font-family: 'Press Start 2P', monospace; font-size: 10px; line-height: 1.8;
+  white-space: pre-wrap; box-shadow: 0 0 0 3px black; cursor: pointer;
   transition: box-shadow 0.2s;
 }
-.dialogue-wrapper:active {
-  box-shadow: 0 0 0 5px #87cefa;
-}
-
+.dialogue-wrapper:active { box-shadow: 0 0 0 5px #87cefa; }
 .dialogue-avatar {
-  width: 64px;
-  height: 64px;
-  image-rendering: pixelated;
-  margin-right: 16px;
-  flex-shrink: 0;
+  width: 64px; height: 64px; image-rendering: pixelated; margin-right: 16px; flex-shrink: 0;
 }
-
-.dialogue-text {
-  flex: 1;
-}
-
-.dialogue-name, .name-aria {
-  color: #87cefa !important;
-  display: block;
-  margin-bottom: 8px;
-}
-
-.hey-container {
-  text-align: center;
-  margin-top: 16px;
-}
-
+.dialogue-text { flex: 1; }
+.dialogue-name { color: #ffeb3b; display: block; margin-bottom: 8px; }
+.hey-container { text-align: center; margin-top: 16px; }
 .hey-button {
-  display: inline-block;
-  padding: 5px 10px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
-  color: white;
-  background: black;
-  border: 2px solid white;
-  cursor: pointer;
-  transition: 0.2s;
-  text-decoration: none;
+  display: inline-block; padding: 5px 10px;
+  font-family: 'Press Start 2P', monospace; font-size: 10px; color: white; background: black;
+  border: none; cursor: pointer; transition: 0.2s; text-decoration: none; border: 2px solid white;
 }
-
-.hey-button:hover {
-  background: white;
-  color: black;
-}
-
+.hey-button:hover { background: white; color: black; }
 </style>
 
 <div class="center-outer">
   <div class="dialogue-wrapper" id="clickableDialogue">
     <img class="dialogue-avatar" src="https://64.media.tumblr.com/799c858b2589d12d93d0349e502cde98/9a98a57c72a06121-6b/s250x400/97e4a00ce20e9ae5e799328e66c59517313abd7a.gif" alt="Mister Mewby Avatar">
     <div class="dialogue-text">
-      <span class="dialogue-name">Mewby</span>
+      <span class="dialogue-name">???</span>
       <div id="typedMewby"></div>
     </div>
   </div>
-  <div id="heyContainer" class="hey-container" style="display:none;">
+  <div class="hey-container" id="heyContainer" style="display:none;">
     <a href="#turbulencegame" class="hey-button">Begin</a>
   </div>
 </div>
 
 <script>
 const lines = [
-  "It’s stormy here...\n\nThe kind of place where breaths feel heavier.",
-  "You’ve been running through storms —\n\nHospital walls, endless work shifts,",
-  "And a world that tells us we shouldn’t be.",
-  "It’s unfair. It’s exhausting.",
-  "But you’re still here.",
-  "Let’s see how you handle the turbulence..."
+  "* It’s stormy here...\n\n* The kind of place where breaths feel heavier.",
+  "* You’ve been running through storms —\n\n* Hospital walls, endless work shifts,",
+  "* And a world that tells us we shouldn’t be.",
+  "* It’s unfair. It’s exhausting.",
+  "* But you’re still here.",
+  "* Let’s see how you handle the turbulence..."
 ];
 
 const container = document.getElementById("typedMewby");
@@ -152,9 +100,8 @@ setTimeout(() => {
 // Click or key to continue
 dialogueBox.addEventListener("click", nextDialogue);
 document.addEventListener("keydown", function(e) {
-  if ((e.key === "Enter" || e.key === " " || e.key === "ArrowDown") && !heyContainer.style.display.includes("block")) {
+  if ((e.key === "Enter" || e.key === " " || e.key === "ArrowDown") && heyContainer.style.display === "none") {
     nextDialogue();
   }
 });
-
 </script>
