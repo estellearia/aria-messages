@@ -233,11 +233,11 @@
     fragmentPrompt.addEventListener("click", handleFragmentPrompt);
     fragmentPrompt.addEventListener("keydown", handleFragmentPrompt);
 
-    // Continue button jump to anchor (no smooth scroll, just instant jump)
-document.getElementById("continueButton").addEventListener("click", () => {
-  window.parent.postMessage({ scrollTo: "#turbulence1" }, "*");
-});
-
+    // ✅ Fixed: Correct ID for continue button
+    document.getElementById("continueBtn").addEventListener("click", (e) => {
+      e.preventDefault();
+      window.parent.postMessage({ scrollTo: "#turbulence1" }, "*");
+    });
   </script>
 </body>
 </html>
