@@ -140,20 +140,21 @@
   <!-- Container 2: Signal Steady -->
   <div class="signal-steady" id="steadyContainer">
     <p>* Signal stable. Ready for next fragment?</p>
-    <a href="#turbulence1" class="next-btn">Continue &gt;</a>
+    <a href="https://frdffsdx.carrd.co/#turbulence1" class="next-btn">Continue &gt;</a>
   </div>
 
-  <!-- For demo: target anchor -->
-  <div id="turbulence1" style="margin:100vh 0 0 0;padding:40px 0 0 0;"> <!-- placeholder anchor --></div>
-
   <script>
+    // This will run after user clicks the prompt
     function startSignalSequence() {
+      // Hide blinking prompt, show fragment container
       document.getElementById("fragmentPrompt").style.display = "none";
       document.getElementById("signalContainer").style.display = "block";
+      // Play static sound
       const bgAudio = document.getElementById("bgStatic");
       bgAudio.volume = 0.2;
       bgAudio.currentTime = 0;
       bgAudio.play();
+      // Loop only first 2 seconds
       const loopEnd = 2.0;
       bgAudio.addEventListener('timeupdate', function loopStatic() {
         if (bgAudio.currentTime >= loopEnd) {
@@ -162,6 +163,7 @@
         }
       });
 
+      // Begin typewriter effect
       setTimeout(() => {
         const paragraphs = [
           "* Signal fragment recovered... 📡",
@@ -204,6 +206,7 @@
               setTimeout(typeAllParagraphs, 600);
             });
           } else {
+            // After last message, hide first container and show steady container
             setTimeout(() => {
               document.getElementById("signalContainer").style.display = "none";
               document.getElementById("steadyContainer").style.display = "block";
@@ -216,6 +219,7 @@
       }, 500);
     }
 
+    // Event handler for click or keypress (Enter/Space)
     function handleFragmentPrompt(event) {
       if (
         event.type === "click" ||
