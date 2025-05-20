@@ -73,74 +73,112 @@ body {
   100% { transform: translateY(0);}
 }
 
+.hey-container-4 {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.hey-button-4 {
+  display: inline-block;
+  padding: 5px 10px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: white;
+  background: black;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+  text-decoration: none;
+  border: 2px solid white;
+}
+
+.hey-button-4:hover {
+  background: white;
+  color: black;
+}
 </style>
 
 <div class="center-outer">
   <div class="dialogue-wrapper">
     <img class="dialogue-avatar" src="https://64.media.tumblr.com/799c858b2589d12d93d0349e502cde98/9a98a57c72a06121-6b/s250x400/97e4a00ce20e9ae5e799328e66c59517313abd7a.gif" alt="Mister Mewby Avatar">
     <div class="dialogue-text">
-      <span class="dialogue-name">???</span>
-      <div id="typedMewby1"></div>
+      <span class="dialogue-name">Mewby</span>
+      <div id="typedMewbyTurb"></div>
     </div>
   </div>
   <img id="dialogueArrow" class="dialogue-arrow" src="https://cdn-icons-png.flaticon.com/128/54/54604.png" alt="Down Arrow" style="display:none;">
-  <div id="heyContainer4" style="margin-top:12px; display:none;">
-    <span style="font-family:'Press Start 2P', monospace; font-size:14px; color:#87cefa; text-shadow: 0 0 3px #fff;">???</span>
+  <div id="heyContainerTurb" class="hey-container-4" style="display:none;">
+    <a href="#turbulencegame" class="hey-button-4">Begin</a>
   </div>
 </div>
 
 <script>
-setTimeout(() => {
-  const lines = [
-    "* Howdy!"
-  ];
+const lines = [
+  "It’s stormy here...\n\nThe kind of place where breaths feel heavier.",
+  "You’ve been running through storms —\n\nHospital walls, endless work shifts,",
+  "And a world that tells us we shouldn’t be.",
+  "It’s unfair. It’s exhausting.",
+  "But you’re still here.",
+  "Let’s see how you handle the turbulence..."
+];
 
-  const container = document.getElementById("typedMewby1");
-  const heyContainer4 = document.getElementById("heyContainer4");
-  const arrow = document.getElementById("dialogueArrow");
-  let lineIndex = 0;
+const container = document.getElementById("typedMewbyTurb");
+const heyContainerTurb = document.getElementById("heyContainerTurb");
+const arrow = document.getElementById("dialogueArrow");
+let lineIndex = 0;
 
-  function typeLine(line, callback) {
-    const p = document.createElement("p");
-    container.appendChild(p);
-    let charIndex = 0;
+function typeLine(line, callback) {
+  container.innerHTML = ""; // Clear previous line(s)
+  const p = document.createElement("p");
+  container.appendChild(p);
+  let charIndex = 0;
 
-    function typeChar() {
-      if (charIndex < line.length) {
-        p.innerHTML += line.charAt(charIndex);
-        charIndex++;
-        setTimeout(typeChar, 50);
-      } else {
-        callback();
-      }
-    }
-
-    typeChar();
-  }
-
-  function typeAllLines() {
-    if (lineIndex < lines.length) {
-      typeLine(lines[lineIndex], () => {
-        lineIndex++;
-        setTimeout(typeAllLines, 400);
-      });
+  function typeChar() {
+    if (charIndex < line.length) {
+      const char = line.charAt(charIndex);
+      p.innerHTML += (char === "\n") ? "<br>" : char;
+      charIndex++;
+      setTimeout(typeChar, char === " " ? 15 : 22 + Math.random() * 18);
     } else {
-      arrow.style.display = "block";
-      arrow.addEventListener("click", function handleArrow() {
-        arrow.removeEventListener("click", handleArrow);
-        heyContainer4.style.display = "block";
-        arrow.style.display = "none";
-      });
-      document.addEventListener("keydown", function keyHandler(e) {
-        if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
-          document.removeEventListener("keydown", keyHandler);
-          heyContainer4.style.display = "block";
-          arrow.style.display = "none";
-        }
-      });
+      callback();
     }
   }
+  typeChar();
+}
 
-  typeAllLines();
-}, 500);
+function showArrowAndWait(next) {
+  arrow.style.display = "block";
+  function proceed() {
+    arrow.style.display = "none";
+    document.removeEventListener("keydown", keyHandler);
+    arrow.removeEventListener("click", proceed);
+    next();
+  }
+  function keyHandler(e) {
+    if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
+      proceed();
+    }
+  }
+  arrow.addEventListener("click", proceed);
+  document.addEventListener("keydown", keyHandler);
+}
+
+function typeAllLines() {
+  if (lineIndex < lines.length - 1) {
+    typeLine(lines[lineIndex], () => {
+      lineIndex++;
+      showArrowAndWait(typeAllLines);
+    });
+  } else {
+    // Last line: show it, then the button after a pause
+    typeLine(lines[lineIndex], () => {
+      setTimeout(() => {
+        heyContainerTurb.style.display = "block";
+      }, 450);
+    });
+  }
+}
+
+// Start after a brief delay for effect
+setTimeout(typeAllLines, 600);
 </script>
