@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signal Fragment - Aria</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: 'Press Start 2P', monospace;
+      overflow-x: hidden;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    .main-center {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .blinking {
+      animation: blink 1s step-start infinite;
+      color: #00ffcc;
+      margin-bottom: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      padding: 22px 38px;
+      border: 3px dashed #6ee7b7;
+      border-radius: 10px;
+      background: #161b1b;
+      box-shadow: 0 0 8px #6ee7b7;
+      transition: background 0.2s;
+      z-index: 2;
+      position: relative;
+    }
+    .blinking:hover {
+      background: #222;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    .signal-fragment, .signal-steady {
+      max-width: 600px;
+      padding: 24px 20px;
+      background: repeating-linear-gradient(
+          -45deg,
+          #1a1a1a,
+          #1a1a1a 10px,
+          #222 10px,
+          #222 20px
+      );
+      border: 3px dashed #6ee7b7;
+      color: #c0fff3;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      box-shadow: 0 0 8px #6ee7b7;
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      animation: glitch-border 2s infinite;
+      display: none;
+      z-index: 1;
+      text-align: left;
+    }
+    .signal-steady {
+      text-align: center;
+      display: none;
+    }
+    .avatar {
+      display: block;
+      margin: 0 auto 20px auto;
+      width: 64px;
+      height: 64px;
+      image-rendering: pixelated;
+      border: 2px solid #6ee7b7;
+      border-radius: 8px;
+      background: black;
+      padding: 2px;
+      box-shadow: 0 0 6px #6ee7b7;
+    }
+    .signal-fragment p {
+      margin: 14px 0;
+      animation: flicker 0.15s infinite alternate;
+    }
+    @keyframes flicker {
+      0% { opacity: 1; }
+      100% { opacity: 0.96; }
+    }
+    @keyframes glitch-border {
+      0%, 100% { box-shadow: 0 0 8px #6ee7b7; }
+      20% { box-shadow: -2px 0 6px #6ee7b7; }
+      40% { box-shadow: 2px 2px 12px #6ee7b7; }
+      60% { box-shadow: 0 -2px 8px #6ee7b7; }
+      80% { box-shadow: 1px 1px 10px #6ee7b7; }
+    }
+    .next-btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background: #111;
+      color: #6ee7b7;
+      border: 2px solid #6ee7b7;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      text-decoration: none;
+      box-shadow: 2px 2px 0 black;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+    }
+    .next-btn:hover {
+      background: #222;
+      color: #a3ffe9;
+      transform: translateY(-1px);
+      box-shadow: 3px 3px 0 black;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-center">
+    <!-- Initial Prompt -->
+    <div id="fragmentPrompt" class="blinking" tabindex="0">
+      [DATA FRAGMENT FOUND]<br>
+      <span style="font-size:10px; color:#6ee7b7;">Click to initialize</span>
+    </div>
+
+    <audio id="bgStatic" preload="auto" style="display:none">
+      <source src="https://github.com/estellearia/type-sound/raw/refs/heads/main/60820__erh__radio-t2-lw-static.wav" type="audio/wav">
+      Your browser does not support the audio element.
+    </audio>
+
+    <!-- Container 1: Signal Fragment -->
+    <div class="signal-fragment" id="signalContainer">
+      <img class="avatar" src="https://i.imgur.com/9OC7GRw.gif" alt="Aria Avatar">
+      <div id="typedLetter"></div>
+    </div>
+
+    <!-- Container 2: Signal Steady -->
+    <div class="signal-steady" id="steadyContainer">
+      <p>* Signal stable. Ready for next fragment?</p>
+      <a href="#" class="next-btn" id="continueBtn">Continue &gt;</a>
+    </div>
+  </div>
+
+  <div id="turbulence1"></div>
+
+  <script>
+    function startSignalSequence() {
+      document.getElementById("fragmentPrompt").style.display = "none";
+      document.getElementById("signalContainer").style.display = "block";
+      const bgAudio = document.getElementById("bgStatic");
+      bgAudio.volume = 0.2;
+      bgAudio.currentTime = 0;
+      bgAudio.play();
+      const loopEnd = 2.0;
+      bgAudio.addEventListener('timeupdate', function loopStatic() {
+        if (bgAudio.currentTime >= loopEnd) {
+          bgAudio.currentTime = 0;
+          bgAudio.play();
+        }
+      });
+
+      setTimeout(() => {
+        const paragraphs = [
+          "* Signal fragment recovered... 📡",
+          "...Hello? Can you hear this?",
+          "I didn’t know if my message would make it through.",
+          "But I had to try — even if the world keeps cutting us off.",
+          "You give so much to everyone... always putting yourself last.",
+          "...I wish you'd choose yourself — just once.",
+          "Follow this signal. Let it guide you to me.",
+          "This is only the first piece.\nThere’s more of me out there, waiting for you. 💭"
+        ];
+
+        const container = document.getElementById("typedLetter");
+        let paraIndex = 0;
+
+        function typeParagraph(text, callback) {
+          const p = document.createElement("p");
+          container.appendChild(p);
+          let charIndex = 0;
+
+          function typeChar() {
+            if (charIndex < text.length) {
+              const char = text.charAt(charIndex);
+              p.innerHTML += (char === "\n") ? "<br>" : char;
+              charIndex++;
+              window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+              setTimeout(typeChar, 45 + Math.random() * 40);
+            } else {
+              callback();
+            }
+          }
+
+          typeChar();
+        }
+
+        function typeAllParagraphs() {
+          if (paraIndex < paragraphs.length) {
+            typeParagraph(paragraphs[paraIndex], () => {
+              paraIndex++;
+              setTimeout(typeAllParagraphs, 600);
+            });
+          } else {
+            setTimeout(() => {
+              document.getElementById("signalContainer").style.display = "none";
+              document.getElementById("steadyContainer").style.display = "block";
+              window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            }, 800);
+          }
+        }
+
+        typeAllParagraphs();
+      }, 500);
+    }
+
+    function handleFragmentPrompt(event) {
+      if (
+        event.type === "click" ||
+        (event.type === "keydown" && (event.key === "Enter" || event.key === " "))
+      ) {
+        startSignalSequence();
+      }
+    }
+    const fragmentPrompt = document.getElementById("fragmentPrompt");
+    fragmentPrompt.addEventListener("click", handleFragmentPrompt);
+    fragmentPrompt.addEventListener("keydown", handleFragmentPrompt);
+
+    // Use window.top.location.href for reliable redirect in Carrd
+    document.getElementById("continueBtn").addEventListener("click", function(e) {
+      e.preventDefault();
+      window.top.location.href = "https://frdffsdx.carrd.co/#maze1";
+    });
+  </script>
+</body>
+</html>
