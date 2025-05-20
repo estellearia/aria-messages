@@ -41,7 +41,7 @@
     @keyframes blink {
       50% { opacity: 0; }
     }
-    .signal-fragment {
+    .signal-fragment, .signal-steady {
       max-width: 600px;
       padding: 24px 20px;
       background: repeating-linear-gradient(
@@ -58,13 +58,17 @@
       line-height: 1.8;
       white-space: pre-wrap;
       box-shadow: 0 0 8px #6ee7b7;
-      text-align: left;
       border-radius: 12px;
       position: relative;
       overflow: hidden;
       animation: glitch-border 2s infinite;
-      display: none; /* HIDE BY DEFAULT */
+      display: none;
       z-index: 1;
+      text-align: left;
+    }
+    .signal-steady {
+      text-align: center;
+      display: none; /* Hide by default */
     }
     .avatar {
       display: block;
@@ -115,8 +119,7 @@
   </style>
 </head>
 <body>
-
-  <!-- Only this is visible at first -->
+  <!-- Initial Prompt -->
   <div id="fragmentPrompt" class="blinking" tabindex="0">
     [DATA FRAGMENT FOUND]<br>
     <span style="font-size:10px; color:#6ee7b7;">Click to initialize</span>
@@ -128,30 +131,31 @@
     Your browser does not support the audio element.
   </audio>
 
+  <!-- Container 1: Signal Fragment -->
   <div class="signal-fragment" id="signalContainer">
     <img class="avatar" src="https://i.imgur.com/9OC7GRw.gif" alt="Aria Avatar">
     <div id="typedLetter"></div>
-    <div id="nextPrompt" style="display:none;">
-      <p>* Signal stable. Ready for next fragment?</p>
-      <a href="#strength" class="next-btn">Continue &gt;</a>
-    </div>
+  </div>
+
+  <!-- Container 2: Signal Steady -->
+  <div class="signal-steady" id="steadyContainer">
+    <p>* Signal stable. Ready for next fragment?</p>
+    <a href="#strength" class="next-btn">Continue &gt;</a>
   </div>
 
   <script>
     // This will run after user clicks the prompt
     function startSignalSequence() {
-      // Hide the blinking prompt
+      // Hide blinking prompt, show fragment container
       document.getElementById("fragmentPrompt").style.display = "none";
-      // Show the main container
       document.getElementById("signalContainer").style.display = "block";
-      // Play the static sound (user gesture, so allowed)
+      // Play static sound
       const bgAudio = document.getElementById("bgStatic");
       bgAudio.volume = 0.2;
       bgAudio.currentTime = 0;
       bgAudio.play();
-
-      // Loop only first 8 seconds
-      const loopEnd = 8.0;
+      // Loop only first 2 seconds
+      const loopEnd = 2.0;
       bgAudio.addEventListener('timeupdate', function loopStatic() {
         if (bgAudio.currentTime >= loopEnd) {
           bgAudio.currentTime = 0;
@@ -159,7 +163,7 @@
         }
       });
 
-      // Begin the typewriter effect
+      // Begin typewriter effect
       setTimeout(() => {
         const paragraphs = [
           "* Signal fragment recovered... 📡",
@@ -202,8 +206,10 @@
               setTimeout(typeAllParagraphs, 600);
             });
           } else {
+            // After last message, hide first container and show steady container
             setTimeout(() => {
-              document.getElementById("nextPrompt").style.display = "block";
+              document.getElementById("signalContainer").style.display = "none";
+              document.getElementById("steadyContainer").style.display = "block";
               window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
             }, 800);
           }
