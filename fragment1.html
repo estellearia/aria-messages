@@ -8,26 +8,33 @@
   <style>
     body {
       background: black;
-      padding: 40px 20px;
       color: white;
       font-family: 'Press Start 2P', monospace;
       overflow-x: hidden;
+
+      /* Center content vertically and horizontally */
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center; /* optional */
     }
-	
-	  .blinking {
+    
+    .blinking {
       animation: blink 1s step-start infinite;
       color: #00ffcc;
-      margin-bottom: 16px;
+      margin-bottom: 8px; /* reduced margin */
     }
 
     @keyframes blink {
       50% { opacity: 0; }
     }
 
-
     .signal-fragment {
       max-width: 600px;
-      margin: 0 auto;
       padding: 24px 20px;
       background: repeating-linear-gradient(
           -45deg,
@@ -105,7 +112,7 @@
 </head>
 <body>
 
-<div class="blinking">[DATA FRAGMENT FOUND]</div>
+  <div class="blinking">[DATA FRAGMENT FOUND]</div>
 
   <!-- Ambient looping static sound -->
   <audio id="bgStatic" autoplay loop>
