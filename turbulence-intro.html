@@ -25,14 +25,17 @@ body {
   border: 3px solid white;
   padding: 16px;
   max-width: 600px;
-  min-width: 340px;
   margin: 0 auto;
   font-family: 'Press Start 2P', monospace;
   font-size: 10px;
   line-height: 1.8;
   white-space: pre-wrap;
   box-shadow: 0 0 0 3px black;
-  position: relative;
+  cursor: pointer; /* make it obvious you can click to continue */
+  transition: box-shadow 0.2s;
+}
+.dialogue-wrapper:active {
+  box-shadow: 0 0 0 5px #87cefa;
 }
 
 .dialogue-avatar {
@@ -45,70 +48,49 @@ body {
 
 .dialogue-text {
   flex: 1;
-  position: relative;
-  min-height: 54px;
 }
 
-.dialogue-name {
-  color: #ffeb3b;
+.dialogue-name, .name-aria {
+  color: #87cefa !important;
   display: block;
   margin-bottom: 8px;
 }
 
-.dialogue-arrow {
-  display: block;
-  margin: 32px auto 0 auto;
-  width: 22px;
-  height: 22px;
-  image-rendering: pixelated;
-  opacity: 0.7;
-  animation: bounceArrow 1s infinite;
-  cursor: pointer;
-  filter: drop-shadow(0 0 2px #fff);
-}
-
-@keyframes bounceArrow {
-  0% { transform: translateY(0);}
-  50% { transform: translateY(7px);}
-  100% { transform: translateY(0);}
-}
-
-.hey-container-4 {
+.hey-container {
   text-align: center;
   margin-top: 16px;
 }
 
-.hey-button-4 {
+.hey-button {
   display: inline-block;
   padding: 5px 10px;
   font-family: 'Press Start 2P', monospace;
   font-size: 10px;
   color: white;
   background: black;
-  border: none;
+  border: 2px solid white;
   cursor: pointer;
   transition: 0.2s;
   text-decoration: none;
-  border: 2px solid white;
 }
 
-.hey-button-4:hover {
+.hey-button:hover {
   background: white;
   color: black;
 }
+
 </style>
 
 <div class="center-outer">
-  <div class="dialogue-wrapper">
+  <div class="dialogue-wrapper" id="clickableDialogue">
     <img class="dialogue-avatar" src="https://64.media.tumblr.com/799c858b2589d12d93d0349e502cde98/9a98a57c72a06121-6b/s250x400/97e4a00ce20e9ae5e799328e66c59517313abd7a.gif" alt="Mister Mewby Avatar">
     <div class="dialogue-text">
       <span class="dialogue-name">Mewby</span>
-      <div id="typedMewbyTurb"></div>
+      <div id="typedMewby"></div>
     </div>
   </div>
-  <img id="dialogueArrow" class="dialogue-arrow" src="https://cdn-icons-png.flaticon.com/128/54/54604.png" alt="Down Arrow" style="display:none;">
-  <div id="heyContainerTurb" class="hey-container-4" style="display:none;">
-    <a href="#turbulencegame" class="hey-button-4">Begin</a>
+  <div id="heyContainer" class="hey-container" style="display:none;">
+    <a href="#turbulencegame" class="hey-button">Begin</a>
   </div>
 </div>
 
@@ -122,63 +104,57 @@ const lines = [
   "Let’s see how you handle the turbulence..."
 ];
 
-const container = document.getElementById("typedMewbyTurb");
-const heyContainerTurb = document.getElementById("heyContainerTurb");
-const arrow = document.getElementById("dialogueArrow");
+const container = document.getElementById("typedMewby");
+const heyContainer = document.getElementById("heyContainer");
+const dialogueBox = document.getElementById("clickableDialogue");
 let lineIndex = 0;
+let typing = false;
 
 function typeLine(line, callback) {
-  container.innerHTML = ""; // Clear previous line(s)
+  container.innerHTML = "";
   const p = document.createElement("p");
   container.appendChild(p);
   let charIndex = 0;
+  typing = true;
 
   function typeChar() {
     if (charIndex < line.length) {
       const char = line.charAt(charIndex);
       p.innerHTML += (char === "\n") ? "<br>" : char;
       charIndex++;
-      setTimeout(typeChar, char === " " ? 15 : 22 + Math.random() * 18);
+      setTimeout(typeChar, char === " " ? 12 : 20 + Math.random() * 18);
     } else {
+      typing = false;
       callback();
     }
   }
   typeChar();
 }
 
-function showArrowAndWait(next) {
-  arrow.style.display = "block";
-  function proceed() {
-    arrow.style.display = "none";
-    document.removeEventListener("keydown", keyHandler);
-    arrow.removeEventListener("click", proceed);
-    next();
-  }
-  function keyHandler(e) {
-    if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
-      proceed();
-    }
-  }
-  arrow.addEventListener("click", proceed);
-  document.addEventListener("keydown", keyHandler);
-}
-
-function typeAllLines() {
+function nextDialogue() {
+  if (typing) return; // Don't skip typewriter
   if (lineIndex < lines.length - 1) {
-    typeLine(lines[lineIndex], () => {
-      lineIndex++;
-      showArrowAndWait(typeAllLines);
-    });
+    typeLine(lines[++lineIndex], () => {});
   } else {
-    // Last line: show it, then the button after a pause
-    typeLine(lines[lineIndex], () => {
-      setTimeout(() => {
-        heyContainerTurb.style.display = "block";
-      }, 450);
-    });
+    // Last line: show button
+    dialogueBox.style.pointerEvents = "none";
+    setTimeout(() => {
+      heyContainer.style.display = "block";
+    }, 400);
   }
 }
 
-// Start after a brief delay for effect
-setTimeout(typeAllLines, 600);
+// Initial
+setTimeout(() => {
+  typeLine(lines[0], () => {});
+}, 500);
+
+// Click or key to continue
+dialogueBox.addEventListener("click", nextDialogue);
+document.addEventListener("keydown", function(e) {
+  if ((e.key === "Enter" || e.key === " " || e.key === "ArrowDown") && !heyContainer.style.display.includes("block")) {
+    nextDialogue();
+  }
+});
+
 </script>
