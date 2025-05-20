@@ -11,7 +11,19 @@
       padding: 40px 20px;
       color: white;
       font-family: 'Press Start 2P', monospace;
+      overflow-x: hidden;
     }
+	
+	  .blinking {
+      animation: blink 1s step-start infinite;
+      color: #00ffcc;
+      margin-bottom: 16px;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
 
     .signal-fragment {
       max-width: 600px;
@@ -35,6 +47,7 @@
       border-radius: 12px;
       position: relative;
       overflow: hidden;
+      animation: glitch-border 2s infinite;
     }
 
     .avatar {
@@ -60,6 +73,14 @@
       100% { opacity: 0.96; }
     }
 
+    @keyframes glitch-border {
+      0%, 100% { box-shadow: 0 0 8px #6ee7b7; }
+      20% { box-shadow: -2px 0 6px #6ee7b7; }
+      40% { box-shadow: 2px 2px 12px #6ee7b7; }
+      60% { box-shadow: 0 -2px 8px #6ee7b7; }
+      80% { box-shadow: 1px 1px 10px #6ee7b7; }
+    }
+
     .next-btn {
       display: inline-block;
       padding: 8px 16px;
@@ -83,6 +104,14 @@
   </style>
 </head>
 <body>
+
+<div class="blinking">[DATA FRAGMENT FOUND]</div>
+
+  <!-- Ambient looping static sound -->
+  <audio id="bgStatic" autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_cdc196c0ee.mp3?filename=white-noise-radio-103963.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
 
   <div class="signal-fragment">
     <img class="avatar" src="https://i.imgur.com/9OC7GRw.gif" alt="Aria Avatar">
@@ -119,6 +148,7 @@
             const char = text.charAt(charIndex);
             p.innerHTML += (char === "\n") ? "<br>" : char;
             charIndex++;
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
             setTimeout(typeChar, 45 + Math.random() * 40);
           } else {
             callback();
@@ -137,12 +167,17 @@
         } else {
           setTimeout(() => {
             document.getElementById("nextPrompt").style.display = "block";
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
           }, 800);
         }
       }
 
       typeAllParagraphs();
     }, 500);
+
+    // Set audio volume to a subtle level
+    const bgAudio = document.getElementById("bgStatic");
+    bgAudio.volume = 0.2;
   </script>
 
 </body>
