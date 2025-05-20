@@ -2,64 +2,67 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Signal Fragment - Aria</title>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
   <style>
     body {
       background: black;
       color: white;
       font-family: 'Press Start 2P', monospace;
-      overflow-x: hidden;
-
-      /* Center content vertically and horizontally */
-      height: 100vh;
       margin: 0;
-      padding: 0;
+      padding: 20px 0 40px; /* top padding so blinking text isn't stuck */
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* No justify-content here to keep blinking text on top */
+    }
+
+    .blinking {
+      animation: blink 1s step-start infinite;
+      color: #00ffcc;
+      margin-bottom: 20px;
+      font-size: 12px;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .flex-container {
+      /* This container will center avatar + typed text vertically & horizontally */
+      flex: 1; /* fill remaining space */
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      text-align: center; /* optional */
-    }
-    
-    .blinking {
-      animation: blink 1s step-start infinite;
-      color: #00ffcc;
-      margin-bottom: 8px; /* reduced margin */
-    }
-
-    @keyframes blink {
-      50% { opacity: 0; }
-    }
-
-    .signal-fragment {
+      width: 100%;
       max-width: 600px;
       padding: 24px 20px;
       background: repeating-linear-gradient(
-          -45deg,
-          #1a1a1a,
-          #1a1a1a 10px,
-          #222 10px,
-          #222 20px
+        -45deg,
+        #1a1a1a,
+        #1a1a1a 10px,
+        #222 10px,
+        #222 20px
       );
       border: 3px dashed #6ee7b7;
       color: #c0fff3;
-      font-family: 'Press Start 2P', monospace;
       font-size: 10px;
       line-height: 1.8;
       white-space: pre-wrap;
       box-shadow: 0 0 8px #6ee7b7;
-      text-align: left;
       border-radius: 12px;
       position: relative;
       overflow: hidden;
       animation: glitch-border 2s infinite;
+      text-align: left;
     }
 
     .avatar {
-      display: block;
-      margin: 0 auto 20px auto;
       width: 64px;
       height: 64px;
       image-rendering: pixelated;
@@ -68,24 +71,40 @@
       background: black;
       padding: 2px;
       box-shadow: 0 0 6px #6ee7b7;
+      margin-bottom: 20px;
     }
 
-    .signal-fragment p {
+    #typedLetter p {
       margin: 14px 0;
       animation: flicker 0.15s infinite alternate;
     }
 
     @keyframes flicker {
-      0% { opacity: 1; }
-      100% { opacity: 0.96; }
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0.96;
+      }
     }
 
     @keyframes glitch-border {
-      0%, 100% { box-shadow: 0 0 8px #6ee7b7; }
-      20% { box-shadow: -2px 0 6px #6ee7b7; }
-      40% { box-shadow: 2px 2px 12px #6ee7b7; }
-      60% { box-shadow: 0 -2px 8px #6ee7b7; }
-      80% { box-shadow: 1px 1px 10px #6ee7b7; }
+      0%,
+      100% {
+        box-shadow: 0 0 8px #6ee7b7;
+      }
+      20% {
+        box-shadow: -2px 0 6px #6ee7b7;
+      }
+      40% {
+        box-shadow: 2px 2px 12px #6ee7b7;
+      }
+      60% {
+        box-shadow: 0 -2px 8px #6ee7b7;
+      }
+      80% {
+        box-shadow: 1px 1px 10px #6ee7b7;
+      }
     }
 
     .next-btn {
@@ -111,21 +130,18 @@
   </style>
 </head>
 <body>
-
   <div class="blinking">[DATA FRAGMENT FOUND]</div>
 
-  <!-- Ambient looping static sound -->
-  <audio id="bgStatic" autoplay loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_cdc196c0ee.mp3?filename=white-noise-radio-103963.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-
-  <div class="signal-fragment">
-    <img class="avatar" src="https://i.imgur.com/9OC7GRw.gif" alt="Aria Avatar">
+  <div class="flex-container">
+    <img
+      class="avatar"
+      src="https://i.imgur.com/9OC7GRw.gif"
+      alt="Aria Avatar"
+    />
     <div id="typedLetter"></div>
     <div id="nextPrompt" style="display:none;">
       <p>* Signal stable. Ready for next fragment?</p>
-      <a href="#strength" class="next-btn">Continue ></a>
+      <a href="#strength" class="next-btn">Continue &gt;</a>
     </div>
   </div>
 
@@ -139,7 +155,7 @@
         "You give so much to everyone... always putting yourself last.",
         "...I wish you'd choose yourself — just once.",
         "Follow this signal. Let it guide you to me.",
-        "This is only the first piece.\nThere’s more of me out there, waiting for you. 💭"
+        "This is only the first piece.\nThere’s more of me out there, waiting for you. 💭",
       ];
 
       const container = document.getElementById("typedLetter");
@@ -153,9 +169,9 @@
         function typeChar() {
           if (charIndex < text.length) {
             const char = text.charAt(charIndex);
-            p.innerHTML += (char === "\n") ? "<br>" : char;
+            p.innerHTML += char === "\n" ? "<br>" : char;
             charIndex++;
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
             setTimeout(typeChar, 45 + Math.random() * 40);
           } else {
             callback();
@@ -174,7 +190,7 @@
         } else {
           setTimeout(() => {
             document.getElementById("nextPrompt").style.display = "block";
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
           }, 800);
         }
       }
@@ -182,10 +198,9 @@
       typeAllParagraphs();
     }, 500);
 
-    // Set audio volume to a subtle level
+    // Subtle volume for ambient sound
     const bgAudio = document.getElementById("bgStatic");
-    bgAudio.volume = 0.2;
+    if (bgAudio) bgAudio.volume = 0.2;
   </script>
-
 </body>
 </html>
