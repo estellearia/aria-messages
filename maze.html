@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Maze Prologue Dialogue</title>
+  <meta name="viewport" content="width=1024">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #000;
+    }
+    body {
+      min-height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+    }
+    .dialogue-centerer {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      left: 0; top: 0;
+      z-index: 1;
+      flex-direction: column;
+    }
+    .dialogue-wrapper {
+      display: flex;
+      align-items: center;
+      background: #000;
+      color: #fff;
+      border: 3px solid #fff;
+      box-sizing: border-box;
+      box-shadow: 0 0 0 3px #000;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      width: 540px;
+      min-height: 108px;
+      padding: 8px 18px 8px 12px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    .dialogue-avatar {
+      width: 64px;
+      height: 64px;
+      image-rendering: pixelated;
+      margin-right: 16px;
+      flex-shrink: 0;
+    }
+    .dialogue-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      height: 100%;
+      min-width: 0;
+    }
+    .dialogue-name {
+      margin-bottom: 2px;
+      display: block;
+      font-size: 11px;
+      line-height: 1.8;
+      font-family: 'Press Start 2P', monospace;
+      letter-spacing: 0.01em;
+      font-weight: bold;
+      color: #ffeb3b;
+      transition: font-size 0.2s;
+    }
+    .dialogue-lines {
+      margin-top: 6px;
+    }
+    .dialogue-lines p {
+      margin: 0;
+      padding: 0;
+      font-size: 10px;
+      line-height: 1.8;
+      font-family: 'Press Start 2P', monospace;
+      color: #fff;
+      text-shadow: 0 0 0px #000;
+      letter-spacing: 0.01em;
+    }
+    .riddle-arrow {
+      position: absolute;
+      bottom: 7px;
+      right: 14px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 22px;
+      color: #fff;
+      text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      z-index: 2;
+    }
+    .riddle-arrow.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .riddle-arrow:hover {
+      filter: brightness(1.2);
+    }
+    .btn-container {
+      width: 100%;
+      text-align: center;
+      margin-top: 16px;
+      z-index: 2;
+      display: none;
+    }
+    .begin-btn {
+      display: inline-block;
+      padding: 5px 10px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      color: #fff;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      outline: none;
+      text-decoration: none;
+      text-align: center;
+      text-shadow: 0 0 0px #000;
+    }
+    .begin-btn:hover {
+      background: white;
+      color: black;
+    }
+    @media (max-width: 650px) {
+      .dialogue-wrapper {
+        width: 99vw;
+        max-width: 99vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Shared Audio -->
+  <audio id="arrowSound" preload="auto">
+    <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mpeg">
+  </audio>
+
+  <div class="dialogue-centerer">
+    <div class="dialogue-wrapper" id="dialogueBox" style="display:flex;">
+      <img class="dialogue-avatar" id="dialogueAvatar" src="https://64.media.tumblr.com/e38cd32d189fd45102a73a3f9dc6b9ac/9a98a57c72a06121-d8/s250x400/1bfeddb38d0ef253be539d8223e27d7a6838ffb2.gif" alt="Mewby Avatar" />
+      <div class="dialogue-text">
+        <span class="dialogue-name" id="dialogueName">Mewby</span>
+        <div class="dialogue-lines" id="dialogueLines"></div>
+      </div>
+      <button class="riddle-arrow" id="dialogueArrow" aria-label="Next">&#9660;</button>
+    </div>
+    <div class="btn-container" id="btnContainer">
+      <a href="#" class="begin-btn" id="dialogueBtn">Button</a>
+    </div>
+  </div>
+
+  <script>
+    const dialogues = [
+      {
+        name: 'Mewby',
+        lines: [
+          "She watches as you pause at every turn,",
+          "Sometimes doubting, but always moving forward."
+        ],
+        showArrow: true
+      },
+      {
+        name: 'Mewby',
+        lines: [
+          "Each step is a choice — sometimes heavy, sometimes brave.",
+          "Still, trust your heart."
+        ],
+        showArrow: true
+      },
+      {
+        name: 'Mewby',
+        lines: [
+          "Even when the way isn’t clear,",
+          "maybe you'll find it."
+        ],
+        button: { text: 'Start', href: 'https://frdffsdx.carrd.co/#lovequiz' },
+        showArrow: false
+      }
+    ];
+
+    const arrowSound = document.getElementById("arrowSound");
+    const box = document.getElementById("dialogueBox");
+    const avatar = document.getElementById("dialogueAvatar");
+    const nameEl = document.getElementById("dialogueName");
+    const linesEl = document.getElementById("dialogueLines");
+    const arrowBtn = document.getElementById("dialogueArrow");
+    const btnContainer = document.getElementById("btnContainer");
+    const btn = document.getElementById("dialogueBtn");
+
+    let dialogueIdx = 0;
+
+    function typeLines(idx, cb) {
+      const d = dialogues[idx];
+      // Avatar and name stay the same for all
+      nameEl.textContent = d.name;
+      linesEl.innerHTML = '';
+      arrowBtn.classList.remove('visible');
+      btnContainer.style.display = "none";
+      let lineIndex = 0;
+
+      function typeLine(line, callback) {
+        const p = document.createElement("p");
+        linesEl.appendChild(p);
+        let charIndex = 0;
+        function typeChar() {
+          if (charIndex < line.length) {
+            p.innerHTML += line.charAt(charIndex);
+            charIndex++;
+            setTimeout(typeChar, 60);
+          } else {
+            callback();
+          }
+        }
+        typeChar();
+      }
+
+      function typeAllLines() {
+        if (lineIndex < d.lines.length) {
+          typeLine(d.lines[lineIndex], () => {
+            lineIndex++;
+            setTimeout(typeAllLines, 200);
+          });
+        } else {
+          if (d.showArrow) {
+            arrowBtn.classList.add('visible');
+          } else if (d.button) {
+            btn.textContent = d.button.text;
+            btn.href = d.button.href;
+            btnContainer.style.display = "block";
+          }
+          if (cb) cb();
+        }
+      }
+      typeAllLines();
+    }
+
+    function nextDialogue() {
+      if (dialogueIdx < dialogues.length - 1) {
+        dialogueIdx++;
+        typeLines(dialogueIdx);
+      }
+    }
+
+    arrowBtn.addEventListener("click", () => {
+      arrowSound.currentTime = 0;
+      arrowSound.play();
+      arrowBtn.classList.remove('visible');
+      nextDialogue();
+    });
+
+    btn.addEventListener("click", function(e) {
+      arrowSound.currentTime = 0;
+      arrowSound.play();
+      if (dialogueIdx < dialogues.length - 1) {
+        e.preventDefault();
+        btnContainer.style.display = "none";
+        nextDialogue();
+      }
+    });
+
+    window.onload = () => {
+      typeLines(dialogueIdx);
+    };
+  </script>
+</body>
+</html>
