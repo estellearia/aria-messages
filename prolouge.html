@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Birthday Dialogue Sequence</title>
   <meta name="viewport" content="width=1024">
-  <!-- Optional: Preload avatars for extra speed -->
   <link rel="preload" as="image" href="https://i.imgur.com/9OC7GRw.gif">
   <link rel="preload" as="image" href="https://64.media.tumblr.com/647ca06c5a608d1ea1c416b21b839ea3/9a98a57c72a06121-2a/s250x400/7f925df3ce70975efc97a7f0ffac27ea3838ae3e.gif">
   <link rel="preload" as="image" href="https://64.media.tumblr.com/0be11728688453f02b9597af36145703/9a98a57c72a06121-bf/s250x400/a3472ea75630067f2203dec21d9475cc3c797713.gif">
@@ -79,6 +78,10 @@
       font-family: 'Press Start 2P', monospace;
       letter-spacing: 0.01em;
       font-weight: bold;
+      transition: font-size 0.2s;
+    }
+    .dialogue-name.big-name {
+      font-size: 14px;
     }
     .dialogue-lines {
       margin-top: 6px;
@@ -92,10 +95,6 @@
       color: #fff;
       text-shadow: 0 0 0px #000;
       letter-spacing: 0.01em;
-    }
-    .dialogue-lines.aria-font p,
-    .dialogue-lines.mewby-font p {
-      font-size: 14px;
     }
     .riddle-arrow {
       position: absolute;
@@ -236,12 +235,12 @@
       nameEl.style.color = color;
     }
 
-    function setFontClass(name) {
-      linesEl.classList.remove('aria-font', 'mewby-font');
-      if (name === 'Aria') {
-        linesEl.classList.add('aria-font');
-      } else if (name === 'Mewby') {
-        linesEl.classList.add('mewby-font');
+    function setNameFontSize(name) {
+      // Add the big-name class for Aria or Mewby, remove otherwise
+      if (name === 'Aria' || name === 'Mewby') {
+        nameEl.classList.add('big-name');
+      } else {
+        nameEl.classList.remove('big-name');
       }
     }
 
@@ -251,7 +250,7 @@
       avatar.alt = d.name + " Avatar";
       nameEl.textContent = d.name;
       setNameColor(d.color);
-      setFontClass(d.name);
+      setNameFontSize(d.name);
       linesEl.innerHTML = '';
       arrowBtn.classList.remove('visible');
       btnContainer.style.display = "none";
