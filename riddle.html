@@ -142,7 +142,7 @@
   </style>
 </head>
 <body>
-  <!-- AUDIO element -->
+  <!-- Shared Audio -->
   <audio id="arrowSound" preload="auto">
     <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mpeg">
   </audio>
@@ -177,6 +177,7 @@
       </div>
     </div>
 
+    <!-- Final Begin Button -->
     <div class="begin-btn-container" id="beginBtnContainer" style="display:none;">
       <a href="https://frdffsdx.carrd.co/#decodepuzzle" class="begin-btn">Begin</a>
     </div>
@@ -248,9 +249,11 @@
 
     function init() {
       typeLines(0);
+
       riddles.forEach((r, idx) => {
         if (r.arrow) {
-          document.getElementById(r.arrow).addEventListener("click", () => {
+          const arrowBtn = document.getElementById(r.arrow);
+          arrowBtn.addEventListener("click", () => {
             arrowSound.currentTime = 0;
             arrowSound.play();
             document.getElementById(r.box).style.display = "none";
@@ -259,9 +262,17 @@
           });
         }
       });
+
+      const beginBtn = document.querySelector(".begin-btn");
+      if (beginBtn) {
+        beginBtn.addEventListener("click", () => {
+          arrowSound.currentTime = 0;
+          arrowSound.play();
+        });
+      }
     }
 
-    init();
+    window.onload = init;
   </script>
 </body>
 </html>
