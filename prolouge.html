@@ -93,6 +93,10 @@
       text-shadow: 0 0 0px #000;
       letter-spacing: 0.01em;
     }
+    .dialogue-lines.aria-font p,
+    .dialogue-lines.mewby-font p {
+      font-size: 14px;
+    }
     .riddle-arrow {
       position: absolute;
       bottom: 7px;
@@ -232,12 +236,22 @@
       nameEl.style.color = color;
     }
 
+    function setFontClass(name) {
+      linesEl.classList.remove('aria-font', 'mewby-font');
+      if (name === 'Aria') {
+        linesEl.classList.add('aria-font');
+      } else if (name === 'Mewby') {
+        linesEl.classList.add('mewby-font');
+      }
+    }
+
     function typeLines(idx, cb) {
       const d = dialogues[idx];
       avatar.src = d.avatar;
       avatar.alt = d.name + " Avatar";
       nameEl.textContent = d.name;
       setNameColor(d.color);
+      setFontClass(d.name);
       linesEl.innerHTML = '';
       arrowBtn.classList.remove('visible');
       btnContainer.style.display = "none";
