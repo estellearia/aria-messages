@@ -44,9 +44,9 @@
     @keyframes blink {
       50% { opacity: 0; }
     }
-    .signal-fragment, .signal-steady {
+    .signal-fragment {
       width: 360px;
-      min-height: 248px; /* Ensures avatar and ~3 lines fit without jump */
+      min-height: 248px;
       max-width: 600px;
       padding: 32px 24px 24px 24px;
       background: repeating-linear-gradient(
@@ -76,15 +76,6 @@
       min-height: 320px;
       width: 95vw;
       max-width: 600px;
-      /* Optionally, add a transition for the width or min-height if you want a smooth grow */
-    }
-    .signal-steady {
-      text-align: center;
-      display: none;
-      min-height: 100px;
-      width: 360px;
-      max-width: 600px;
-      padding: 32px 24px 24px 24px;
     }
     .avatar {
       display: block;
@@ -113,24 +104,58 @@
       60% { box-shadow: 0 -2px 8px #6ee7b7; }
       80% { box-shadow: 1px 1px 10px #6ee7b7; }
     }
+    /* ---- STEADY (final message) ---- */
+    .signal-steady {
+      display: none;
+      background: #121919;
+      border: 2px solid #5fffd0;
+      color: #d7ffec;
+      border-radius: 9px;
+      padding: 18px 10px 12px 10px;
+      min-width: 0;
+      max-width: 280px;
+      margin: 36px auto 0 auto;
+      text-align: center;
+      box-shadow: 0 3px 16px #23cfa0a0;
+      position: relative;
+      animation: fade-in 0.7s;
+    }
+    .signal-steady p {
+      margin: 0 0 14px 0;
+      font-size: 14px;
+      color: #d7ffec;
+      letter-spacing: 0.01em;
+    }
+    .signal-steady .btn-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
     .next-btn {
       display: inline-block;
-      padding: 8px 16px;
-      background: #111;
-      color: #6ee7b7;
-      border: 2px solid #6ee7b7;
+      padding: 8px 18px;
+      background: #232c2c;
+      color: #5fffd0;
+      border: 2px solid #5fffd0;
       font-family: 'Press Start 2P', monospace;
-      font-size: 10px;
+      font-size: 12px;
+      border-radius: 8px;
+      box-shadow: 0 1px 6px #1eaf7e70;
+      cursor: pointer;
       text-decoration: none;
-      box-shadow: 2px 2px 0 black;
-      transition: all 0.3s ease;
-      margin-top: 20px;
+      margin: 0 auto;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.3s, color 0.2s;
     }
     .next-btn:hover {
-      background: #222;
-      color: #a3ffe9;
-      transform: translateY(-1px);
-      box-shadow: 3px 3px 0 black;
+      background: #111;
+      color: #23cfa0;
+      border-color: #23cfa0;
+      box-shadow: 0 2px 16px #5fffd0;
+    }
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(20px);}
+      to   { opacity: 1; transform: translateY(0);}
     }
     @media (max-width: 500px) {
       .signal-fragment, .signal-steady {
@@ -138,6 +163,9 @@
         min-width: unset;
         padding: 14vw 2vw 6vw 2vw;
       }
+      .signal-steady { max-width: 96vw; }
+      .signal-steady p { font-size: 11px; }
+      .next-btn { font-size: 10px; padding: 8px 12px; }
     }
   </style>
 </head>
@@ -163,7 +191,9 @@
     <!-- Container 2: Signal Steady -->
     <div class="signal-steady" id="steadyContainer">
       <p>* Signal stable. Ready for next fragment?</p>
-      <a href="#" class="next-btn" id="continueBtn">Continue &gt;</a>
+      <div class="btn-row">
+        <a href="#" class="next-btn" id="continueBtn">Continue &gt;</a>
+      </div>
     </div>
   </div>
 
@@ -190,10 +220,10 @@
 
       setTimeout(() => {
         const paragraphs = [
-          "* First fragment recovered... 📡",
+          "* 1/5 fragment recovered... 📡",
           "...Hello? Can you hear this?",
           "I didn’t know if my message would make it through.",
-          "(Its part of the concept!! Don't laugh!! jkjk",
+          "(Its part of the concept!! Don't laugh!! jkjk)",
           "...Okay, confession, I’ve been trying to reach your brainwaves, too",
           "Specially when communication is not our strongest suit TT",
           "Even when I’m quiet, my heart is basically yelling “hello!” to your direction.",
@@ -203,7 +233,7 @@
           "Always putting others first rather than yourself",
           "I love that about you though, i love how gentle your heart is",
           "... but sometimes I wish you'd choose yourself — just once.",
-          "This is only the first piece.\nThere’s more of me out there, waiting for you. 💭"
+          "I love you, always."
         ];
 
         const container = document.getElementById("typedLetter");
@@ -264,9 +294,14 @@
     fragmentPrompt.addEventListener("click", handleFragmentPrompt);
     fragmentPrompt.addEventListener("keydown", handleFragmentPrompt);
 
-    // Use window.top.location.href for reliable redirect in Carrd
+    // Stop audio and redirect on continue
     document.getElementById("continueBtn").addEventListener("click", function(e) {
       e.preventDefault();
+      var bgAudio = document.getElementById("bgStatic");
+      if (bgAudio) {
+        bgAudio.pause();
+        bgAudio.currentTime = 0;
+      }
       window.top.location.href = "https://frdffsdx.carrd.co/#turbulence1";
     });
   </script>
