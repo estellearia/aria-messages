@@ -15,11 +15,11 @@
     body {
       min-height: 100vh;
       width: 100vw;
-      overflow-x: hidden;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      overflow-x: hidden;
     }
     .riddle-centerer {
       width: 100vw;
@@ -30,6 +30,7 @@
       position: fixed;
       left: 0; top: 0;
       z-index: 1;
+      flex-direction: column;
     }
     .dialogue-wrapper {
       display: flex;
@@ -112,6 +113,7 @@
     }
     .riddle-arrow:focus { outline: none; }
     .riddle-arrow:hover { filter: brightness(1.2); }
+    /* Begin button styling */
     .begin-btn-container {
       width: 100%;
       text-align: center;
@@ -120,26 +122,26 @@
     }
     .begin-btn {
       display: inline-block;
-      padding: 4px 16px;
+      padding: 6px 24px 6px 24px;
       font-family: 'Press Start 2P', monospace;
-      font-size: 14px;
+      font-size: 10px;
       color: #fff;
-      background: #000;
+      background: transparent;
       border: 2px solid transparent;
       border-radius: 2px;
       cursor: pointer;
       outline: none;
-      transition: border 0.15s, color 0.15s, background 0.15s;
+      transition: background 0.18s, color 0.18s;
       text-decoration: none;
       text-align: center;
       margin: 0 auto;
       box-sizing: border-box;
-      text-shadow: 0 0 1px #000;
+      text-shadow: 0 0 0px #000;
     }
     .begin-btn:hover, .begin-btn:focus {
-      border: 2px solid #fff;
-      color: #fff;
-      background: #000;
+      background: #fff;
+      color: #000;
+      border: 2px solid transparent;
     }
     @media (max-width: 650px) {
       .dialogue-wrapper { width: 99vw; min-width: 0; max-width: 99vw; }
@@ -174,9 +176,10 @@
         <div class="dialogue-lines" id="riddleLines3"></div>
       </div>
     </div>
-  </div>
-  <div class="begin-btn-container" id="beginBtnContainer" style="display:none;">
-    <a href="https://frdffsdx.carrd.co/#decodepuzzle" class="begin-btn">Begin</a>
+    <!-- Begin button shown only after riddle 3 typing animation finishes -->
+    <div class="begin-btn-container" id="beginBtnContainer" style="display:none;">
+      <a href="https://frdffsdx.carrd.co/#decodepuzzle" class="begin-btn">Begin</a>
+    </div>
   </div>
   <script>
     // Riddle data
@@ -209,8 +212,6 @@
         // No arrow for last
       }
     ];
-
-    let current = 0;
 
     function typeLines(riddleIdx, cb) {
       const r = riddles[riddleIdx];
@@ -261,6 +262,7 @@
         document.getElementById(r.box).style.display = (i === idx) ? "flex" : "none";
         if (r.arrow) document.getElementById(r.arrow).classList.remove('visible');
       });
+      document.getElementById("beginBtnContainer").style.display = "none";
       if (idx < riddles.length - 1) {
         typeLines(idx, () => {});
       } else {
