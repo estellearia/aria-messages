@@ -165,7 +165,7 @@
   </div>
 
   <script>
-    // Dialogue sequence as described in your request
+    // Dialogue sequence as requested
     const dialogues = [
       // ARIA 1
       {
@@ -254,7 +254,6 @@
             setTimeout(typeAllLines, 250);
           });
         } else {
-          // Only show arrow if showArrow true, otherwise show button if present
           if (d.showArrow) {
             arrowBtn.classList.add('visible');
           } else if (d.button) {
@@ -282,10 +281,16 @@
       nextDialogue();
     });
 
-    btn.addEventListener("click", e => {
+    btn.addEventListener("click", function(e) {
       arrowSound.currentTime = 0;
       arrowSound.play();
-      // let link do its thing for navigation
+      // If this is the last dialogue (last button), let the link redirect
+      if (dialogueIdx < dialogues.length - 1) {
+        e.preventDefault();
+        btnContainer.style.display = "none";
+        nextDialogue();
+      }
+      // Otherwise, let the browser follow the href (for last button)
     });
 
     window.onload = () => {
