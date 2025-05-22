@@ -44,6 +44,68 @@
     @keyframes blink {
       50% { opacity: 0; }
     }
+    /* Fragment Opening Animation */
+    .fragment-opening {
+      width: 68px;
+      height: 68px;
+      background: #1a1a1a;
+      border: 3px dashed #5fffd0;
+      border-radius: 50%;
+      margin: 0 auto;
+      position: relative;
+      box-shadow: 0 0 18px #5fffd0, 0 0 0 #fff;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: visible;
+      animation: fragment-pulse 1.4s cubic-bezier(.42,0,.58,1) forwards;
+    }
+    .fragment-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #5fffd0;
+      filter: blur(4px);
+      opacity: 0.4;
+      animation: fragment-glow 1.1s cubic-bezier(.42,0,.58,1) infinite alternate;
+    }
+    .fragment-crack {
+      position: absolute;
+      width: 34px;
+      height: 5px;
+      left: 17px;
+      top: 31px;
+      background: linear-gradient(90deg, #fff 0%, #5fffd0 100%);
+      border-radius: 2px;
+      transform: rotate(-15deg);
+      opacity: 0.8;
+      animation: fragment-crack-appear 1.1s cubic-bezier(.42,0,.58,1) forwards;
+      animation-delay: 0.4s;
+      pointer-events: none;
+    }
+    @keyframes fragment-pulse {
+      0%   { transform: scale(0.85); box-shadow: 0 0 0 #5fffd0, 0 0 0 #fff; }
+      50%  { transform: scale(1.08); box-shadow: 0 0 30px #5fffd0, 0 0 12px #fff; }
+      100% { transform: scale(1.12); box-shadow: 0 0 48px #5fffd0, 0 0 0 #fff; }
+    }
+    @keyframes fragment-glow {
+      from { opacity: 0.4; }
+      to   { opacity: 0.7; }
+    }
+    @keyframes fragment-crack-appear {
+      0%   { opacity: 0; width: 0; }
+      80%  { opacity: 1; width: 34px;}
+      100% { opacity: 1; width: 34px;}
+    }
+    /* After animation, fade out the fragment opening */
+    .fragment-opening.hide {
+      animation: fragment-fadeout 0.5s cubic-bezier(.42,0,.58,1) forwards;
+    }
+    @keyframes fragment-fadeout {
+      to { opacity: 0; transform: scale(1.6); }
+    }
+    /* --- SIGNAL FRAGMENT BOX --- */
     .signal-fragment {
       width: 360px;
       min-height: 248px;
@@ -66,16 +128,26 @@
       border-radius: 12px;
       position: relative;
       overflow: visible;
-      animation: glitch-border 2s infinite;
+      animation: fragment-box-in 0.7s cubic-bezier(.42,0,.58,1) forwards;
       display: none;
       z-index: 1;
       text-align: left;
       transition: min-height 0.4s cubic-bezier(.77,0,.18,1), width 0.4s cubic-bezier(.77,0,.18,1);
+      opacity: 0;
+    }
+    .signal-fragment.visible {
+      display: block;
+      opacity: 1;
+      animation: fragment-box-in 0.7s cubic-bezier(.42,0,.58,1) forwards;
     }
     .signal-fragment.expanded {
       min-height: 320px;
       width: 95vw;
       max-width: 600px;
+    }
+    @keyframes fragment-box-in {
+      from { opacity: 0; transform: scale(0.96) translateY(22px);}
+      to   { opacity: 1; transform: scale(1) translateY(0);}
     }
     .avatar {
       display: block;
@@ -122,7 +194,7 @@
     }
     .signal-steady p {
       margin: 0 0 14px 0;
-      font-size: 14px;
+      font-size: 10px;
       color: #d7ffec;
       letter-spacing: 0.01em;
     }
@@ -166,6 +238,9 @@
       .signal-steady { max-width: 96vw; }
       .signal-steady p { font-size: 11px; }
       .next-btn { font-size: 10px; padding: 8px 12px; }
+      .fragment-opening { width: 54px; height: 54px; }
+      .fragment-circle { width: 26px; height: 26px; }
+      .fragment-crack { width: 22px; height: 4px; left: 11px; top: 23px;}
     }
   </style>
 </head>
@@ -181,6 +256,12 @@
       <source src="https://github.com/estellearia/type-sound/raw/refs/heads/main/60820__erh__radio-t2-lw-static.wav" type="audio/wav">
       Your browser does not support the audio element.
     </audio>
+
+    <!-- Fragment Opening Animation -->
+    <div class="fragment-opening" id="fragmentOpening" style="display:none;">
+      <div class="fragment-circle"></div>
+      <div class="fragment-crack"></div>
+    </div>
 
     <!-- Container 1: Signal Fragment -->
     <div class="signal-fragment" id="signalContainer">
@@ -200,86 +281,106 @@
   <div id="turbulence1"></div>
 
   <script>
+    function showFragmentOpening(cb) {
+      const opening = document.getElementById("fragmentOpening");
+      opening.style.display = "flex";
+      opening.classList.remove("hide");
+      // Hide after animation
+      setTimeout(() => {
+        opening.classList.add("hide");
+        setTimeout(() => {
+          opening.style.display = "none";
+          if (cb) cb();
+        }, 500); // matches fadeout duration
+      }, 1300); // total time before starting fadeout
+    }
+
     function startSignalSequence() {
       document.getElementById("fragmentPrompt").style.display = "none";
-      const sigContainer = document.getElementById("signalContainer");
-      sigContainer.style.display = "block";
-      sigContainer.classList.remove('expanded'); // start with static min height
+      showFragmentOpening(() => {
+        const sigContainer = document.getElementById("signalContainer");
+        sigContainer.style.display = "block";
+        setTimeout(() => {
+          sigContainer.classList.add('visible');
+        }, 20); // allow display:block before animating in
 
-      const bgAudio = document.getElementById("bgStatic");
-      bgAudio.volume = 0.2;
-      bgAudio.currentTime = 0;
-      bgAudio.play();
-      const loopEnd = 2.0;
-      bgAudio.addEventListener('timeupdate', function loopStatic() {
-        if (bgAudio.currentTime >= loopEnd) {
-          bgAudio.currentTime = 0;
-          bgAudio.play();
-        }
-      });
+        sigContainer.classList.remove('expanded'); // start with static min height
 
-      setTimeout(() => {
-        const paragraphs = [
-          "* 1/5 fragment recovered... 📡",
-          "...Hello? Can you hear this?",
-          "I didn’t know if my message would make it through.",
-          "(Its part of the concept!! Don't laugh!! jkjk)",
-          "...Okay, confession, I’ve been trying to reach your brainwaves, too",
-          "Specially when communication is not our strongest suit TT",
-          "Even when I’m quiet, my heart is basically yelling “hello!” to your direction.",
-          "Papansin yern? But yeah - my heart always long for you, baby.",
-          "I know how our situation is not easy — we both worry to much",
-          "and honestly love, i know how much you giveee",
-          "Always putting others first rather than yourself",
-          "I love that about you though, i love how gentle your heart is",
-          "... but sometimes I wish you'd choose yourself — just once.",
-          "I love you, always."
-        ];
+        const bgAudio = document.getElementById("bgStatic");
+        bgAudio.volume = 0.2;
+        bgAudio.currentTime = 0;
+        bgAudio.play();
+        const loopEnd = 2.0;
+        bgAudio.addEventListener('timeupdate', function loopStatic() {
+          if (bgAudio.currentTime >= loopEnd) {
+            bgAudio.currentTime = 0;
+            bgAudio.play();
+          }
+        });
 
-        const container = document.getElementById("typedLetter");
-        let paraIndex = 0;
+        setTimeout(() => {
+          const paragraphs = [
+            "* First fragment recovered... 📡",
+            "...Hello? Can you hear this?",
+            "I didn’t know if my message would make it through.",
+            "(Its part of the concept!! Don't laugh!! jkjk",
+            "...Okay, confession, I’ve been trying to reach your brainwaves, too",
+            "Specially when communication is not our strongest suit TT",
+            "Even when I’m quiet, my heart is basically yelling “hello!” to your direction.",
+            "Papansin yern? But yeah - my heart always long for you, baby.",
+            "I know how our situation is not easy — we both worry to much",
+            "and honestly love, i know how much you giveee",
+            "Always putting others first rather than yourself",
+            "I love that about you though, i love how gentle your heart is",
+            "... but sometimes I wish you'd choose yourself — just once.",
+            "This is only the first piece.\nThere’s more of me out there, waiting for you. 💭"
+          ];
 
-        function typeParagraph(text, callback) {
-          const p = document.createElement("p");
-          container.appendChild(p);
-          let charIndex = 0;
+          const container = document.getElementById("typedLetter");
+          let paraIndex = 0;
 
-          function typeChar() {
-            if (charIndex < text.length) {
-              const char = text.charAt(charIndex);
-              p.innerHTML += (char === "\n") ? "<br>" : char;
-              charIndex++;
-              window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-              setTimeout(typeChar, 45 + Math.random() * 40);
-            } else {
-              // if content is overflowing, expand the container
-              if (sigContainer.scrollHeight > sigContainer.clientHeight) {
-                sigContainer.classList.add('expanded');
+          function typeParagraph(text, callback) {
+            const p = document.createElement("p");
+            container.appendChild(p);
+            let charIndex = 0;
+
+            function typeChar() {
+              if (charIndex < text.length) {
+                const char = text.charAt(charIndex);
+                p.innerHTML += (char === "\n") ? "<br>" : char;
+                charIndex++;
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                setTimeout(typeChar, 45 + Math.random() * 40);
+              } else {
+                // if content is overflowing, expand the container
+                if (sigContainer.scrollHeight > sigContainer.clientHeight) {
+                  sigContainer.classList.add('expanded');
+                }
+                callback();
               }
-              callback();
+            }
+
+            typeChar();
+          }
+
+          function typeAllParagraphs() {
+            if (paraIndex < paragraphs.length) {
+              typeParagraph(paragraphs[paraIndex], () => {
+                paraIndex++;
+                setTimeout(typeAllParagraphs, 600);
+              });
+            } else {
+              setTimeout(() => {
+                sigContainer.style.display = "none";
+                document.getElementById("steadyContainer").style.display = "block";
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+              }, 800);
             }
           }
 
-          typeChar();
-        }
-
-        function typeAllParagraphs() {
-          if (paraIndex < paragraphs.length) {
-            typeParagraph(paragraphs[paraIndex], () => {
-              paraIndex++;
-              setTimeout(typeAllParagraphs, 600);
-            });
-          } else {
-            setTimeout(() => {
-              sigContainer.style.display = "none";
-              document.getElementById("steadyContainer").style.display = "block";
-              window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-            }, 800);
-          }
-        }
-
-        typeAllParagraphs();
-      }, 500);
+          typeAllParagraphs();
+        }, 500);
+      });
     }
 
     function handleFragmentPrompt(event) {
