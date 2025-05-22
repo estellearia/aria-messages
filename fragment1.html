@@ -45,8 +45,10 @@
       50% { opacity: 0; }
     }
     .signal-fragment, .signal-steady {
+      width: 360px;
+      min-height: 248px; /* Ensures avatar and ~3 lines fit without jump */
       max-width: 600px;
-      padding: 24px 20px;
+      padding: 32px 24px 24px 24px;
       background: repeating-linear-gradient(
           -45deg,
           #1a1a1a,
@@ -63,19 +65,30 @@
       box-shadow: 0 0 8px #6ee7b7;
       border-radius: 12px;
       position: relative;
-      overflow: hidden;
+      overflow: visible;
       animation: glitch-border 2s infinite;
       display: none;
       z-index: 1;
       text-align: left;
+      transition: min-height 0.4s cubic-bezier(.77,0,.18,1), width 0.4s cubic-bezier(.77,0,.18,1);
+    }
+    .signal-fragment.expanded {
+      min-height: 320px;
+      width: 95vw;
+      max-width: 600px;
+      /* Optionally, add a transition for the width or min-height if you want a smooth grow */
     }
     .signal-steady {
       text-align: center;
       display: none;
+      min-height: 100px;
+      width: 360px;
+      max-width: 600px;
+      padding: 32px 24px 24px 24px;
     }
     .avatar {
       display: block;
-      margin: 0 auto 20px auto;
+      margin: 0 auto 16px auto;
       width: 64px;
       height: 64px;
       image-rendering: pixelated;
@@ -119,6 +132,13 @@
       transform: translateY(-1px);
       box-shadow: 3px 3px 0 black;
     }
+    @media (max-width: 500px) {
+      .signal-fragment, .signal-steady {
+        width: 98vw;
+        min-width: unset;
+        padding: 14vw 2vw 6vw 2vw;
+      }
+    }
   </style>
 </head>
 <body>
@@ -152,7 +172,10 @@
   <script>
     function startSignalSequence() {
       document.getElementById("fragmentPrompt").style.display = "none";
-      document.getElementById("signalContainer").style.display = "block";
+      const sigContainer = document.getElementById("signalContainer");
+      sigContainer.style.display = "block";
+      sigContainer.classList.remove('expanded'); // start with static min height
+
       const bgAudio = document.getElementById("bgStatic");
       bgAudio.volume = 0.2;
       bgAudio.currentTime = 0;
@@ -167,13 +190,19 @@
 
       setTimeout(() => {
         const paragraphs = [
-          "* Signal fragment recovered... 📡",
+          "* First fragment recovered... 📡",
           "...Hello? Can you hear this?",
           "I didn’t know if my message would make it through.",
-          "But I had to try — even if the world keeps cutting us off.",
-          "You give so much to everyone... always putting yourself last.",
-          "...I wish you'd choose yourself — just once.",
-          "Follow this signal. Let it guide you to me.",
+          "(Its part of the concept!! Don't laugh!! jkjk",
+          "...Okay, confession, I’ve been trying to reach your brainwaves, too",
+          "Specially when communication is not our strongest suit TT",
+          "Even when I’m quiet, my heart is basically yelling “hello!” to your direction.",
+          "Papansin yern? But yeah - my heart always long for you, baby.",
+          "I know how our situation is not easy — we both worry to much",
+          "and honestly love, i know how much you giveee",
+          "Always putting others first rather than yourself",
+          "I love that about you though, i love how gentle your heart is",
+          "... but sometimes I wish you'd choose yourself — just once.",
           "This is only the first piece.\nThere’s more of me out there, waiting for you. 💭"
         ];
 
@@ -193,6 +222,10 @@
               window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
               setTimeout(typeChar, 45 + Math.random() * 40);
             } else {
+              // if content is overflowing, expand the container
+              if (sigContainer.scrollHeight > sigContainer.clientHeight) {
+                sigContainer.classList.add('expanded');
+              }
               callback();
             }
           }
@@ -208,7 +241,7 @@
             });
           } else {
             setTimeout(() => {
-              document.getElementById("signalContainer").style.display = "none";
+              sigContainer.style.display = "none";
               document.getElementById("steadyContainer").style.display = "block";
               window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
             }, 800);
