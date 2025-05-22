@@ -3,68 +3,112 @@
 <head>
   <meta charset="UTF-8">
   <title>Riddle Sequence</title>
-  <meta name="viewport" content="width=600, initial-scale=1">
+  <meta name="viewport" content="width=1024">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-    body {
-      background: black;
-      min-height: 100vh;
+    html, body {
+      height: 100%;
       margin: 0;
-      box-sizing: border-box;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 0;
+      background: #000;
     }
-
+    body {
+      min-height: 100vh;
+      width: 100vw;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    /* Center container absolutely and keep it fixed size */
+    .riddle-centerer {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      left: 0; top: 0;
+    }
     .dialogue-wrapper {
       display: flex;
-      align-items: center;
-      background: black;
-      color: white;
-      border: 3px solid white;
-      padding: 16px;
-      max-width: 600px;
-      margin: 0 auto;
+      align-items: flex-start;
+      background: #000;
+      color: #fff;
+      border: 3px solid #fff;
+      box-sizing: border-box;
+      box-shadow: 0 0 0 3px #000;
       font-family: 'Press Start 2P', monospace;
       font-size: 10px;
-      line-height: 1.8;
+      line-height: 1.7;
       white-space: pre-wrap;
-      box-shadow: 0 0 0 3px black;
+      /* --- FIXED SIZE --- */
+      width: 540px;
+      height: 128px;
+      min-width: 540px;
+      max-width: 540px;
+      min-height: 128px;
+      max-height: 128px;
+      padding: 16px 20px 16px 16px;
+      margin: 0 auto;
       position: relative;
-      min-width: 340px;
-      min-height: 120px;
-      transition: opacity 0.25s;
     }
-
     .dialogue-avatar {
-      width: 64px;
-      height: 64px;
+      width: 48px;
+      height: 48px;
       image-rendering: pixelated;
       margin-right: 16px;
       flex-shrink: 0;
+      margin-top: 2px;
     }
-
     .dialogue-text {
       flex: 1;
-      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      min-height: 100%;
+      height: 100%;
     }
-
     .dialogue-name {
       color: #ffeb3b;
-      display: block;
       margin-bottom: 8px;
+      display: block;
+      font-size: 10px;
+      line-height: 1.1;
+      margin-top: 2px;
     }
-
+    .dialogue-lines p {
+      margin: 0;
+      padding: 0;
+      font-size: 10px;
+      line-height: 1.7;
+      font-family: 'Press Start 2P', monospace;
+      color: #fff;
+      text-shadow: 0 0 1px #000;
+      letter-spacing: 0.01em;
+    }
+    .riddle-ellipsis {
+      color: #fff;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 18px;
+      letter-spacing: 7px;
+      text-align: center;
+      margin-top: 24px;
+      width: 540px;
+      user-select: none;
+      text-shadow: 0 0 2px #000;
+    }
     .riddle-arrow {
       position: absolute;
-      bottom: 10px;
-      right: 18px;
+      bottom: 8px;
+      right: 14px;
       background: none;
       border: none;
       cursor: pointer;
-      font-size: 24px;
-      color: white;
+      font-size: 22px;
+      color: #fff;
       text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
       padding: 0;
       opacity: 0;
@@ -77,95 +121,35 @@
       opacity: 1;
       pointer-events: auto;
     }
-    .riddle-arrow:focus {
-      outline: none;
-    }
-    .riddle-arrow:hover {
-      filter: brightness(1.4);
-    }
-
     @media (max-width: 650px) {
-      .dialogue-wrapper { max-width: 96vw; min-width: 0; }
-      .dialogue-text { max-width: 60vw; }
+      .dialogue-wrapper, .riddle-ellipsis { width: 99vw; min-width: 0; max-width: 99vw; }
     }
   </style>
 </head>
 <body>
-  <!-- Dialogue containers for each riddle -->
-  <div id="riddle1" class="dialogue-wrapper" style="display: flex;">
-    <img class="dialogue-avatar" src="https://64.media.tumblr.com/e38cd32d189fd45102a73a3f9dc6b9ac/9a98a57c72a06121-d8/s250x400/1bfeddb38d0ef253be539d8223e27d7a6838ffb2.gif" alt="Mister Mewby Avatar">
-    <div class="dialogue-text">
-      <span class="dialogue-name">Mewby</span>
-      <div id="riddleMewby1"></div>
+  <div class="riddle-centerer">
+    <!-- Dialogue container -->
+    <div class="dialogue-wrapper">
+      <img class="dialogue-avatar" src="https://64.media.tumblr.com/e38cd32d189fd45102a73a3f9dc6b9ac/9a98a57c72a06121-d8/s250x400/1bfeddb38d0ef253be539d8223e27d7a6838ffb2.gif" alt="Mister Mewby Avatar">
+      <div class="dialogue-text">
+        <span class="dialogue-name">Mewby</span>
+        <div class="dialogue-lines" id="riddleLines"></div>
+      </div>
+      <!-- Arrow (optional: enable for next or multi-riddle flows) -->
+      <!-- <button class="riddle-arrow" id="nextArrow" aria-label="Next">&#9660;</button> -->
     </div>
-    <button class="riddle-arrow" id="arrow1" aria-label="Next">&#9660;</button>
   </div>
-
-  <div id="riddle2" class="dialogue-wrapper" style="display: none;">
-    <img class="dialogue-avatar" src="https://64.media.tumblr.com/e38cd32d189fd45102a73a3f9dc6b9ac/9a98a57c72a06121-d8/s250x400/1bfeddb38d0ef253be539d8223e27d7a6838ffb2.gif" alt="Mister Mewby Avatar">
-    <div class="dialogue-text">
-      <span class="dialogue-name">Mewby</span>
-      <div id="riddleMewby2"></div>
-    </div>
-    <button class="riddle-arrow" id="arrow2" aria-label="Next">&#9660;</button>
-  </div>
-
-  <div id="riddle3" class="dialogue-wrapper" style="display: none;">
-    <img class="dialogue-avatar" src="https://64.media.tumblr.com/e38cd32d189fd45102a73a3f9dc6b9ac/9a98a57c72a06121-d8/s250x400/1bfeddb38d0ef253be539d8223e27d7a6838ffb2.gif" alt="Mister Mewby Avatar">
-    <div class="dialogue-text">
-      <span class="dialogue-name">Mewby</span>
-      <div id="riddleMewby3"></div>
-    </div>
-    <button class="riddle-arrow" id="arrow3" aria-label="Begin">&#9660;</button>
-  </div>
-
+  <div class="riddle-ellipsis" id="riddleEllipsis" style="display: none;">....</div>
   <script>
-    // Riddle data
-    const riddles = [
-      {
-        lines: [
-          "* No storm now. Just stillness.",
-          "* But not emptiness — something hums beneath."
-        ],
-        box: "riddle1",
-        text: "riddleMewby1",
-        arrow: "arrow1",
-        next: "riddle2"
-      },
-      {
-        lines: [
-          "* No instructions. No map.",
-          "* Only memory. Only feeling."
-        ],
-        box: "riddle2",
-        text: "riddleMewby2",
-        arrow: "arrow2",
-        next: "riddle3"
-      },
-      {
-        lines: [
-          "* Something’s waiting — just past knowing.",
-          "* Decode it. Let it lead you."
-        ],
-        box: "riddle3",
-        text: "riddleMewby3",
-        arrow: "arrow3",
-        next: null // or link to your puzzle/continue page
-      }
-    ];
-
-    let current = 0;
-
-    function typeLines(riddleIdx) {
-      const r = riddles[riddleIdx];
-      const lines = r.lines;
-      const container = document.getElementById(r.text);
-      const arrow = document.getElementById(r.arrow);
-      container.innerHTML = '';
-      arrow.classList.remove('visible');
-      arrow.style.pointerEvents = "none";
+    setTimeout(() => {
+      const lines = [
+        "* No storm now. Just stillness.",
+        "* But not emptiness — something hums beneath."
+      ];
+      const container = document.getElementById("riddleLines");
+      const ellipsis = document.getElementById("riddleEllipsis");
+      // const arrow = document.getElementById("nextArrow"); // Enable if you want navigation
       let lineIndex = 0;
-
       function typeLine(line, callback) {
         const p = document.createElement("p");
         container.appendChild(p);
@@ -181,7 +165,6 @@
         }
         typeChar();
       }
-
       function typeAllLines() {
         if (lineIndex < lines.length) {
           typeLine(lines[lineIndex], () => {
@@ -189,37 +172,14 @@
             setTimeout(typeAllLines, 400);
           });
         } else {
-          // Show arrow when done
           setTimeout(() => {
-            arrow.classList.add('visible');
-            arrow.style.pointerEvents = "auto";
+            ellipsis.style.display = "block";
+            // arrow.classList.add('visible'); // Enable if you want arrow navigation
           }, 350);
         }
       }
       typeAllLines();
-    }
-
-    function showRiddle(idx) {
-      riddles.forEach((r, i) => {
-        document.getElementById(r.box).style.display = (i === idx) ? "flex" : "none";
-      });
-      typeLines(idx);
-    }
-
-    riddles.forEach((r, i) => {
-      const arrow = document.getElementById(r.arrow);
-      arrow.addEventListener('click', () => {
-        if (r.next) {
-          showRiddle(i + 1);
-        } else {
-          // Optionally: redirect or show "The End"
-          // window.location.href = "decodepuzzle.html"; 
-        }
-      });
-    });
-
-    // Start the sequence
-    window.onload = () => { showRiddle(0); };
+    }, 500);
   </script>
 </body>
 </html>
