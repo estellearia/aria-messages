@@ -29,6 +29,7 @@
       align-items: center;
       position: fixed;
       left: 0; top: 0;
+      z-index: 1;
     }
     .dialogue-wrapper {
       display: flex;
@@ -47,6 +48,7 @@
       padding: 8px 18px 8px 12px;
       margin: 0 auto;
       position: relative;
+      z-index: 2;
     }
     .dialogue-avatar {
       width: 64px;
@@ -74,7 +76,7 @@
       margin-top: 2px;
     }
     .dialogue-lines {
-      margin-top: 6px; /* ADDS SPACE between name and first line */
+      margin-top: 6px;
     }
     .dialogue-lines p {
       margin: 0;
@@ -85,6 +87,7 @@
       color: #fff;
       text-shadow: 0 0 1px #000;
       letter-spacing: 0.01em;
+      font-weight: bold;
     }
     .riddle-arrow {
       position: absolute;
@@ -109,76 +112,37 @@
     }
     .riddle-arrow:focus { outline: none; }
     .riddle-arrow:hover { filter: brightness(1.2); }
-    .riddle-ellipsis {
-      color: #fff;
-      font-family: 'Press Start 2P', monospace;
-      font-size: 18px;
-      letter-spacing: 7px;
+    .begin-btn-container {
+      width: 100%;
       text-align: center;
-      margin-top: 18px;
-      width: 540px;
-      user-select: none;
-      text-shadow: 0 0 2px #000;
-      transition: opacity 0.3s;
-      opacity: 0;
-      pointer-events: none;
+      margin-top: 32px;
+      z-index: 2;
     }
-    .riddle-ellipsis.visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    /* Begin button styling */
-    .riddle-begin-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 540px;
-      height: 108px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 10;
-    }
-    .riddle-begin-btn {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 12px;
-      background: #fff;
-      color: #222;
-      border: 3px solid #222;
-      box-shadow: 0 0 0 3px #000;
-      padding: 12px 44px 12px 44px;
-      border-radius: 6px;
-      cursor: pointer;
-      letter-spacing: 0.08em;
-      transition: 
-        background 0.18s,
-        color 0.18s,
-        box-shadow 0.18s,
-        border-color 0.15s;
-      outline: none;
-      position: relative;
-      left: 0;
-      top: 0;
-      text-decoration: none;
+    .begin-btn {
       display: inline-block;
-      line-height: 1.2;
-      user-select: none;
+      padding: 4px 16px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 14px;
+      color: #fff;
+      background: #000;
+      border: 2px solid transparent;
+      border-radius: 2px;
+      cursor: pointer;
+      outline: none;
+      transition: border 0.15s, color 0.15s, background 0.15s;
+      text-decoration: none;
+      text-align: center;
+      margin: 0 auto;
+      box-sizing: border-box;
+      text-shadow: 0 0 1px #000;
     }
-    .riddle-begin-btn:active {
-      top: 1px;
-      left: 1px;
-      box-shadow: 0 0 0 1px #000;
-    }
-    .riddle-begin-btn:hover,
-    .riddle-begin-btn:focus {
-      background: #ffeb3b;
-      color: #000;
-      border-color: #ffeb3b;
-      box-shadow: 0 0 0 3px #000, 0 0 12px #ffeb3b80;
-      text-shadow: 0 0 2px #fff;
+    .begin-btn:hover, .begin-btn:focus {
+      border: 2px solid #fff;
+      color: #fff;
+      background: #000;
     }
     @media (max-width: 650px) {
-      .dialogue-wrapper, .riddle-ellipsis, .riddle-begin-wrapper { width: 99vw; min-width: 0; max-width: 99vw; }
+      .dialogue-wrapper { width: 99vw; min-width: 0; max-width: 99vw; }
     }
   </style>
 </head>
@@ -209,20 +173,11 @@
         <span class="dialogue-name">Mewby</span>
         <div class="dialogue-lines" id="riddleLines3"></div>
       </div>
-      <button class="riddle-arrow" id="arrow3" aria-label="Next">&#9660;</button>
-    </div>
-    <!-- Begin Button (hidden by default) -->
-    <div class="riddle-begin-wrapper" id="beginBtnWrapper" style="display:none;">
-      <a
-        href="#your-carrd-section" <!-- Change to your actual Carrd section anchor or URL -->
-        class="riddle-begin-btn"
-        id="beginBtn"
-        tabindex="0"
-      >Begin</a>
     </div>
   </div>
-  <!-- Ellipsis for last screen -->
-  <div class="riddle-ellipsis" id="riddleEllipsis">....</div>
+  <div class="begin-btn-container" id="beginBtnContainer" style="display:none;">
+    <a href="https://frdffsdx.carrd.co/#decodepuzzle" class="begin-btn">Begin</a>
+  </div>
   <script>
     // Riddle data
     const riddles = [
@@ -250,25 +205,20 @@
           "* Decode it. Let it lead you."
         ],
         box: "riddle3Box",
-        linesId: "riddleLines3",
-        arrow: "arrow3"
+        linesId: "riddleLines3"
+        // No arrow for last
       }
     ];
 
     let current = 0;
 
-    function typeLines(riddleIdx) {
+    function typeLines(riddleIdx, cb) {
       const r = riddles[riddleIdx];
       const lines = r.lines;
       const container = document.getElementById(r.linesId);
-      const arrow = document.getElementById(r.arrow);
-      const ellipsis = document.getElementById("riddleEllipsis");
-      const beginBtnWrapper = document.getElementById("beginBtnWrapper");
+      const arrow = r.arrow ? document.getElementById(r.arrow) : null;
       container.innerHTML = '';
-      arrow.classList.remove('visible');
-      ellipsis.classList.remove('visible');
-      beginBtnWrapper.style.display = "none";
-      arrow.style.pointerEvents = "none";
+      if (arrow) arrow.classList.remove('visible');
       let lineIndex = 0;
 
       function typeLine(line, callback) {
@@ -295,22 +245,11 @@
           });
         } else {
           setTimeout(() => {
-            if (riddleIdx < riddles.length - 1) {
+            if (arrow) {
               arrow.classList.add('visible');
               arrow.style.pointerEvents = "auto";
-            } else {
-              // Final riddle: fade in ellipsis, then reveal Begin button after short delay
-              ellipsis.classList.add('visible');
-              setTimeout(() => {
-                ellipsis.classList.remove('visible');
-                beginBtnWrapper.style.display = "flex";
-                // Optionally, focus the button for accessibility
-                setTimeout(() => {
-                  const beginBtn = document.getElementById("beginBtn");
-                  if (beginBtn) beginBtn.focus();
-                }, 200);
-              }, 1200);
             }
+            cb && cb();
           }, 350);
         }
       }
@@ -320,16 +259,20 @@
     function showRiddle(idx) {
       riddles.forEach((r, i) => {
         document.getElementById(r.box).style.display = (i === idx) ? "flex" : "none";
+        if (r.arrow) document.getElementById(r.arrow).classList.remove('visible');
       });
-      // Hide Begin button on any riddle screen
-      document.getElementById("beginBtnWrapper").style.display = "none";
-      typeLines(idx);
+      if (idx < riddles.length - 1) {
+        typeLines(idx, () => {});
+      } else {
+        typeLines(idx, () => {
+          document.getElementById("beginBtnContainer").style.display = "block";
+        });
+      }
     }
 
     riddles.forEach((r, i) => {
-      const arrow = document.getElementById(r.arrow);
-      if (arrow) {
-        arrow.addEventListener('click', () => {
+      if (r.arrow) {
+        document.getElementById(r.arrow).addEventListener('click', () => {
           if (i < riddles.length - 1) {
             showRiddle(i + 1);
           }
