@@ -165,6 +165,13 @@
   </div>
 
   <script>
+
+    // Preload dialogue avatars so they are ready instantly when swapped
+['https://i.imgur.com/9OC7GRw.gif',
+ 'https://64.media.tumblr.com/647ca06c5a608d1ea1c416b21b839ea3/9a98a57c72a06121-2a/s250x400/7f925df3ce70975efc97a7f0ffac27ea3838ae3e.gif',
+ 'https://64.media.tumblr.com/0be11728688453f02b9597af36145703/9a98a57c72a06121-bf/s250x400/a3472ea75630067f2203dec21d9475cc3c797713.gif'
+].forEach(url => { const img = new Image(); img.src = url; });
+    
     // Dialogue sequence as requested
     const dialogues = [
       // ARIA 1
