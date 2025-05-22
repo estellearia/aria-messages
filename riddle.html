@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Riddle Sequence</title>
+  <title>UNDERTALE Message Box</title>
   <meta name="viewport" content="width=1024">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -15,13 +15,12 @@
     body {
       min-height: 100vh;
       width: 100vw;
-      overflow-x: hidden;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
     }
-    /* Center container absolutely and keep it fixed size */
     .riddle-centerer {
       width: 100vw;
       height: 100vh;
@@ -30,27 +29,27 @@
       align-items: center;
       position: fixed;
       left: 0; top: 0;
+      z-index: 1;
     }
     .dialogue-wrapper {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       background: #000;
       color: #fff;
       border: 3px solid #fff;
       box-sizing: border-box;
       box-shadow: 0 0 0 3px #000;
       font-family: 'Press Start 2P', monospace;
-      font-size: 10px;
-      line-height: 1.7;
+      font-size: 13px;
+      line-height: 1.6;
       white-space: pre-wrap;
-      /* --- FIXED SIZE --- */
-      width: 540px;
-      height: 128px;
-      min-width: 540px;
-      max-width: 540px;
-      min-height: 128px;
-      max-height: 128px;
-      padding: 16px 20px 16px 16px;
+      width: 500px;
+      height: 100px;
+      min-width: 500px;
+      max-width: 500px;
+      min-height: 100px;
+      max-height: 100px;
+      padding: 0 24px 0 14px;
       margin: 0 auto;
       position: relative;
     }
@@ -58,36 +57,40 @@
       width: 48px;
       height: 48px;
       image-rendering: pixelated;
-      margin-right: 16px;
+      margin-right: 18px;
+      margin-left: 2px;
       flex-shrink: 0;
-      margin-top: 2px;
+      display: block;
     }
     .dialogue-text {
       flex: 1;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      justify-content: flex-start;
-      min-height: 100%;
+      justify-content: center;
       height: 100%;
+      min-width: 0;
     }
     .dialogue-name {
-      color: #ffeb3b;
-      margin-bottom: 8px;
-      display: block;
-      font-size: 10px;
-      line-height: 1.1;
-      margin-top: 2px;
+      color: #4ec3ff;
+      font-size: 11px;
+      margin: 0 0 2px 0;
+      padding: 0;
+      font-weight: bold;
+      font-family: 'Press Start 2P', monospace;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
     }
     .dialogue-lines p {
       margin: 0;
       padding: 0;
-      font-size: 10px;
-      line-height: 1.7;
+      font-size: 13px;
+      line-height: 1.62;
       font-family: 'Press Start 2P', monospace;
       color: #fff;
       text-shadow: 0 0 1px #000;
-      letter-spacing: 0.01em;
+      font-weight: bold;
+      letter-spacing: 0.02em;
     }
     .riddle-ellipsis {
       color: #fff;
@@ -95,60 +98,37 @@
       font-size: 18px;
       letter-spacing: 7px;
       text-align: center;
-      margin-top: 24px;
-      width: 540px;
+      margin-top: 32px;
+      width: 500px;
       user-select: none;
       text-shadow: 0 0 2px #000;
-    }
-    .riddle-arrow {
-      position: absolute;
-      bottom: 8px;
-      right: 14px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 22px;
-      color: #fff;
-      text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
-      padding: 0;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
       z-index: 2;
-      user-select: none;
-    }
-    .riddle-arrow.visible {
-      opacity: 1;
-      pointer-events: auto;
     }
     @media (max-width: 650px) {
-      .dialogue-wrapper, .riddle-ellipsis { width: 99vw; min-width: 0; max-width: 99vw; }
+      .dialogue-wrapper, .riddle-ellipsis { width: 98vw; min-width: 0; max-width: 98vw; }
+      .riddle-ellipsis { width: 98vw; }
     }
   </style>
 </head>
 <body>
   <div class="riddle-centerer">
-    <!-- Dialogue container -->
     <div class="dialogue-wrapper">
-      <img class="dialogue-avatar" src="https://64.media.tumblr.com/e38cd32d189fd45102a73a3f9dc6b9ac/9a98a57c72a06121-d8/s250x400/1bfeddb38d0ef253be539d8223e27d7a6838ffb2.gif" alt="Mister Mewby Avatar">
+      <img class="dialogue-avatar" src="https://cdn.jsdelivr.net/gh/estellearia/aria-messages@main/aria-pixel.png" alt="Aria Avatar">
       <div class="dialogue-text">
-        <span class="dialogue-name">Mewby</span>
+        <span class="dialogue-name">Aria</span>
         <div class="dialogue-lines" id="riddleLines"></div>
       </div>
-      <!-- Arrow (optional: enable for next or multi-riddle flows) -->
-      <!-- <button class="riddle-arrow" id="nextArrow" aria-label="Next">&#9660;</button> -->
     </div>
   </div>
-  <div class="riddle-ellipsis" id="riddleEllipsis" style="display: none;">....</div>
+  <div class="riddle-ellipsis" id="riddleEllipsis" style="display: none;">...</div>
   <script>
     setTimeout(() => {
       const lines = [
-        "* No storm now. Just stillness.",
-        "* But not emptiness — something hums beneath."
+        "* You've been strong through so much.",
+        "* And loving me? That's not easy either."
       ];
       const container = document.getElementById("riddleLines");
       const ellipsis = document.getElementById("riddleEllipsis");
-      // const arrow = document.getElementById("nextArrow"); // Enable if you want navigation
       let lineIndex = 0;
       function typeLine(line, callback) {
         const p = document.createElement("p");
@@ -158,7 +138,7 @@
           if (charIndex < line.length) {
             p.innerHTML += line.charAt(charIndex);
             charIndex++;
-            setTimeout(typeChar, 60);
+            setTimeout(typeChar, 35);
           } else {
             callback();
           }
@@ -169,17 +149,16 @@
         if (lineIndex < lines.length) {
           typeLine(lines[lineIndex], () => {
             lineIndex++;
-            setTimeout(typeAllLines, 400);
+            setTimeout(typeAllLines, 300);
           });
         } else {
           setTimeout(() => {
             ellipsis.style.display = "block";
-            // arrow.classList.add('visible'); // Enable if you want arrow navigation
           }, 350);
         }
       }
       typeAllLines();
-    }, 500);
+    }, 350);
   </script>
 </body>
 </html>
