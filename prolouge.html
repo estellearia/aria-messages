@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <title>Birthday Dialogue Sequence</title>
   <meta name="viewport" content="width=1024">
+  <!-- Optional: Preload avatars for extra speed -->
+  <link rel="preload" as="image" href="https://i.imgur.com/9OC7GRw.gif">
+  <link rel="preload" as="image" href="https://64.media.tumblr.com/647ca06c5a608d1ea1c416b21b839ea3/9a98a57c72a06121-2a/s250x400/7f925df3ce70975efc97a7f0ffac27ea3838ae3e.gif">
+  <link rel="preload" as="image" href="https://64.media.tumblr.com/0be11728688453f02b9597af36145703/9a98a57c72a06121-bf/s250x400/a3472ea75630067f2203dec21d9475cc3c797713.gif">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
     html, body {
@@ -42,13 +46,10 @@
       box-shadow: 0 0 0 3px #000;
       font-family: 'Press Start 2P', monospace;
       font-size: 10px;
-      line-height: 1.8;
+      line-height: 1.5;
       white-space: pre-wrap;
       width: 540px;
       min-height: 108px;
-      height: auto;
-      max-height: 300px;
-      overflow-y: auto;
       padding: 8px 18px 8px 12px;
       margin: 0 auto;
       position: relative;
@@ -60,7 +61,6 @@
       image-rendering: pixelated;
       margin-right: 22px;
       flex-shrink: 0;
-      background: #000;
     }
     .dialogue-text {
       flex: 1;
@@ -84,7 +84,7 @@
       margin-top: 6px;
     }
     .dialogue-lines p {
-      margin: 0 0 6px 0;
+      margin: 0; /* more readable spacing */
       padding: 0;
       font-size: 10px;
       line-height: 1.8;
@@ -152,7 +152,7 @@
     [
       'https://i.imgur.com/9OC7GRw.gif',
       'https://64.media.tumblr.com/647ca06c5a608d1ea1c416b21b839ea3/9a98a57c72a06121-2a/s250x400/7f925df3ce70975efc97a7f0ffac27ea3838ae3e.gif',
-      'https://64.media.tumblr.com/0be11728688453f02b9597af36145703/9a98a57c72a06121-bf/s250x400/a3472ea75630067f2203dec21d9475cc3c797713.gif',
+      'https://64.media.tumblr.com/0be11728688453f02b9597af36145703/9a98a57c72a06121-bf/s250x400/a3472ea75630067f2203dec21d9475cc3c797713.gif'
     ].forEach(url => { const img = new Image(); img.src = url; });
   </script>
 </head>
@@ -205,7 +205,7 @@
       },
       // MEWBY 1
       {
-        name: 'Mewby', color: '#ffeb3b', avatar: 'https://64.media.tumblr.com/647ca06c5a608d1ea1c416b21b839ea3/9a98a57c72a06121-2a/s250x400/7f925df3ce70975efc97a7f0ffac27ea3838ae3e.gif'',
+        name: 'Mewby', color: '#ffeb3b', avatar: 'https://64.media.tumblr.com/647ca06c5a608d1ea1c416b21b839ea3/9a98a57c72a06121-2a/s250x400/7f925df3ce70975efc97a7f0ffac27ea3838ae3e.gif',
         lines: ["* I'm MEWBY", "* MEWBY the CAT!", "* Be glad to meet me!"],
         showArrow: true
       },
@@ -232,22 +232,10 @@
       nameEl.style.color = color;
     }
 
-    // Loader function for avatars: only display once fully loaded
-    function setAvatar(src, alt) {
-      // Optionally show transparent placeholder while loading
-      avatar.src = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
-      avatar.alt = alt || "";
-      const img = new Image();
-      img.onload = function() {
-        avatar.src = src;
-        avatar.alt = alt || "";
-      };
-      img.src = src;
-    }
-
     function typeLines(idx, cb) {
       const d = dialogues[idx];
-      setAvatar(d.avatar, d.name + " Avatar");
+      avatar.src = d.avatar;
+      avatar.alt = d.name + " Avatar";
       nameEl.textContent = d.name;
       setNameColor(d.color);
       linesEl.innerHTML = '';
