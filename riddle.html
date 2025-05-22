@@ -127,8 +127,58 @@
       opacity: 1;
       pointer-events: auto;
     }
+
+    /* Begin button styling */
+    .riddle-begin-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 540px;
+      height: 108px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+    .riddle-begin-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 12px;
+      background: #fff;
+      color: #222;
+      border: 3px solid #222;
+      box-shadow: 0 0 0 3px #000;
+      padding: 12px 44px 12px 44px;
+      border-radius: 6px;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      transition: 
+        background 0.18s,
+        color 0.18s,
+        box-shadow 0.18s,
+        border-color 0.15s;
+      outline: none;
+      position: relative;
+      left: 0;
+      top: 0;
+      text-decoration: none;
+      display: inline-block;
+      line-height: 1.2;
+      user-select: none;
+    }
+    .riddle-begin-btn:active {
+      top: 1px;
+      left: 1px;
+      box-shadow: 0 0 0 1px #000;
+    }
+    .riddle-begin-btn:hover,
+    .riddle-begin-btn:focus {
+      background: #ffeb3b;
+      color: #000;
+      border-color: #ffeb3b;
+      box-shadow: 0 0 0 3px #000, 0 0 12px #ffeb3b80;
+      text-shadow: 0 0 2px #fff;
+    }
     @media (max-width: 650px) {
-      .dialogue-wrapper, .riddle-ellipsis { width: 99vw; min-width: 0; max-width: 99vw; }
+      .dialogue-wrapper, .riddle-ellipsis, .riddle-begin-wrapper { width: 99vw; min-width: 0; max-width: 99vw; }
     }
   </style>
 </head>
@@ -160,6 +210,15 @@
         <div class="dialogue-lines" id="riddleLines3"></div>
       </div>
       <button class="riddle-arrow" id="arrow3" aria-label="Next">&#9660;</button>
+    </div>
+    <!-- Begin Button (hidden by default) -->
+    <div class="riddle-begin-wrapper" id="beginBtnWrapper" style="display:none;">
+      <a
+        href="#your-carrd-section" <!-- Change to your actual Carrd section anchor or URL -->
+        class="riddle-begin-btn"
+        id="beginBtn"
+        tabindex="0"
+      >Begin</a>
     </div>
   </div>
   <!-- Ellipsis for last screen -->
@@ -204,9 +263,11 @@
       const container = document.getElementById(r.linesId);
       const arrow = document.getElementById(r.arrow);
       const ellipsis = document.getElementById("riddleEllipsis");
+      const beginBtnWrapper = document.getElementById("beginBtnWrapper");
       container.innerHTML = '';
       arrow.classList.remove('visible');
       ellipsis.classList.remove('visible');
+      beginBtnWrapper.style.display = "none";
       arrow.style.pointerEvents = "none";
       let lineIndex = 0;
 
@@ -238,7 +299,17 @@
               arrow.classList.add('visible');
               arrow.style.pointerEvents = "auto";
             } else {
+              // Final riddle: fade in ellipsis, then reveal Begin button after short delay
               ellipsis.classList.add('visible');
+              setTimeout(() => {
+                ellipsis.classList.remove('visible');
+                beginBtnWrapper.style.display = "flex";
+                // Optionally, focus the button for accessibility
+                setTimeout(() => {
+                  const beginBtn = document.getElementById("beginBtn");
+                  if (beginBtn) beginBtn.focus();
+                }, 200);
+              }, 1200);
             }
           }, 350);
         }
@@ -250,6 +321,8 @@
       riddles.forEach((r, i) => {
         document.getElementById(r.box).style.display = (i === idx) ? "flex" : "none";
       });
+      // Hide Begin button on any riddle screen
+      document.getElementById("beginBtnWrapper").style.display = "none";
       typeLines(idx);
     }
 
