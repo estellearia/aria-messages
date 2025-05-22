@@ -55,7 +55,7 @@
       width: 64px;
       height: 64px;
       image-rendering: pixelated;
-      margin-right: 22px;
+      margin-right: 16px;
       flex-shrink: 0;
     }
     .dialogue-text {
@@ -74,6 +74,10 @@
       font-size: 10px;
       line-height: 1.1;
     }
+    /* Make "Mewby" 11px */
+    .dialogue-name.mewby {
+      font-size: 11px;
+    }
     .dialogue-lines {
       margin-top: 6px;
     }
@@ -81,7 +85,7 @@
       margin: 0;
       padding: 0;
       font-size: 10px;
-      line-height: 1.4;
+      line-height: 1.8;
       font-family: 'Press Start 2P', monospace;
       color: #fff;
       text-shadow: 0 0 0px #000;
@@ -152,7 +156,7 @@
     <div class="dialogue-wrapper" id="riddle1Box">
       <img class="dialogue-avatar" src="https://64.media.tumblr.com/e38cd32d189fd45102a73a3f9dc6b9ac/9a98a57c72a06121-d8/s250x400/1bfeddb38d0ef253be539d8223e27d7a6838ffb2.gif" alt="Mister Mewby Avatar">
       <div class="dialogue-text">
-        <span class="dialogue-name">Mewby</span>
+        <span class="dialogue-name mewby">Mewby</span>
         <div class="dialogue-lines" id="riddleLines1"></div>
       </div>
       <button class="riddle-arrow" id="arrow1" aria-label="Next">&#9660;</button>
@@ -162,7 +166,7 @@
     <div class="dialogue-wrapper" id="riddle2Box" style="display:none;">
       <img class="dialogue-avatar" src="https://64.media.tumblr.com/e38cd32d189fd45102a73a3f9dc6b9ac/9a98a57c72a06121-d8/s250x400/1bfeddb38d0ef253be539d8223e27d7a6838ffb2.gif" alt="Mister Mewby Avatar">
       <div class="dialogue-text">
-        <span class="dialogue-name">Mewby</span>
+        <span class="dialogue-name mewby">Mewby</span>
         <div class="dialogue-lines" id="riddleLines2"></div>
       </div>
       <button class="riddle-arrow" id="arrow2" aria-label="Next">&#9660;</button>
@@ -172,7 +176,7 @@
     <div class="dialogue-wrapper" id="riddle3Box" style="display:none;">
       <img class="dialogue-avatar" src="https://64.media.tumblr.com/e38cd32d189fd45102a73a3f9dc6b9ac/9a98a57c72a06121-d8/s250x400/1bfeddb38d0ef253be539d8223e27d7a6838ffb2.gif" alt="Mister Mewby Avatar">
       <div class="dialogue-text">
-        <span class="dialogue-name">Mewby</span>
+        <span class="dialogue-name mewby">Mewby</span>
         <div class="dialogue-lines" id="riddleLines3"></div>
       </div>
     </div>
