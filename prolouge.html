@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Compiled Dialogues</title>
+  <meta name="viewport" content="width=1024">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      font-family: 'Press Start 2P', monospace;
+      color: #fff;
+    }
+    .dialogue-wrapper {
+      display: none;
+      align-items: center;
+      background: black;
+      border: 3px solid white;
+      padding: 16px;
+      max-width: 600px;
+      margin: 20px auto;
+      font-size: 10px;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      box-shadow: 0 0 0 3px black;
+    }
+    .dialogue-wrapper.active {
+      display: flex;
+    }
+    .dialogue-avatar {
+      width: 64px;
+      height: 64px;
+      image-rendering: pixelated;
+      margin-right: 16px;
+      flex-shrink: 0;
+    }
+    .dialogue-text {
+      flex: 1;
+    }
+    .dialogue-name {
+      color: #87cefa;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .dialogue-name.yellow {
+      color: #ffeb3b;
+    }
+    .dialogue-lines p {
+      margin: 0;
+      padding: 0;
+      font-size: 10px;
+      line-height: 1.4;
+      color: #fff;
+      text-shadow: 0 0 0px #000;
+      letter-spacing: 0.01em;
+    }
+    .riddle-arrow {
+      font-size: 22px;
+      text-align: center;
+      cursor: pointer;
+      color: #fff;
+      text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000;
+      background: none;
+      border: none;
+      margin: 10px auto;
+      display: none;
+    }
+    .riddle-arrow.visible {
+      display: block;
+    }
+    .riddle-arrow:hover {
+      filter: brightness(1.3);
+    }
+    .custom-button {
+      display: none;
+      margin: 12px auto;
+      text-align: center;
+    }
+    .custom-button a {
+      padding: 5px 10px;
+      font-size: 10px;
+      color: white;
+      background: black;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .custom-button a:hover {
+      background: white;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+
+<audio id="clickSound" preload="auto">
+  <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mpeg">
+</audio>
+
+<div id="dialogueContainer"></div>
+
+<script>
+const dialogues = [
+  {
+    name: 'Aria', color: 'blue', avatar: 'https://i.imgur.com/9OC7GRw.gif',
+    lines: ['* Hey there, my love.', '* Can I tell you something?'],
+    showArrow: true
+  },
+  {
+    name: 'Aria', color: 'blue', avatar: 'https://i.imgur.com/9OC7GRw.gif',
+    lines: ['* Today is no ordinary day...', "* It's YOUR birthday!", "* But I know... it hasn’t all been sunshine, has it?"],
+    showArrow: true
+  },
+  {
+    name: 'Aria', color: 'blue', avatar: 'https://i.imgur.com/9OC7GRw.gif',
+    lines: ["* You've been strong through so much.", "* And loving me? That’s not easy either."],
+    showArrow: true
+  },
+  {
+    name: 'Aria', color: 'blue', avatar: 'https://i.imgur.com/9OC7GRw.gif',
+    lines: ["* But if you’re willing...", "* Let’s go on a little journey together.", "* One that leads back to me.", "* Ready to begin?"],
+    button: { text: 'Press Start', href: '#section03' }, showArrow: false
+  },
+  {
+    name: 'Mewby', color: 'yellow', avatar: 'https://64.media.tumblr.com/647ca06c5a608d1ea1c416b21b839ea3/9a98a57c72a06121-2a/s250x400/7f925df3ce70975efc97a7f0ffac27ea3838ae3e.gif',
+    lines: ["* I'm MEWBY", "* MEWBY the CAT!", "* Be glad to meet me!"],
+    showArrow: true
+  },
+  {
+    name: 'Mewby', color: 'yellow', avatar: 'https://64.media.tumblr.com/0be11728688453f02b9597af36145703/9a98a57c72a06121-bf/s250x400/a3472ea75630067f2203dec21d9475cc3c797713.gif',
+    lines: ["* I'm your pixel purr-tner for today!", "* A new journey lies ahead...", "* Do you have what it takes to face what's coming?!"],
+    button: { text: "I'm ready!", href: "#decode" }, showArrow: false
+  }
+];
+
+const container = document.getElementById("dialogueContainer");
+const sound = document.getElementById("clickSound");
+let current = 0;
+
+function typeLines(lines, containerEl, arrowEl, done) {
+  let i = 0;
+  function typeLine(line, cb) {
+    const p = document.createElement("p");
+    containerEl.appendChild(p);
+    let charIdx = 0;
+    function typeChar() {
+      if (charIdx < line.length) {
+        p.innerHTML += line.charAt(charIdx);
+        charIdx++;
+        setTimeout(typeChar, 50);
+      } else {
+        cb();
+      }
+    }
+    typeChar();
+  }
+  function typeAll() {
+    if (i < lines.length) {
+      typeLine(lines[i], () => {
+        i++;
+        setTimeout(typeAll, 300);
+      });
+    } else {
+      if (arrowEl) arrowEl.classList.add("visible");
+      done && done();
+    }
+  }
+  typeAll();
+}
+
+function createDialogue(d, i) {
+  const wrap = document.createElement("div");
+  wrap.className = "dialogue-wrapper" + (i === 0 ? " active" : "");
+  const avatar = document.createElement("img");
+  avatar.className = "dialogue-avatar";
+  avatar.src = d.avatar;
+  const text = document.createElement("div");
+  text.className = "dialogue-text";
+  const name = document.createElement("span");
+  name.className = "dialogue-name" + (d.color === "yellow" ? " yellow" : "");
+  name.textContent = d.name;
+  const linesBox = document.createElement("div");
+  linesBox.className = "dialogue-lines";
+  text.appendChild(name);
+  text.appendChild(linesBox);
+  wrap.appendChild(avatar);
+  wrap.appendChild(text);
+  container.appendChild(wrap);
+
+  let arrow;
+  if (d.showArrow) {
+    arrow = document.createElement("button");
+    arrow.className = "riddle-arrow";
+    arrow.innerHTML = "&#9660;";
+    container.appendChild(arrow);
+    arrow.addEventListener("click", () => {
+      sound.currentTime = 0;
+      sound.play();
+      wrap.classList.remove("active");
+      if (arrow) arrow.classList.remove("visible");
+      const nextWrap = container.children[(i + 1) * 2];
+      nextWrap.classList.add("active");
+      const nextArrow = container.children[(i + 1) * 2 + 1];
+      typeLines(dialogues[i + 1].lines, nextWrap.querySelector(".dialogue-lines"), nextArrow);
+    });
+  }
+
+  if (d.button) {
+    const btnWrap = document.createElement("div");
+    btnWrap.className = "custom-button";
+    const btn = document.createElement("a");
+    btn.href = d.button.href;
+    btn.textContent = d.button.text;
+    btnWrap.appendChild(btn);
+    container.appendChild(btnWrap);
+    setTimeout(() => {
+      typeLines(d.lines, linesBox, null);
+      btnWrap.style.display = "block";
+      btn.addEventListener("click", () => {
+        sound.currentTime = 0;
+        sound.play();
+      });
+    }, 100);
+  } else {
+    setTimeout(() => {
+      typeLines(d.lines, linesBox, arrow);
+    }, 100);
+  }
+}
+
+dialogues.forEach((d, i) => createDialogue(d, i));
+</script>
+
+</body>
+</html>
