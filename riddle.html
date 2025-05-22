@@ -74,7 +74,7 @@
       margin-top: 2px;
     }
     .dialogue-lines {
-      margin-top: 6px; /* ADDS SPACE between name and first line */
+      margin-top: 6px;
     }
     .dialogue-lines p {
       margin: 0;
@@ -85,50 +85,39 @@
       color: #fff;
       text-shadow: 0 0 1px #000;
       letter-spacing: 0.01em;
+      font-weight: bold;
     }
-    .riddle-arrow {
-      position: absolute;
-      bottom: 7px;
-      right: 14px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 22px;
-      color: #fff;
-      text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000;
-      padding: 0;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
-      z-index: 2;
-      user-select: none;
-    }
-    .riddle-arrow.visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .riddle-arrow:focus { outline: none; }
-    .riddle-arrow:hover { filter: brightness(1.2); }
-    .riddle-ellipsis {
-      color: #fff;
-      font-family: 'Press Start 2P', monospace;
-      font-size: 18px;
-      letter-spacing: 7px;
+    .begin-btn-container {
+      width: 100%;
       text-align: center;
-      margin-top: 18px;
-      width: 540px;
-      user-select: none;
-      text-shadow: 0 0 2px #000;
-      transition: opacity 0.3s;
-      opacity: 0;
-      pointer-events: none;
+      margin-top: 32px;
+      z-index: 2;
     }
-    .riddle-ellipsis.visible {
-      opacity: 1;
-      pointer-events: auto;
+    .begin-btn {
+      display: inline-block;
+      padding: 4px 16px 4px 16px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 14px;
+      color: #fff;
+      background: #000;
+      border: 2px solid transparent;
+      border-radius: 2px;
+      cursor: pointer;
+      outline: none;
+      transition: border 0.15s, color 0.15s, background 0.15s;
+      text-decoration: none;
+      text-align: center;
+      margin: 0 auto;
+      box-sizing: border-box;
+      text-shadow: 0 0 1px #000;
+    }
+    .begin-btn:hover, .begin-btn:focus {
+      border: 2px solid #fff;
+      color: #fff;
+      background: #000;
     }
     @media (max-width: 650px) {
-      .dialogue-wrapper, .riddle-ellipsis { width: 99vw; min-width: 0; max-width: 99vw; }
+      .dialogue-wrapper { width: 99vw; min-width: 0; max-width: 99vw; }
     }
   </style>
 </head>
@@ -141,7 +130,6 @@
         <span class="dialogue-name">Mewby</span>
         <div class="dialogue-lines" id="riddleLines1"></div>
       </div>
-      <button class="riddle-arrow" id="arrow1" aria-label="Next">&#9660;</button>
     </div>
     <!-- Riddle 2 -->
     <div class="dialogue-wrapper" id="riddle2Box" style="display:none;">
@@ -150,7 +138,6 @@
         <span class="dialogue-name">Mewby</span>
         <div class="dialogue-lines" id="riddleLines2"></div>
       </div>
-      <button class="riddle-arrow" id="arrow2" aria-label="Next">&#9660;</button>
     </div>
     <!-- Riddle 3 -->
     <div class="dialogue-wrapper" id="riddle3Box" style="display:none;">
@@ -159,11 +146,11 @@
         <span class="dialogue-name">Mewby</span>
         <div class="dialogue-lines" id="riddleLines3"></div>
       </div>
-      <button class="riddle-arrow" id="arrow3" aria-label="Next">&#9660;</button>
     </div>
   </div>
-  <!-- Ellipsis for last screen -->
-  <div class="riddle-ellipsis" id="riddleEllipsis">....</div>
+  <div class="begin-btn-container" id="beginBtnContainer" style="display:none;">
+    <a href="https://frdffsdx.carrd.co/#decodepuzzle" class="begin-btn">Begin</a>
+  </div>
   <script>
     // Riddle data
     const riddles = [
@@ -173,8 +160,7 @@
           "* But not emptiness — something hums beneath."
         ],
         box: "riddle1Box",
-        linesId: "riddleLines1",
-        arrow: "arrow1"
+        linesId: "riddleLines1"
       },
       {
         lines: [
@@ -182,8 +168,7 @@
           "* Only memory. Only feeling."
         ],
         box: "riddle2Box",
-        linesId: "riddleLines2",
-        arrow: "arrow2"
+        linesId: "riddleLines2"
       },
       {
         lines: [
@@ -191,23 +176,17 @@
           "* Decode it. Let it lead you."
         ],
         box: "riddle3Box",
-        linesId: "riddleLines3",
-        arrow: "arrow3"
+        linesId: "riddleLines3"
       }
     ];
 
     let current = 0;
 
-    function typeLines(riddleIdx) {
+    function typeLines(riddleIdx, cb) {
       const r = riddles[riddleIdx];
       const lines = r.lines;
       const container = document.getElementById(r.linesId);
-      const arrow = document.getElementById(r.arrow);
-      const ellipsis = document.getElementById("riddleEllipsis");
       container.innerHTML = '';
-      arrow.classList.remove('visible');
-      ellipsis.classList.remove('visible');
-      arrow.style.pointerEvents = "none";
       let lineIndex = 0;
 
       function typeLine(line, callback) {
@@ -233,14 +212,7 @@
             setTimeout(typeAllLines, 400);
           });
         } else {
-          setTimeout(() => {
-            if (riddleIdx < riddles.length - 1) {
-              arrow.classList.add('visible');
-              arrow.style.pointerEvents = "auto";
-            } else {
-              ellipsis.classList.add('visible');
-            }
-          }, 350);
+          setTimeout(cb, 500);
         }
       }
       typeAllLines();
@@ -250,19 +222,14 @@
       riddles.forEach((r, i) => {
         document.getElementById(r.box).style.display = (i === idx) ? "flex" : "none";
       });
-      typeLines(idx);
-    }
-
-    riddles.forEach((r, i) => {
-      const arrow = document.getElementById(r.arrow);
-      if (arrow) {
-        arrow.addEventListener('click', () => {
-          if (i < riddles.length - 1) {
-            showRiddle(i + 1);
-          }
+      if (idx < riddles.length - 1) {
+        typeLines(idx, () => showRiddle(idx + 1));
+      } else {
+        typeLines(idx, () => {
+          document.getElementById("beginBtnContainer").style.display = "block";
         });
       }
-    });
+    }
 
     // Start the sequence
     window.onload = () => { showRiddle(0); };
