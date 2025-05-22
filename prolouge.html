@@ -58,6 +58,8 @@
       width: 64px;
       height: 64px;
       image-rendering: pixelated;
+      /* Moved slightly to the right by increasing margin-left */
+      margin-left: 12px;
       margin-right: 22px;
       flex-shrink: 0;
     }
@@ -236,7 +238,6 @@
     }
 
     function setNameFontSize(name) {
-      // Add the big-name class for Aria or Mewby, remove otherwise
       if (name === 'Aria' || name === 'Mewby') {
         nameEl.classList.add('big-name');
       } else {
@@ -309,13 +310,11 @@
     btn.addEventListener("click", function(e) {
       arrowSound.currentTime = 0;
       arrowSound.play();
-      // If this is the last dialogue (last button), let the link redirect
       if (dialogueIdx < dialogues.length - 1) {
         e.preventDefault();
         btnContainer.style.display = "none";
         nextDialogue();
       }
-      // Otherwise, let the browser follow the href (for last button)
     });
 
     window.onload = () => {
