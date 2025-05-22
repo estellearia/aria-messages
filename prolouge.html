@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <title>Birthday Dialogue Sequence</title>
   <meta name="viewport" content="width=1024">
+  <!-- Optional: Preload avatars for extra speed -->
+  <link rel="preload" as="image" href="https://i.imgur.com/9OC7GRw.gif">
+  <link rel="preload" as="image" href="https://64.media.tumblr.com/647ca06c5a608d1ea1c416b21b839ea3/9a98a57c72a06121-2a/s250x400/7f925df3ce70975efc97a7f0ffac27ea3838ae3e.gif">
+  <link rel="preload" as="image" href="https://64.media.tumblr.com/0be11728688453f02b9597af36145703/9a98a57c72a06121-bf/s250x400/a3472ea75630067f2203dec21d9475cc3c797713.gif">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
     html, body {
@@ -80,7 +84,7 @@
       margin-top: 6px;
     }
     .dialogue-lines p {
-      margin: 0;
+      margin: 0 0 6px 0; /* more readable spacing */
       padding: 0;
       font-size: 10px;
       line-height: 1.8;
@@ -143,6 +147,14 @@
       }
     }
   </style>
+  <script>
+    // Preload dialogue avatars so they are ready instantly when swapped
+    [
+      'https://i.imgur.com/9OC7GRw.gif',
+      'https://64.media.tumblr.com/647ca06c5a608d1ea1c416b21b839ea3/9a98a57c72a06121-2a/s250x400/7f925df3ce70975efc97a7f0ffac27ea3838ae3e.gif',
+      'https://64.media.tumblr.com/0be11728688453f02b9597af36145703/9a98a57c72a06121-bf/s250x400/a3472ea75630067f2203dec21d9475cc3c797713.gif'
+    ].forEach(url => { const img = new Image(); img.src = url; });
+  </script>
 </head>
 <body>
   <!-- Shared Audio -->
@@ -165,36 +177,29 @@
   </div>
 
   <script>
-
-    // Preload dialogue avatars so they are ready instantly when swapped
-['https://i.imgur.com/9OC7GRw.gif',
- 'https://64.media.tumblr.com/647ca06c5a608d1ea1c416b21b839ea3/9a98a57c72a06121-2a/s250x400/7f925df3ce70975efc97a7f0ffac27ea3838ae3e.gif',
- 'https://64.media.tumblr.com/0be11728688453f02b9597af36145703/9a98a57c72a06121-bf/s250x400/a3472ea75630067f2203dec21d9475cc3c797713.gif'
-].forEach(url => { const img = new Image(); img.src = url; });
-    
     // Dialogue sequence as requested
     const dialogues = [
       // ARIA 1
       {
-        name: 'Aria', color: '#87cefa', avatar: 'https://i.imgur.com/9OC7GRw.gif',
+        name: 'Aria', color: '#40b2ff', avatar: 'https://i.imgur.com/9OC7GRw.gif',
         lines: ['* Hey there, my love.', '* Can I tell you something?'],
         showArrow: true
       },
       // ARIA 2
       {
-        name: 'Aria', color: '#87cefa', avatar: 'https://i.imgur.com/9OC7GRw.gif',
+        name: 'Aria', color: '#40b2ff', avatar: 'https://i.imgur.com/9OC7GRw.gif',
         lines: ['* Today is no ordinary day...', "* It's YOUR birthday!", "* But I know... it hasn’t all been sunshine, has it?"],
         showArrow: true
       },
       // ARIA 3
       {
-        name: 'Aria', color: '#87cefa', avatar: 'https://i.imgur.com/9OC7GRw.gif',
+        name: 'Aria', color: '#40b2ff', avatar: 'https://i.imgur.com/9OC7GRw.gif',
         lines: ["* You've been strong through so much.", "* And loving me? That’s not easy either."],
         showArrow: true
       },
       // ARIA 4 - Button ("Press Start")
       {
-        name: 'Aria', color: '#87cefa', avatar: 'https://i.imgur.com/9OC7GRw.gif',
+        name: 'Aria', color: '#40b2ff', avatar: 'https://i.imgur.com/9OC7GRw.gif',
         lines: ["* But if you’re willing...", "* Let’s go on a little journey together.", "* One that leads back to me.", "* Ready to begin?"],
         button: { text: 'Press Start', href: '#section03' }, showArrow: false
       },
@@ -224,7 +229,7 @@
     let dialogueIdx = 0;
 
     function setNameColor(color) {
-      nameEl.style.color = (color === '#ffeb3b') ? '#ffeb3b' : (color === '#87cefa') ? '#40b2ff' : '#fff';
+      nameEl.style.color = color;
     }
 
     function typeLines(idx, cb) {
