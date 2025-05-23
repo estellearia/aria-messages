@@ -19,7 +19,6 @@
       overflow: hidden;
       position: relative;
     }
-    /* Pixelated background grid */
     .bg-pixels {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -30,7 +29,6 @@
         repeating-linear-gradient(0deg, #232323 0px, #232323 1px, transparent 1px, transparent 5px),
         repeating-linear-gradient(90deg, #232323 0px, #232323 1px, transparent 1px, transparent 5px);
     }
-    /* Floating pixel fragments for ambient effect */
     .fragment-float {
       position: fixed;
       width: 7px; height: 7px;
@@ -98,7 +96,6 @@
       border-radius: 1px;
       margin: 0 0.5px;
     }
-    /* Heart pixel map: 5 rows */
     .pixel-heart .row1 { margin-left: 3px; }
     .pixel-heart .row5 { margin-left: 6px; }
     .pixel-heart .row1 .ph-px:not(:nth-child(2)):not(:nth-child(3)) { opacity: 0; }
@@ -164,9 +161,7 @@
   </style>
 </head>
 <body>
-  <!-- Pixel grid background -->
   <div class="bg-pixels"></div>
-  <!-- Floating pixel fragments (background) -->
   <div class="fragment-float fg1"></div>
   <div class="fragment-float fg2"></div>
   <div class="fragment-float fg3"></div>
@@ -175,7 +170,6 @@
   <div class="title-container">
     <div class="game-title">
       FRAGMENTS
-      <!-- Pixel heart icon: pure CSS/HTML, 5x5 "pixels" -->
       <span class="pixel-heart" aria-label="heart" title="data fragment">
         <span class="ph-row row1">
           <span class="ph-px"></span><span class="ph-px"></span>
@@ -199,9 +193,9 @@
       A black & white pixel journey.<br>
       Collect data fragments. Reach Aria.
     </div>
-    <button class="start-btn" onclick="alert('Game Starting!')">
+    <a class="start-btn" href="prolouge.html#mewby">
       ▶ START
-    </button>
+    </a>
   </div>
   <div class="footer-credit">by estellearia</div>
 </body>
