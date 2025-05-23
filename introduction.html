@@ -1,30 +1,127 @@
-import React from "react";
-import "./TitleScreen.css";
-
-export default function TitleScreen({ onStart }) {
-  return (
-    <div className="title-root">
-      <div className="title-frame">
-        <h1 className="pixel-title">
-          FRAGMENTS <span className="signal-fragment" />
-          <br />
-          OF US
-        </h1>
-        <div className="fragment-bar">
-          {/* Example: three colored fragments */}
-          <span className="signal-dot fragment1"></span>
-          <span className="signal-dot fragment2"></span>
-          <span className="signal-dot fragment3"></span>
-        </div>
-        <p className="pixel-desc">
-          A pixelated journey. Collect signal fragments.<br />
-          Find your way to Aria.
-        </p>
-        <button className="pixel-btn" onClick={onStart}>
-          ▶ START
-        </button>
-      </div>
-      <div className="footer-credit">by estellearia</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fragments of Us</title>
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+  <style>
+    body {
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+      font-family: 'Press Start 2P', monospace;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+    .title-frame {
+      border: 4px solid #fff;
+      padding: 48px 32px 32px 32px;
+      margin-top: 40px;
+      box-shadow: 0 0 0 8px #000, 0 0 24px 0 #333;
+      background: #111;
+      text-align: center;
+    }
+    .pixel-title {
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+      line-height: 1.2;
+      position: relative;
+    }
+    .signal-fragment {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border-radius: 3px;
+      background: linear-gradient(90deg, #00ffe7, #ff5cf0, #fffc00);
+      margin: 0 6px -4px 6px;
+      box-shadow: 0 0 6px #fffc00, 0 0 12px #ff5cf0;
+      animation: fragment-glow 2s infinite alternate;
+    }
+    @keyframes fragment-glow {
+      0% { box-shadow: 0 0 6px #fffc00, 0 0 12px #00ffe7; }
+      100% { box-shadow: 0 0 16px #ff5cf0, 0 0 24px #fffc00; }
+    }
+    .fragment-bar {
+      margin: 18px 0 10px 0;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+    }
+    .signal-dot {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border-radius: 2px;
+      box-shadow: 0 0 6px 2px currentColor, 0 0 0 2px #000;
+      animation: dot-blink 1.4s infinite alternate;
+    }
+    .fragment1 { background: #00ffe7; color: #00ffe7; animation-delay: 0s; }
+    .fragment2 { background: #ff5cf0; color: #ff5cf0; animation-delay: 0.3s; }
+    .fragment3 { background: #fffc00; color: #fffc00; animation-delay: 0.6s; }
+    @keyframes dot-blink {
+      0% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+    .pixel-desc {
+      margin: 18px 0;
+      font-size: 1rem;
+      color: #bbb;
+      letter-spacing: 0.5px;
+    }
+    .pixel-btn {
+      font-family: 'Press Start 2P', monospace;
+      background: #fff;
+      color: #000;
+      border: 2px solid #fffc00;
+      border-radius: 4px;
+      font-size: 1.1rem;
+      padding: 12px 40px;
+      cursor: pointer;
+      margin-top: 12px;
+      box-shadow: 0 0 8px #fffc00;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      animation: btn-pulse 1.2s infinite alternate;
+    }
+    .pixel-btn:hover {
+      background: #fffc00;
+      color: #000;
+      box-shadow: 0 0 16px #ff5cf0;
+    }
+    @keyframes btn-pulse {
+      from { box-shadow: 0 0 8px #fffc00; }
+      to { box-shadow: 0 0 18px #ff5cf0, 0 0 24px #00ffe7; }
+    }
+    .footer-credit {
+      margin-top: 38px;
+      font-size: 0.85rem;
+      color: #444;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <div class="title-frame">
+    <h1 class="pixel-title">
+      FRAGMENTS <span class="signal-fragment"></span><br>
+      OF US
+    </h1>
+    <div class="fragment-bar">
+      <span class="signal-dot fragment1"></span>
+      <span class="signal-dot fragment2"></span>
+      <span class="signal-dot fragment3"></span>
     </div>
-  );
-}
+    <p class="pixel-desc">
+      A pixelated journey. Collect signal fragments.<br>
+      Find your way to Aria.
+    </p>
+    <button class="pixel-btn" onclick="alert('Game Starting!')">
+      ▶ START
+    </button>
+  </div>
+  <div class="footer-credit">by estellearia</div>
+</body>
+</html>
