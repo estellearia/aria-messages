@@ -9,17 +9,55 @@
       background: #000;
       color: #fff;
       font-family: 'Press Start 2P', monospace;
-      margin: 0;
       min-height: 100vh;
+      margin: 0;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       image-rendering: pixelated;
+      overflow: hidden;
+      /* Subtle vignette for depth, Undertale feel */
+      position: relative;
+    }
+
+    /* Pixelated background "noise" */
+    .bg-pixels {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.7;
+      background-image: 
+        repeating-linear-gradient(0deg, #232323 0px, #232323 1px, transparent 1px, transparent 4px),
+        repeating-linear-gradient(90deg, #232323 0px, #232323 1px, transparent 1px, transparent 4px);
+      /* Simple pixel grid */
+    }
+
+    /* Random floating pixel fragments (animated) */
+    .fragment-float {
+      position: fixed;
+      width: 7px; height: 7px;
+      background: #fff;
+      opacity: 0.16;
+      border-radius: 1px;
+      image-rendering: pixelated;
+      z-index: 1;
+      animation: float-frag 8s linear infinite;
+    }
+    .fragment-float.fg1 { left: 18vw; top: 80vh; animation-delay: 0s; }
+    .fragment-float.fg2 { left: 74vw; top: 77vh; animation-delay: 3s; }
+    .fragment-float.fg3 { left: 48vw; top: 12vh; animation-delay: 1.2s; }
+    .fragment-float.fg4 { left: 62vw; top: 40vh; animation-delay: 2.1s; }
+    .fragment-float.fg5 { left: 29vw; top: 16vh; animation-delay: 4s; }
+    @keyframes float-frag {
+      0% { transform: translateY(0) scale(1); opacity: 0.16;}
+      50% { opacity: 0.26;}
+      100% { transform: translateY(-60px) scale(1.2); opacity: 0.10;}
     }
 
     .title-container {
-      border: 2px solid #fff;
+      border: 2.5px solid #fff;
       background: #111;
       border-radius: 6px;
       padding: 28px 16px 20px 16px;
@@ -27,53 +65,38 @@
       margin-top: 30px;
       text-align: center;
       position: relative;
+      z-index: 2;
+      box-shadow: 0 0 0 5px #000, 0 0 12px #0a0a0a;
+      /* Undertale: subtle white border, blocky box */
     }
 
     .game-title {
-      font-size: 1.1rem;
+      font-size: 1.13rem;
       letter-spacing: 1px;
       margin-bottom: 7px;
       margin-top: 0;
-      line-height: 1.25;
+      line-height: 1.2;
       font-weight: normal;
-      text-shadow: 0 1px 0 #000;
+      text-shadow: 0 1.5px 0 #000;
       display: block;
-    }
-
-    .pixel-heart {
-      display: inline-block;
-      width: 18px;
-      height: 18px;
-      margin: 0 6px -4px 6px;
       position: relative;
-      animation: heart-blink 0.9s steps(2, end) infinite;
     }
 
-    .pixel-heart::before,
-    .pixel-heart::after {
-      content: '';
-      position: absolute;
+    .pixel-fragment {
+      display: inline-block;
+      width: 13px;
+      height: 13px;
+      margin: 0 6px -4px 6px;
       background: #fff;
-      border-radius: 1px;
+      border-radius: 2px;
+      box-shadow: 0 0 5px #fff, 0 0 18px #fff;
+      image-rendering: pixelated;
+      animation: frag-blink 1.15s steps(2, end) infinite;
+      vertical-align: middle;
     }
-
-    .pixel-heart::before {
-      width: 6px;
-      height: 10px;
-      left: 6px;
-      top: 6px;
-    }
-
-    .pixel-heart::after {
-      width: 10px;
-      height: 6px;
-      left: 4px;
-      top: 2px;
-    }
-
-    @keyframes heart-blink {
+    @keyframes frag-blink {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
+      55% { opacity: 0.18; }
     }
 
     .desc {
@@ -81,7 +104,8 @@
       font-size: 0.68rem;
       margin: 6px 0 16px 0;
       line-height: 1.5;
-      letter-spacing: 0.2px;
+      letter-spacing: 0.1px;
+      text-shadow: 0 1px 0 #000;
     }
 
     .start-btn {
@@ -92,9 +116,13 @@
       font-size: 0.88rem;
       padding: 8px 30px;
       cursor: pointer;
-      box-shadow: 0 0 0 1px #000;
-      animation: btn-flash 1s steps(1, end) infinite;
+      box-shadow: 0 0 0 2px #000;
+      border-radius: 2.5px;
+      margin-top: 0;
+      margin-bottom: 0;
+      animation: btn-flash 1.13s steps(1, end) infinite;
       transition: none;
+      text-shadow: 0 1px 0 #fff3;
     }
 
     .start-btn:hover, .start-btn:focus {
@@ -105,31 +133,43 @@
     }
 
     @keyframes btn-flash {
-      0%   { box-shadow: 0 0 0 1px #000; }
-      50%  { box-shadow: 0 0 0 3px #fff; }
-      100% { box-shadow: 0 0 0 1px #000; }
+      0%   { box-shadow: 0 0 0 2px #000; }
+      50%  { box-shadow: 0 0 0 4px #fff; }
+      100% { box-shadow: 0 0 0 2px #000; }
     }
 
     .footer-credit {
       margin-top: 16px;
-      font-size: 0.78rem;
+      font-size: 0.74rem;
       color: #444;
       text-align: center;
       opacity: 0.8;
       letter-spacing: 0.8px;
+      z-index: 2;
+      text-shadow: 0 1px 0 #000;
+      user-select: none;
     }
 
     @media (max-width: 450px) {
       .title-container { padding: 10px 2vw 10px 2vw; }
-      .game-title { font-size: 0.83rem; }
+      .game-title { font-size: 0.90rem; }
       .desc { font-size: 0.63rem; }
     }
   </style>
 </head>
 <body>
+  <!-- Pixel grid background -->
+  <div class="bg-pixels"></div>
+  <!-- Floating pixel data fragments -->
+  <div class="fragment-float fg1"></div>
+  <div class="fragment-float fg2"></div>
+  <div class="fragment-float fg3"></div>
+  <div class="fragment-float fg4"></div>
+  <div class="fragment-float fg5"></div>
+  <!-- Main UI -->
   <div class="title-container">
     <div class="game-title">
-      FRAGMENTS<span class="pixel-heart"></span>OF US
+      FRAGMENTS<span class="pixel-fragment"></span>OF US
     </div>
     <div class="desc">
       A black & white pixel journey.<br>
