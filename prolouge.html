@@ -120,6 +120,31 @@
     .riddle-arrow:hover {
       filter: brightness(1.2);
     }
+    .btn-container {
+      width: 100%;
+      text-align: center;
+      margin-top: 16px;
+      z-index: 2;
+      display: none;
+    }
+    .begin-btn {
+      display: inline-block;
+      padding: 5px 10px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      color: #fff;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      outline: none;
+      text-decoration: none;
+      text-align: center;
+      text-shadow: 0 0 0px #000;
+    }
+    .begin-btn:hover {
+      background: white;
+      color: black;
+    }
     @media (max-width: 650px) {
       .dialogue-wrapper {
         width: 99vw;
@@ -150,6 +175,9 @@
         <div class="dialogue-lines" id="dialogueLines"></div>
       </div>
       <button class="riddle-arrow" id="dialogueArrow" aria-label="Next">&#9660;</button>
+    </div>
+    <div class="btn-container" id="btnContainer" style="display:none;">
+      <a href="#" class="begin-btn" id="dialogueBtn">Button</a>
     </div>
   </div>
 
@@ -190,7 +218,7 @@
       // MEWBY 2 - Button ("I'm ready!")
       {
         name: 'Mewby', color: '#ffeb3b', avatar: 'https://64.media.tumblr.com/0be11728688453f02b9597af36145703/9a98a57c72a06121-bf/s250x400/a3472ea75630067f2203dec21d9475cc3c797713.gif',
-        lines: ["* Mewby will guide you as you play, collect fragments, and discover Aria’s message", "* Ready to start?"],
+        lines: ["* Mewby will guide you as you play, collect fragments, and discover Aria’s message.", "* Ready to start?"],
         button: { text: "I'm ready!", href: "https://estellearia.github.io/aria-messages/signal.html" }, showArrow: false
       }
     ];
@@ -201,6 +229,8 @@
     const nameEl = document.getElementById("dialogueName");
     const linesEl = document.getElementById("dialogueLines");
     const arrowBtn = document.getElementById("dialogueArrow");
+    const btnContainer = document.getElementById("btnContainer");
+    const btn = document.getElementById("dialogueBtn");
 
     let dialogueIdx = 0;
 
@@ -231,6 +261,7 @@
       setNameFontSize(d.name);
       linesEl.innerHTML = '';
       arrowBtn.classList.remove('visible');
+      btnContainer.style.display = "none";
       let lineIndex = 0;
 
       function typeLine(line, callback) {
@@ -267,6 +298,10 @@
                 window.location.href = d.redirect;
               }
             }, 700); // slight delay for dramatic effect
+          } else if (d.button) {
+            btn.textContent = d.button.text;
+            btn.href = d.button.href;
+            btnContainer.style.display = "block";
           }
           if (cb) cb();
         }
@@ -286,6 +321,26 @@
       arrowSound.play();
       arrowBtn.classList.remove('visible');
       nextDialogue();
+    });
+
+    btn.addEventListener("click", function(e) {
+      arrowSound.currentTime = 0;
+      arrowSound.play();
+      const currentDialogue = dialogues[dialogueIdx];
+      if (currentDialogue.button && currentDialogue.button.href) {
+        if (window.top !== window.self) {
+          window.top.location.href = currentDialogue.button.href;
+        } else {
+          window.location.href = currentDialogue.button.href;
+        }
+        e.preventDefault();
+        return false;
+      }
+      if (dialogueIdx < dialogues.length - 1) {
+        e.preventDefault();
+        btnContainer.style.display = "none";
+        nextDialogue();
+      }
     });
 
     window.onload = () => {
