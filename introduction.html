@@ -130,12 +130,15 @@
       animation: btn-flash 1.13s steps(1, end) infinite;
       transition: none;
       text-shadow: 0 1px 0 #fff3;
+      display: inline-block;
+      text-decoration: none; /* <--- REMOVE underline */
     }
     .start-btn:hover, .start-btn:focus {
       background: #000;
       color: #fff;
       outline: none;
       border: 2px solid #fff;
+      text-decoration: none; /* <--- REMOVE underline on hover/focus */
     }
     @keyframes btn-flash {
       0%   { box-shadow: 0 0 0 2px #000; }
