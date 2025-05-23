@@ -1,0 +1,30 @@
+import React from "react";
+import "./TitleScreen.css";
+
+export default function TitleScreen({ onStart }) {
+  return (
+    <div className="title-root">
+      <div className="title-frame">
+        <h1 className="pixel-title">
+          FRAGMENTS <span className="signal-fragment" />
+          <br />
+          OF US
+        </h1>
+        <div className="fragment-bar">
+          {/* Example: three colored fragments */}
+          <span className="signal-dot fragment1"></span>
+          <span className="signal-dot fragment2"></span>
+          <span className="signal-dot fragment3"></span>
+        </div>
+        <p className="pixel-desc">
+          A pixelated journey. Collect signal fragments.<br />
+          Find your way to Aria.
+        </p>
+        <button className="pixel-btn" onClick={onStart}>
+          ▶ START
+        </button>
+      </div>
+      <div className="footer-credit">by estellearia</div>
+    </div>
+  );
+}
