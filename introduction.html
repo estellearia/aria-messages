@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Fragments of Us</title>
-  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
   <style>
     body {
       background: #000;
@@ -15,119 +15,114 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
+      image-rendering: pixelated;
     }
 
     .title-container {
       border: 2px solid #fff;
       background: #111;
-      border-radius: 8px;
-      box-shadow: 0 0 0 6px #000, 0 0 10px #222;
+      border-radius: 6px;
       padding: 28px 16px 20px 16px;
-      max-width: 90vw;
+      max-width: 95vw;
+      margin-top: 30px;
       text-align: center;
       position: relative;
     }
 
     .game-title {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       letter-spacing: 1px;
-      margin-bottom: 10px;
+      margin-bottom: 7px;
       margin-top: 0;
       line-height: 1.25;
-      text-shadow: 0 2px 0 #000;
+      font-weight: normal;
+      text-shadow: 0 1px 0 #000;
+      display: block;
     }
 
     .pixel-heart {
       display: inline-block;
       width: 18px;
       height: 18px;
-      vertical-align: middle;
       margin: 0 6px -4px 6px;
       position: relative;
-      animation: heart-blink 1.2s steps(1, end) infinite;
+      animation: heart-blink 0.9s steps(2, end) infinite;
     }
+
     .pixel-heart::before,
     .pixel-heart::after {
       content: '';
       position: absolute;
-      background: #ff4d6d;
+      background: #fff;
+      border-radius: 1px;
     }
+
     .pixel-heart::before {
       width: 6px;
       height: 10px;
       left: 6px;
       top: 6px;
-      border-radius: 2px;
     }
+
     .pixel-heart::after {
       width: 10px;
       height: 6px;
       left: 4px;
       top: 2px;
-      border-radius: 2px;
     }
 
     @keyframes heart-blink {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.2; }
+      50% { opacity: 0; }
     }
 
     .desc {
       color: #b6b6b6;
-      font-size: 0.70rem;
-      margin: 10px 0 18px 0;
-      line-height: 1.6;
-      letter-spacing: 0.3px;
-      animation: flicker 2s infinite alternate;
+      font-size: 0.68rem;
+      margin: 6px 0 16px 0;
+      line-height: 1.5;
+      letter-spacing: 0.2px;
     }
 
     .start-btn {
       font-family: 'Press Start 2P', monospace;
       background: #fff;
-      color: #111;
+      color: #000;
       border: 2px solid #fff;
-      border-radius: 3px;
-      font-size: 0.90rem;
+      font-size: 0.88rem;
       padding: 8px 30px;
       cursor: pointer;
-      margin: 0;
-      box-shadow: 0 0 6px #fff;
-      transition: background 0.18s, color 0.18s, box-shadow 0.18s;
-      animation: btn-pulse 1.4s infinite alternate;
+      box-shadow: 0 0 0 1px #000;
+      animation: btn-flash 1s steps(1, end) infinite;
+      transition: none;
     }
 
-    .start-btn:hover,
-    .start-btn:focus {
-      background: #111;
+    .start-btn:hover, .start-btn:focus {
+      background: #000;
       color: #fff;
-      box-shadow: 0 0 14px #fff;
+      outline: none;
+      border: 2px solid #fff;
     }
 
-    @keyframes btn-pulse {
-      from { box-shadow: 0 0 6px #fff; }
-      to { box-shadow: 0 0 11px #fff, 0 0 8px #fff; }
-    }
-
-    @keyframes flicker {
-      0% { opacity: 0.95; }
-      50% { opacity: 0.8; }
-      100% { opacity: 0.93; }
+    @keyframes btn-flash {
+      0%   { box-shadow: 0 0 0 1px #000; }
+      50%  { box-shadow: 0 0 0 3px #fff; }
+      100% { box-shadow: 0 0 0 1px #000; }
     }
 
     .footer-credit {
-      margin-top: 18px;
-      font-size: 0.75rem;
-      color: #333;
+      margin-top: 16px;
+      font-size: 0.78rem;
+      color: #444;
       text-align: center;
-      opacity: 0.85;
+      opacity: 0.8;
       letter-spacing: 0.8px;
     }
 
     @media (max-width: 450px) {
-      .title-container { padding: 14px 4vw; }
-      .game-title { font-size: 0.84rem; }
-      .desc { font-size: 0.65rem; }
+      .title-container { padding: 10px 2vw 10px 2vw; }
+      .game-title { font-size: 0.83rem; }
+      .desc { font-size: 0.63rem; }
     }
   </style>
 </head>
@@ -137,13 +132,13 @@
       FRAGMENTS<span class="pixel-heart"></span>OF US
     </div>
     <div class="desc">
-      A fractured path through memory and time.<br>
-      Overcome the noise. Choose her every time.
+      A black & white pixel journey.<br>
+      Collect data fragments. Reach Aria.
     </div>
-    <button class="start-btn" onclick="alert('Loading journey...')">
-      ▶ CONTINUE
+    <button class="start-btn" onclick="alert('Game Starting!')">
+      ▶ START
     </button>
   </div>
-  <div class="footer-credit">made with love by estellearia</div>
+  <div class="footer-credit">by estellearia</div>
 </body>
 </html>
