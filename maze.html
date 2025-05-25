@@ -22,7 +22,7 @@
       overflow-x: hidden;
     }
 
-    /* Pixelated, maze-inspired, black-and-white background */
+    /* Real maze pixelated background using a tiny SVG maze tile */
     .maze-bg {
       position: fixed;
       left: 0; top: 0;
@@ -32,46 +32,13 @@
       pointer-events: none;
       image-rendering: pixelated;
       background:
-        /* Maze horizontal walls (alternating thick/thin) */
-        repeating-linear-gradient(
-          180deg,
-          #222 0px, #222 4px, 
-          transparent 4px, transparent 16px, 
-          #444 16px, #444 18px, 
-          transparent 18px, transparent 32px
-        ),
-        /* Maze vertical walls (alternating thick/thin, offset) */
-        repeating-linear-gradient(
-          90deg,
-          #222 0px, #222 4px, 
-          transparent 4px, transparent 16px, 
-          #444 16px, #444 18px, 
-          transparent 18px, transparent 32px
-        ),
-        /* Maze "offset" for pixel effect */
-        repeating-linear-gradient(
-          180deg,
-          transparent 0 8px,
-          #222 8px 10px,
-          transparent 10px 16px,
-          #444 16px 18px,
-          transparent 18px 32px
-        ),
-        repeating-linear-gradient(
-          90deg,
-          transparent 0 8px,
-          #222 8px 10px,
-          transparent 10px 16px,
-          #444 16px 18px,
-          transparent 18px 32px
-        ),
-        /* Subtle pixel "noise" */
-        repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 8px),
-        repeating-linear-gradient(90deg, rgba(255,255,255,0.02) 0 1px, transparent 1px 8px),
-        /* Vignette for focus */
-        radial-gradient(ellipse at center, rgba(0,0,0,0) 70%, #000 100%);
-      opacity: 0.21;
-      filter: contrast(1.12) brightness(1.02);
+        url('data:image/svg+xml;utf8,<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" fill="white"/><rect x="0" y="0" width="32" height="4" fill="black"/><rect x="0" y="28" width="32" height="4" fill="black"/><rect x="0" y="0" width="4" height="16" fill="black"/><rect x="28" y="16" width="4" height="16" fill="black"/><rect x="8" y="8" width="20" height="4" fill="black"/><rect x="8" y="8" width="4" height="16" fill="black"/><rect x="16" y="16" width="12" height="4" fill="black"/><rect x="16" y="20" width="4" height="8" fill="black"/></svg>');
+      background-size: 48px 48px;
+      background-repeat: repeat;
+      opacity: 0.20;
+      filter: contrast(1.1) brightness(1.01);
+      /* Vignette for eye comfort */
+      box-shadow: 0 0 0 9999px rgba(0,0,0,0.15) inset;
     }
 
     .dialogue-centerer {
