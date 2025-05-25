@@ -6,12 +6,11 @@
   <meta name="viewport" content="width=1024">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
     html, body {
       height: 100%;
       margin: 0;
       padding: 0;
-      background: #030a09;
+      background: #080e0c;
     }
     body {
       min-height: 100vh;
@@ -22,180 +21,171 @@
       align-items: center;
       overflow-x: hidden;
     }
-
-    .narration-overlay {
+    .dialogue-centerer {
       width: 100vw;
       height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       position: fixed;
       left: 0; top: 0;
-      display: flex;
+      z-index: 1;
       flex-direction: column;
-      justify-content: flex-end;
+    }
+    .dialogue-wrapper {
+      display: flex;
       align-items: center;
-      z-index: 2;
-      pointer-events: none;
-    }
-    .narration-box {
-      pointer-events: auto;
-      width: 600px;
-      max-width: 98vw;
-      margin-bottom: 4vh;
-      background: rgba(10,20,18,0.92);
-      border-radius: 16px;
-      border: 2.5px dashed #5fffd0;
-      box-shadow: 0 2px 30px #23cfa077, 0 0 0 2px #23cfa044 inset;
+      background: rgba(16,28,24,0.94);
+      color: #e0fff2;
+      border: 3px dashed #7fffd4;
+      box-sizing: border-box;
+      box-shadow: 0 0 8px #3ee7b7, 0 0 0 6px #0a0a0a;
       font-family: 'Press Start 2P', monospace;
-      color: #d8fff8;
-      font-size: 12px;
-      letter-spacing: 0.01em;
-      line-height: 2;
-      padding: 30px 34px 24px 34px;
+      font-size: 11px;
+      line-height: 1.9;
+      white-space: pre-wrap;
+      width: 560px;
+      min-height: 108px;
+      padding: 18px 28px 18px 18px;
+      margin: 0 auto;
       position: relative;
-      text-align: left;
-      overflow: hidden;
-      transition: box-shadow 0.3s, border-color 0.3s;
-      animation: narration-glow 2.7s infinite alternate;
+      z-index: 2;
+      border-radius: 17px;
+      transition: box-shadow 0.22s;
     }
-    @keyframes narration-glow {
-      0% {
-        box-shadow: 0 2px 30px #23cfa077, 0 0 0 2px #5fffd044 inset;
-        border-color: #5fffd0;
-      }
-      60% {
-        box-shadow: 0 0px 44px #5fffd0cc, 0 0 0 2.5px #23cfa088 inset;
-        border-color: #23cfa0;
-      }
-      100% {
-        box-shadow: 0 2px 30px #23cfa077, 0 0 0 2px #5fffd044 inset;
-        border-color: #5fffd0;
-      }
-    }
-    .narration-avatar {
+    .dialogue-avatar {
       width: 56px;
       height: 56px;
       image-rendering: pixelated;
-      position: absolute;
-      left: -28px;
-      top: -28px;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #5fffd0bb;
-      border: 2px solid #23cfa0;
-      background: #151e1d;
+      margin-right: 18px;
+      flex-shrink: 0;
+      border-radius: 7px;
+      border: 2px solid #6ee7b7;
+      background: #10181a;
+      box-shadow: 0 0 8px #3ee7b7;
+      transition: box-shadow 0.2s;
     }
-    .narration-name {
-      font-size: 12px;
+    .dialogue-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      height: 100%;
+      min-width: 0;
+    }
+    .dialogue-name {
+      margin-bottom: 4px;
+      display: block;
+      font-size: 11px;
+      line-height: 1.24;
+      font-family: 'Press Start 2P', monospace;
+      letter-spacing: 0.04em;
       font-weight: bold;
-      color: #6ee7b7;
-      letter-spacing: 0.02em;
-      margin-bottom: 8px;
-      display: inline-block;
-      text-shadow: 0 2px 8px #23cfa055;
-      filter: brightness(1.18);
+      color: #7fffd4;
+      text-shadow: 0 2px 8px #3ee7b766;
     }
-    .narration-lines {
+    .dialogue-lines {
       margin-top: 4px;
     }
-    .narration-lines p {
-      margin: 0 0 10px 0;
+    .dialogue-lines p {
+      margin: 0;
       padding: 0;
-      font-size: 12px;
-      line-height: 2;
-      color: #d8fff8;
-      text-shadow: 0 2px 8px #23cfa011;
-      letter-spacing: 0.02em;
-      filter: brightness(1.09);
+      font-size: 11px;
+      line-height: 1.9;
+      font-family: 'Press Start 2P', monospace;
+      color: #e0fff2;
+      text-shadow: 0 0 2px #1affb077;
+      letter-spacing: 0.01em;
     }
-    .narration-arrow {
+    .riddle-arrow {
       position: absolute;
-      bottom: 16px;
-      right: 32px;
+      bottom: 11px;
+      right: 24px;
       background: none;
       border: none;
       cursor: pointer;
-      font-size: 26px;
-      color: #5fffd0;
-      text-shadow: 0 0 12px #23cfa0, 0 0 3px #000;
+      font-size: 25px;
+      color: #7fffd4;
+      text-shadow: 0 0 8px #3ee7b7cc, 0 0 2px #000;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s;
+      transition: opacity 0.3s, color 0.18s;
       z-index: 2;
-      filter: brightness(1.12);
     }
-    .narration-arrow.visible {
+    .riddle-arrow.visible {
       opacity: 1;
       pointer-events: auto;
     }
-    .narration-arrow:hover {
-      filter: brightness(1.5);
+    .riddle-arrow:hover {
+      color: #fff;
+      filter: brightness(1.3);
     }
-    .narration-btn-container {
+    .btn-container {
       width: 100%;
       text-align: right;
-      margin-top: 0;
+      margin-top: 10px;
       z-index: 2;
       display: none;
       position: absolute;
       bottom: 12px;
-      right: 36px;
+      right: 30px;
     }
-    .narration-btn {
+    .begin-btn {
       display: inline-block;
-      padding: 7px 22px 7px 22px;
+      padding: 6px 20px;
       font-family: 'Press Start 2P', monospace;
       font-size: 11px;
-      color: #5fffd0;
-      background: rgba(20,33,30,0.82);
-      border: 2px solid #23cfa0;
-      border-radius: 8px;
-      box-shadow: 0 1.5px 7px #23cfa077, 0 0 0 1.5px #39ffe055 inset;
+      color: #7fffd4;
+      background: rgba(30,45,40,0.88);
+      border: 2px solid #7fffd4;
+      border-radius: 7px;
       cursor: pointer;
       outline: none;
       text-decoration: none;
       text-align: center;
-      margin-left: 6px;
-      margin-right: 4px;
-      text-shadow: 0 1px 4px #23cfa099;
-      transition: border-color 0.23s, box-shadow 0.23s, background 0.22s, color 0.18s, transform 0.10s;
-      filter: brightness(1.13);
+      text-shadow: 0 1px 4px #3ee7b7cc;
+      box-shadow: 0 0 10px #3ee7b744 inset;
+      transition: background 0.22s, color 0.13s, border 0.12s, transform 0.08s;
     }
-    .narration-btn:active {
-      transform: translateY(1.5px) scale(0.98);
-      box-shadow: 0 0.5px 2px #23cfa055;
-      background: linear-gradient(90deg, #111917 0%, #1a2422 100%);
+    .begin-btn:active {
+      transform: translateY(2px) scale(0.97);
+      background: #10181a;
     }
-    .narration-btn:hover,
-    .narration-btn:focus {
-      background: #111917;
-      color: #b6fff0;
-      border-color: #39ffe0;
-      box-shadow: 0 4px 16px #5fffd0, 0 0 0 2px #23cfa088 inset;
-      filter: brightness(1.18);
+    .begin-btn:hover,
+    .begin-btn:focus {
+      background: #10181a;
+      color: #fff;
+      border-color: #e0fff2;
+      box-shadow: 0 0 20px #7fffd4, 0 0 0 2px #7fffd4 inset;
     }
-    /* Responsive */
-    @media (max-width: 700px) {
-      .narration-box {
-        width: 97vw;
-        max-width: 97vw;
-        padding: 20px 6vw 18vw 14vw;
-        font-size: 11px;
+    @media (max-width: 650px) {
+      .dialogue-wrapper {
+        width: 99vw;
+        max-width: 99vw;
+        padding: 10vw 2vw 8vw 2vw;
       }
-      .narration-avatar {
-        left: -18px; top: -18px; width: 42px; height: 42px;
+      .dialogue-avatar {
+        width: 42px;
+        height: 42px;
+        margin-right: 10px;
       }
-      .narration-btn-container {
-        right: 10vw;
+      .btn-container {
+        right: 6vw;
       }
-      .narration-arrow {
-        right: 8vw;
+      .riddle-arrow {
+        right: 7vw;
       }
     }
     @media (max-width: 420px) {
-      .narration-box {
+      .dialogue-wrapper {
         font-size: 10px;
-        padding: 12px 3vw 14vw 9vw;
+        padding: 8px 1vw 12vw 1vw;
       }
-      .narration-avatar {
-        left: -11px; top: -11px; width: 32px; height: 32px;
+      .dialogue-avatar {
+        width: 28px;
+        height: 28px;
+        margin-right: 6px;
       }
     }
   </style>
@@ -206,23 +196,24 @@
     <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mpeg">
   </audio>
 
-  <div class="narration-overlay">
-    <div class="narration-box" id="narrationBox">
-      <img class="narration-avatar" id="narrationAvatar" src="https://64.media.tumblr.com/e38cd32d189fd45102a73a3f9dc6b9ac/9a98a57c72a06121-d8/s250x400/1bfeddb38d0ef253be539d8223e27d7a6838ffb2.gif" alt="Mewby Avatar" />
-      <span class="narration-name" id="narrationName">Mewby</span>
-      <div class="narration-lines" id="narrationLines"></div>
-      <button class="narration-arrow" id="narrationArrow" aria-label="Next">&#9660;</button>
-      <div class="narration-btn-container" id="narrationBtnContainer">
-        <a href="#" class="narration-btn" id="narrationBtn">Button</a>
+  <div class="dialogue-centerer">
+    <div class="dialogue-wrapper" id="dialogueBox" style="display:flex;">
+      <img class="dialogue-avatar" id="dialogueAvatar" src="https://64.media.tumblr.com/e38cd32d189fd45102a73a3f9dc6b9ac/9a98a57c72a06121-d8/s250x400/1bfeddb38d0ef253be539d8223e27d7a6838ffb2.gif" alt="Mewby Avatar" />
+      <div class="dialogue-text">
+        <span class="dialogue-name" id="dialogueName">Mewby</span>
+        <div class="dialogue-lines" id="dialogueLines"></div>
       </div>
+      <button class="riddle-arrow" id="dialogueArrow" aria-label="Next">&#9660;</button>
+    </div>
+    <div class="btn-container" id="btnContainer">
+      <a href="#" class="begin-btn" id="dialogueBtn">Button</a>
     </div>
   </div>
 
   <script>
-    const narrations = [
+    const dialogues = [
       {
         name: 'Mewby',
-        avatar: "https://64.media.tumblr.com/e38cd32d189fd45102a73a3f9dc6b9ac/9a98a57c72a06121-d8/s250x400/1bfeddb38d0ef253be539d8223e27d7a6838ffb2.gif",
         lines: [
           "* Welcome to Level One: Signal Sync!",
           "* Test your timing and reflexes!",
@@ -232,7 +223,6 @@
       },
       {
         name: 'Mewby',
-        avatar: "https://64.media.tumblr.com/e38cd32d189fd45102a73a3f9dc6b9ac/9a98a57c72a06121-d8/s250x400/1bfeddb38d0ef253be539d8223e27d7a6838ffb2.gif",
         lines: [
           "* Stay sharp, catch the rhythm, and prove you can tune in to the right frequency."
         ],
@@ -240,7 +230,6 @@
       },
       {
         name: 'Mewby',
-        avatar: "https://64.media.tumblr.com/e38cd32d189fd45102a73a3f9dc6b9ac/9a98a57c72a06121-d8/s250x400/1bfeddb38d0ef253be539d8223e27d7a6838ffb2.gif",
         lines: [
           "* She's waiting up ahead!",
           "* Ready to sync up and move forward?"
@@ -251,21 +240,20 @@
     ];
 
     const arrowSound = document.getElementById("arrowSound");
-    const box = document.getElementById("narrationBox");
-    const avatar = document.getElementById("narrationAvatar");
-    const nameEl = document.getElementById("narrationName");
-    const linesEl = document.getElementById("narrationLines");
-    const arrowBtn = document.getElementById("narrationArrow");
-    const btnContainer = document.getElementById("narrationBtnContainer");
-    const btn = document.getElementById("narrationBtn");
+    const box = document.getElementById("dialogueBox");
+    const avatar = document.getElementById("dialogueAvatar");
+    const nameEl = document.getElementById("dialogueName");
+    const linesEl = document.getElementById("dialogueLines");
+    const arrowBtn = document.getElementById("dialogueArrow");
+    const btnContainer = document.getElementById("btnContainer");
+    const btn = document.getElementById("dialogueBtn");
 
-    let narrationIdx = 0;
+    let dialogueIdx = 0;
 
     function typeLines(idx, cb) {
-      const d = narrations[idx];
-      // Avatar and name can be dynamic
+      const d = dialogues[idx];
+      // Avatar and name stay the same for all
       nameEl.textContent = d.name;
-      avatar.src = d.avatar;
       linesEl.innerHTML = '';
       arrowBtn.classList.remove('visible');
       btnContainer.style.display = "none";
@@ -279,7 +267,7 @@
           if (charIndex < line.length) {
             p.innerHTML += line.charAt(charIndex);
             charIndex++;
-            setTimeout(typeChar, 44);
+            setTimeout(typeChar, 60);
           } else {
             callback();
           }
@@ -291,7 +279,7 @@
         if (lineIndex < d.lines.length) {
           typeLine(d.lines[lineIndex], () => {
             lineIndex++;
-            setTimeout(typeAllLines, 160);
+            setTimeout(typeAllLines, 200);
           });
         } else {
           if (d.showArrow) {
@@ -307,10 +295,10 @@
       typeAllLines();
     }
 
-    function nextNarration() {
-      if (narrationIdx < narrations.length - 1) {
-        narrationIdx++;
-        typeLines(narrationIdx);
+    function nextDialogue() {
+      if (dialogueIdx < dialogues.length - 1) {
+        dialogueIdx++;
+        typeLines(dialogueIdx);
       }
     }
 
@@ -318,21 +306,21 @@
       arrowSound.currentTime = 0;
       arrowSound.play();
       arrowBtn.classList.remove('visible');
-      nextNarration();
+      nextDialogue();
     });
 
     btn.addEventListener("click", function(e) {
       arrowSound.currentTime = 0;
       arrowSound.play();
-      if (narrationIdx < narrations.length - 1) {
+      if (dialogueIdx < dialogues.length - 1) {
         e.preventDefault();
         btnContainer.style.display = "none";
-        nextNarration();
+        nextDialogue();
       }
     });
 
     window.onload = () => {
-      typeLines(narrationIdx);
+      typeLines(dialogueIdx);
     };
   </script>
 </body>
