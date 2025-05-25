@@ -21,6 +21,38 @@
       align-items: center;
       overflow-x: hidden;
     }
+
+    /* Turbulence: pixelated stormy/chaotic B&W background */
+    .turbulence-bg {
+      position: fixed;
+      left: 0; top: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      image-rendering: pixelated;
+      background:
+        /* Large angled "gusts" */
+        repeating-linear-gradient(-15deg, #222 0 12px, #000 12px 32px),
+        repeating-linear-gradient(25deg, #333 0 9px, #111 9px 22px),
+        /* Staggered jagged "turbulence" stripes */
+        repeating-linear-gradient(120deg, #fff 0 2px, transparent 2px 20px),
+        repeating-linear-gradient(-110deg, #fff2 0 1.5px, transparent 1.5px 11px),
+        /* Pixel "static"/noise */
+        repeating-linear-gradient(0deg, #fff1 0 2px, transparent 2px 8px),
+        /* Scanlines for CRT effect */
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,0.07) 0px,
+          rgba(255,255,255,0.09) 2px,
+          transparent 2px,
+          transparent 7px
+        ),
+        /* Vignette for depth */
+        radial-gradient(ellipse at center, rgba(0,0,0,0) 70%, #000 100%);
+      opacity: 0.28;
+    }
+
     .dialogue-centerer {
       width: 100vw;
       height: 100vh;
@@ -148,6 +180,7 @@
   </style>
 </head>
 <body>
+  <div class="turbulence-bg"></div>
   <!-- Shared Audio -->
   <audio id="arrowSound" preload="auto">
     <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mpeg">
