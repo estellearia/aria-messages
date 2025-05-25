@@ -21,6 +21,39 @@
       align-items: center;
       overflow-x: hidden;
     }
+    /* Pixelated Riddle UI Background (B&W, question mark theme) */
+    .riddle-bg {
+      position: fixed;
+      left: 0; top: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      image-rendering: pixelated;
+      background:
+        /* Subtle question mark pattern via pixel art using gradients */
+        repeating-linear-gradient(135deg, #fff 0 2px, transparent 2px 24px),
+        repeating-linear-gradient(225deg, #fff 0 2px, transparent 2px 24px),
+        /* Pixel "dots" for the dot of the question mark */
+        repeating-radial-gradient(circle at 17vw 82vh, #fff 0 4px, transparent 4px 40px),
+        repeating-radial-gradient(circle at 44vw 74vh, #fff 0 4px, transparent 4px 40px),
+        repeating-radial-gradient(circle at 70vw 90vh, #fff 0 4px, transparent 4px 40px),
+        repeating-radial-gradient(circle at 89vw 78vh, #fff 0 4px, transparent 4px 40px),
+        /* Extra pixel grid for retro vibe */
+        repeating-linear-gradient(90deg, transparent 0 24px, #222 24px 26px),
+        repeating-linear-gradient(180deg, transparent 0 24px, #222 24px 26px),
+        /* Scanlines */
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,0.09) 0px,
+          rgba(255,255,255,0.15) 2px,
+          transparent 2px,
+          transparent 8px
+        ),
+        /* Vignette */
+        radial-gradient(ellipse at center, rgba(0,0,0,0) 70%, #000 100%);
+      opacity: 0.19;
+    }
     .riddle-centerer {
       width: 100vw;
       height: 100vh;
@@ -74,7 +107,6 @@
       font-size: 10px;
       line-height: 1.1;
     }
-    /* Make "Mewby" 11px */
     .dialogue-name.mewby {
       font-size: 11px;
     }
@@ -146,6 +178,7 @@
   </style>
 </head>
 <body>
+  <div class="riddle-bg"></div>
   <!-- Shared Audio -->
   <audio id="arrowSound" preload="auto">
     <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mpeg">
