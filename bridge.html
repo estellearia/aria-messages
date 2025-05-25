@@ -31,34 +31,31 @@
       pointer-events: none;
       image-rendering: pixelated;
       background:
-        /* Bridge arches (repeating semi-circles) */
-        repeating-radial-gradient(circle at 20px 90vh, #fff 0 12px, transparent 12px 36px),
-        repeating-radial-gradient(circle at 90px 90vh, #fff 0 12px, transparent 12px 36px),
-        repeating-radial-gradient(circle at 160px 90vh, #fff 0 12px, transparent 12px 36px),
-        repeating-radial-gradient(circle at 230px 90vh, #fff 0 12px, transparent 12px 36px),
-        repeating-radial-gradient(circle at 300px 90vh, #fff 0 12px, transparent 12px 36px),
-        repeating-radial-gradient(circle at 370px 90vh, #fff 0 12px, transparent 12px 36px),
-        repeating-radial-gradient(circle at 440px 90vh, #fff 0 12px, transparent 12px 36px),
-        repeating-radial-gradient(circle at 510px 90vh, #fff 0 12px, transparent 12px 36px),
-        repeating-radial-gradient(circle at 580px 90vh, #fff 0 12px, transparent 12px 36px),
-        /* Bridge deck */
-        linear-gradient(to right, #fff 0 100vw, #fff 100vw 100vw),
-        /* Bridge supports */
-        repeating-linear-gradient(90deg, transparent 0 16px, #fff 16px 19px, transparent 19px 64px),
-        /* Pixel grid overlay */
+        /* Pixel bridge deck */
+        linear-gradient(to right, #fff 0 100vw, #fff 100vw 100vw) 0 87vh/100vw 7px no-repeat,
+        /* Bridge supports - thick, spaced pixels */
+        repeating-linear-gradient(90deg, transparent 0 44px, #fff 44px 50px, transparent 50px 88px) 0 94vh/100vw 13px no-repeat,
+        /* Bridge arches - pixelated semi-circles using multiple radial gradients */
+        repeating-radial-gradient(circle at 70px 94vh, #fff 0 18px, transparent 18px 60px),
+        repeating-radial-gradient(circle at 180px 94vh, #fff 0 18px, transparent 18px 60px),
+        repeating-radial-gradient(circle at 290px 94vh, #fff 0 18px, transparent 18px 60px),
+        repeating-radial-gradient(circle at 400px 94vh, #fff 0 18px, transparent 18px 60px),
+        repeating-radial-gradient(circle at 510px 94vh, #fff 0 18px, transparent 18px 60px),
+        /* Pixel grid overlay for extra retro feel */
         repeating-linear-gradient(90deg, transparent 0 31px, #222 31px 32px),
         repeating-linear-gradient(180deg, transparent 0 31px, #222 31px 32px),
         /* Scanlines */
         repeating-linear-gradient(
           to bottom,
-          rgba(255,255,255,0.09) 0px,
-          rgba(255,255,255,0.12) 2px,
+          rgba(255,255,255,0.1) 0px,
+          rgba(255,255,255,0.16) 2px,
           transparent 2px,
           transparent 8px
         ),
         /* Vignette */
         radial-gradient(ellipse at center, rgba(0,0,0,0) 70%, #000 100%);
-      opacity: 0.17;
+      opacity: 0.23;
+      /* Adjust opacity for best readability/visibility */
     }
     .dialogue-centerer {
       width: 100vw;
