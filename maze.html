@@ -10,7 +10,7 @@
       height: 100%;
       margin: 0;
       padding: 0;
-      background: #111;
+      background: #000;
     }
     body {
       min-height: 100vh;
@@ -22,7 +22,7 @@
       overflow-x: hidden;
     }
 
-    /* Updated pixelated maze background: soft, retro, pixel-vibe */
+    /* Softer black & white pixel maze background */
     .maze-bg {
       position: fixed;
       left: 0; top: 0;
@@ -32,16 +32,16 @@
       pointer-events: none;
       image-rendering: pixelated;
       background:
-        /* Subtle maze lines - teal */
-        repeating-linear-gradient(90deg, #27ffd7 0 2px, transparent 2px 32px),
-        repeating-linear-gradient(180deg, #27ffd7 0 2px, transparent 2px 32px),
-        /* Pixel checkerboard - dark blue and blue */
-        repeating-linear-gradient(0deg, #101c29 0 16px, transparent 16px 32px),
-        repeating-linear-gradient(90deg, #132331 0 16px, transparent 16px 32px),
-        /* Soft vignette */
-        radial-gradient(ellipse at center, rgba(25,34,40,0.0) 65%, #111 100%);
-      opacity: 0.33;
-      filter: blur(0.5px) contrast(1.13) brightness(1);
+        /* Softer maze grid lines */
+        repeating-linear-gradient(90deg, #222 0 2px, transparent 2px 28px),
+        repeating-linear-gradient(180deg, #222 0 2px, transparent 2px 28px),
+        /* Pixel dots for retro texture */
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.07) 0 1px, transparent 1px 8px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 8px),
+        /* Subtle vignette for center focus */
+        radial-gradient(ellipse at center, rgba(0,0,0,0) 70%, #000 100%);
+      opacity: 0.22;
+      filter: contrast(1.08) brightness(1.05);
     }
     .dialogue-centerer {
       width: 100vw;
@@ -57,11 +57,11 @@
     .dialogue-wrapper {
       display: flex;
       align-items: center;
-      background: #101c29;
+      background: #000;
       color: #fff;
-      border: 3px solid #27ffd7;
+      border: 3px solid #fff;
       box-sizing: border-box;
-      box-shadow: 0 0 0 3px #0a1b18, 0 0 24px #27ffd744;
+      box-shadow: 0 0 0 3px #000;
       font-family: 'Press Start 2P', monospace;
       font-size: 10px;
       line-height: 1.8;
@@ -190,7 +190,116 @@
   </div>
 
   <script>
-    // ... your JS unchanged ...
+    const dialogues = [
+      {
+        name: 'Mewby',
+        lines: [
+     "* You made it! Next up: The Maze.",
+     "* This place is a twisty puzzle full of surprises..."
+        ],
+        showArrow: true
+      },
+      {
+        name: 'Mewby',
+        lines: [
+          "* Navigate the winding corridors and hidden dead-ends to reach Aria!"
+        ],
+        showArrow: true
+      },
+      {
+        name: 'Mewby',
+        lines: [
+         "* Think ahead, and don’t hesitate to retrace your steps.",
+         "* Escape the maze and good luck!"
+        ],
+        button: { text: 'Start', href: 'https://estellearia.github.io/maze-game/' },
+        showArrow: false
+      }
+    ];
+
+    const arrowSound = document.getElementById("arrowSound");
+    const box = document.getElementById("dialogueBox");
+    const avatar = document.getElementById("dialogueAvatar");
+    const nameEl = document.getElementById("dialogueName");
+    const linesEl = document.getElementById("dialogueLines");
+    const arrowBtn = document.getElementById("dialogueArrow");
+    const btnContainer = document.getElementById("btnContainer");
+    const btn = document.getElementById("dialogueBtn");
+
+    let dialogueIdx = 0;
+
+    function typeLines(idx, cb) {
+      const d = dialogues[idx];
+      // Avatar and name stay the same for all
+      nameEl.textContent = d.name;
+      linesEl.innerHTML = '';
+      arrowBtn.classList.remove('visible');
+      btnContainer.style.display = "none";
+      let lineIndex = 0;
+
+      function typeLine(line, callback) {
+        const p = document.createElement("p");
+        linesEl.appendChild(p);
+        let charIndex = 0;
+        function typeChar() {
+          if (charIndex < line.length) {
+            p.innerHTML += line.charAt(charIndex);
+            charIndex++;
+            setTimeout(typeChar, 60);
+          } else {
+            callback();
+          }
+        }
+        typeChar();
+      }
+
+      function typeAllLines() {
+        if (lineIndex < d.lines.length) {
+          typeLine(d.lines[lineIndex], () => {
+            lineIndex++;
+            setTimeout(typeAllLines, 200);
+          });
+        } else {
+          if (d.showArrow) {
+            arrowBtn.classList.add('visible');
+          } else if (d.button) {
+            btn.textContent = d.button.text;
+            btn.href = d.button.href;
+            btnContainer.style.display = "block";
+          }
+          if (cb) cb();
+        }
+      }
+      typeAllLines();
+    }
+
+    function nextDialogue() {
+      if (dialogueIdx < dialogues.length - 1) {
+        dialogueIdx++;
+        typeLines(dialogueIdx);
+      }
+    }
+
+    arrowBtn.addEventListener("click", () => {
+      arrowSound.currentTime = 0;
+      arrowSound.play();
+      arrowBtn.classList.remove('visible');
+      nextDialogue();
+    });
+
+    btn.addEventListener("click", function(e) {
+      arrowSound.currentTime = 0;
+      arrowSound.play();
+      if (dialogueIdx < dialogues.length - 1) {
+        e.preventDefault();
+        btnContainer.style.display = "none";
+        nextDialogue();
+      }
+    });
+
+    window.onload = () => {
+      typeLines(dialogueIdx);
+    };
   </script>
 </body>
 </html>
