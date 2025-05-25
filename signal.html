@@ -36,11 +36,11 @@
     .dialogue-wrapper {
       display: flex;
       align-items: center;
-      background: #111214;
-      color: #eafffa;
-      border: 3px dashed #6ee7b7;
+      background: #000;
+      color: #fff;
+      border: 3px dashed #fff;
       box-sizing: border-box;
-      box-shadow: 0 0 10px #23cfa0d0;
+      box-shadow: 0 0 10px #fff8, 0 0 0 6px #000;
       font-family: 'Press Start 2P', monospace;
       font-size: 11px;
       line-height: 1.85;
@@ -61,10 +61,11 @@
       margin-right: 15px;
       flex-shrink: 0;
       border-radius: 8px;
-      border: 2px solid #6ee7b7;
-      background: #000;
-      box-shadow: 0 0 6px #6ee7b7;
+      border: 2px solid #fff;
+      background: #111;
+      box-shadow: 0 0 6px #fff9;
       transition: box-shadow 0.2s;
+      filter: grayscale(100%);
     }
     .dialogue-text {
       flex: 1;
@@ -83,8 +84,8 @@
       font-family: 'Press Start 2P', monospace;
       letter-spacing: 0.02em;
       font-weight: bold;
-      color: #6ee7b7;
-      text-shadow: 0 1px 8px #6ee7b799;
+      color: #fff;
+      text-shadow: 0 1px 8px #fff9;
       transition: font-size 0.2s;
     }
     .dialogue-lines {
@@ -96,8 +97,8 @@
       font-size: 11px;
       line-height: 1.85;
       font-family: 'Press Start 2P', monospace;
-      color: #eafffa;
-      text-shadow: 0 0 2px #6ee7b799;
+      color: #fff;
+      text-shadow: 0 0 2px #fff9;
       letter-spacing: 0.01em;
     }
     .riddle-arrow {
@@ -108,8 +109,8 @@
       border: none;
       cursor: pointer;
       font-size: 23px;
-      color: #6ee7b7;
-      text-shadow: 0 0 6px #23cfa0, 0 0 2px #000;
+      color: #fff;
+      text-shadow: 0 0 6px #fff, 0 0 2px #000;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.3s, color 0.18s;
@@ -136,16 +137,16 @@
       padding: 7px 22px;
       font-family: 'Press Start 2P', monospace;
       font-size: 11px;
-      color: #6ee7b7;
-      background: #161b1b;
-      border: 2px solid #6ee7b7;
+      color: #fff;
+      background: #111;
+      border: 2px solid #fff;
       border-radius: 8px;
       cursor: pointer;
       outline: none;
       text-decoration: none;
       text-align: center;
-      text-shadow: 0 1px 4px #23cfa0cc;
-      box-shadow: 0 0 10px #23cfa077 inset;
+      text-shadow: 0 1px 4px #fff9;
+      box-shadow: 0 0 10px #fff7 inset;
       transition: background 0.22s, color 0.14s, border 0.15s, transform 0.08s;
     }
     .begin-btn:active {
@@ -154,10 +155,10 @@
     }
     .begin-btn:hover,
     .begin-btn:focus {
-      background: #000;
+      background: #222;
       color: #fff;
-      border-color: #eafffa;
-      box-shadow: 0 0 20px #6ee7b7, 0 0 0 2px #6ee7b7 inset;
+      border-color: #fff;
+      box-shadow: 0 0 20px #fff, 0 0 0 2px #fff inset;
     }
     @media (max-width: 650px) {
       .dialogue-wrapper {
