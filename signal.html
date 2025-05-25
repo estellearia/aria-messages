@@ -20,6 +20,43 @@
       justify-content: center;
       align-items: center;
       overflow-x: hidden;
+      /* Pixel background overlay */
+    }
+    /* Pixelated BG overlay using CSS only */
+    .pixel-bg {
+      position: fixed;
+      z-index: 0;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      image-rendering: pixelated;
+      background:
+        repeating-linear-gradient(90deg, #222 0 3px, transparent 3px 18px),
+        repeating-linear-gradient(180deg, #1a1a1a 0 3px, transparent 3px 18px),
+        repeating-linear-gradient(90deg, #191919 0 1px, transparent 1px 9px),
+        repeating-linear-gradient(180deg, #222 0 1px, transparent 1px 9px),
+        linear-gradient(135deg, #111 0%, #181818 100%);
+      opacity: 0.55;
+      /* Dithered grid effect */
+    }
+    .pixel-scanline {
+      position: fixed;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,0.04) 0px,
+          rgba(255,255,255,0.04) 1.5px,
+          transparent 1.5px,
+          transparent 5px
+        );
+      opacity: 0.7;
+      mix-blend-mode: overlay;
     }
     .dialogue-centerer {
       width: 100vw;
@@ -77,6 +114,9 @@
       font-weight: bold;
       color: #ffeb3b;
       transition: font-size 0.2s;
+      text-shadow:
+        0 2px 0 #000,
+        0 0 8px #ffeb3b22;
     }
     .dialogue-lines {
       margin-top: 6px;
@@ -88,7 +128,10 @@
       line-height: 1.8;
       font-family: 'Press Start 2P', monospace;
       color: #fff;
-      text-shadow: 0 0 0px #000;
+      text-shadow: 
+        0 2px 2px #222c,
+        1px 1px 0 #000,
+        0 0 2px #fff8;
       letter-spacing: 0.01em;
     }
     .riddle-arrow {
@@ -147,6 +190,8 @@
   </style>
 </head>
 <body>
+  <div class="pixel-bg"></div>
+  <div class="pixel-scanline"></div>
   <!-- Shared Audio -->
   <audio id="arrowSound" preload="auto">
     <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mpeg">
