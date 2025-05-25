@@ -10,7 +10,7 @@
       height: 100%;
       margin: 0;
       padding: 0;
-      background: #080e0c;
+      background: #000;
     }
     body {
       min-height: 100vh;
@@ -32,37 +32,38 @@
       z-index: 1;
       flex-direction: column;
     }
+    /* --- NARRATION VARIANT --- */
     .dialogue-wrapper {
       display: flex;
       align-items: center;
-      background: rgba(16,28,24,0.94);
-      color: #e0fff2;
-      border: 3px dashed #7fffd4;
+      background: #111214;
+      color: #eafffa;
+      border: 3px dashed #6ee7b7;
       box-sizing: border-box;
-      box-shadow: 0 0 8px #3ee7b7, 0 0 0 6px #0a0a0a;
+      box-shadow: 0 0 10px #23cfa0d0;
       font-family: 'Press Start 2P', monospace;
       font-size: 11px;
-      line-height: 1.9;
+      line-height: 1.85;
       white-space: pre-wrap;
-      width: 560px;
-      min-height: 108px;
-      padding: 18px 28px 18px 18px;
+      width: 540px;
+      min-height: 112px;
+      padding: 14px 22px 14px 14px;
       margin: 0 auto;
       position: relative;
       z-index: 2;
-      border-radius: 17px;
+      border-radius: 14px;
       transition: box-shadow 0.22s;
     }
     .dialogue-avatar {
-      width: 56px;
-      height: 56px;
+      width: 52px;
+      height: 52px;
       image-rendering: pixelated;
-      margin-right: 18px;
+      margin-right: 15px;
       flex-shrink: 0;
-      border-radius: 7px;
+      border-radius: 8px;
       border: 2px solid #6ee7b7;
-      background: #10181a;
-      box-shadow: 0 0 8px #3ee7b7;
+      background: #000;
+      box-shadow: 0 0 6px #6ee7b7;
       transition: box-shadow 0.2s;
     }
     .dialogue-text {
@@ -75,39 +76,40 @@
       min-width: 0;
     }
     .dialogue-name {
-      margin-bottom: 4px;
+      margin-bottom: 3px;
       display: block;
       font-size: 11px;
-      line-height: 1.24;
+      line-height: 1.12;
       font-family: 'Press Start 2P', monospace;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.02em;
       font-weight: bold;
-      color: #7fffd4;
-      text-shadow: 0 2px 8px #3ee7b766;
+      color: #6ee7b7;
+      text-shadow: 0 1px 8px #6ee7b799;
+      transition: font-size 0.2s;
     }
     .dialogue-lines {
-      margin-top: 4px;
+      margin-top: 2px;
     }
     .dialogue-lines p {
       margin: 0;
       padding: 0;
       font-size: 11px;
-      line-height: 1.9;
+      line-height: 1.85;
       font-family: 'Press Start 2P', monospace;
-      color: #e0fff2;
-      text-shadow: 0 0 2px #1affb077;
+      color: #eafffa;
+      text-shadow: 0 0 2px #6ee7b799;
       letter-spacing: 0.01em;
     }
     .riddle-arrow {
       position: absolute;
-      bottom: 11px;
-      right: 24px;
+      bottom: 9px;
+      right: 18px;
       background: none;
       border: none;
       cursor: pointer;
-      font-size: 25px;
-      color: #7fffd4;
-      text-shadow: 0 0 8px #3ee7b7cc, 0 0 2px #000;
+      font-size: 23px;
+      color: #6ee7b7;
+      text-shadow: 0 0 6px #23cfa0, 0 0 2px #000;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.3s, color 0.18s;
@@ -119,62 +121,60 @@
     }
     .riddle-arrow:hover {
       color: #fff;
-      filter: brightness(1.3);
+      filter: brightness(1.2);
     }
     .btn-container {
       width: 100%;
-      text-align: right;
-      margin-top: 10px;
+      text-align: center;
+      margin-top: 18px;
       z-index: 2;
       display: none;
-      position: absolute;
-      bottom: 12px;
-      right: 30px;
+      position: static;
     }
     .begin-btn {
       display: inline-block;
-      padding: 6px 20px;
+      padding: 7px 22px;
       font-family: 'Press Start 2P', monospace;
       font-size: 11px;
-      color: #7fffd4;
-      background: rgba(30,45,40,0.88);
-      border: 2px solid #7fffd4;
-      border-radius: 7px;
+      color: #6ee7b7;
+      background: #161b1b;
+      border: 2px solid #6ee7b7;
+      border-radius: 8px;
       cursor: pointer;
       outline: none;
       text-decoration: none;
       text-align: center;
-      text-shadow: 0 1px 4px #3ee7b7cc;
-      box-shadow: 0 0 10px #3ee7b744 inset;
-      transition: background 0.22s, color 0.13s, border 0.12s, transform 0.08s;
+      text-shadow: 0 1px 4px #23cfa0cc;
+      box-shadow: 0 0 10px #23cfa077 inset;
+      transition: background 0.22s, color 0.14s, border 0.15s, transform 0.08s;
     }
     .begin-btn:active {
       transform: translateY(2px) scale(0.97);
-      background: #10181a;
+      background: #000;
     }
     .begin-btn:hover,
     .begin-btn:focus {
-      background: #10181a;
+      background: #000;
       color: #fff;
-      border-color: #e0fff2;
-      box-shadow: 0 0 20px #7fffd4, 0 0 0 2px #7fffd4 inset;
+      border-color: #eafffa;
+      box-shadow: 0 0 20px #6ee7b7, 0 0 0 2px #6ee7b7 inset;
     }
     @media (max-width: 650px) {
       .dialogue-wrapper {
         width: 99vw;
         max-width: 99vw;
-        padding: 10vw 2vw 8vw 2vw;
+        padding: 8vw 2vw 8vw 2vw;
       }
       .dialogue-avatar {
-        width: 42px;
-        height: 42px;
-        margin-right: 10px;
+        width: 36px;
+        height: 36px;
+        margin-right: 7px;
       }
       .btn-container {
-        right: 6vw;
+        margin-top: 12px;
       }
       .riddle-arrow {
-        right: 7vw;
+        right: 6vw;
       }
     }
     @media (max-width: 420px) {
@@ -183,9 +183,9 @@
         padding: 8px 1vw 12vw 1vw;
       }
       .dialogue-avatar {
-        width: 28px;
-        height: 28px;
-        margin-right: 6px;
+        width: 22px;
+        height: 22px;
+        margin-right: 5px;
       }
     }
   </style>
