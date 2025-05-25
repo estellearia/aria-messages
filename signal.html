@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Signal Game Narration</title>
+  <title>Signal Game Dialogue</title>
   <meta name="viewport" content="width=1024">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -35,38 +35,28 @@
     .dialogue-wrapper {
       display: flex;
       align-items: center;
-      background: #111;
+      background: #000;
       color: #fff;
-      border: 4px solid #fff;
+      border: 3px solid #fff;
       box-sizing: border-box;
-      box-shadow: 
-        0 0 0 2px #000,
-        0 0 0 5px #fff,
-        0 0 10px 0 #fff8;
+      box-shadow: 0 0 0 3px #000;
       font-family: 'Press Start 2P', monospace;
       font-size: 10px;
-      line-height: 2.1;
+      line-height: 1.8;
       white-space: pre-wrap;
       width: 540px;
-      min-height: 120px;
-      padding: 10px 18px 10px 10px;
+      min-height: 108px;
+      padding: 8px 18px 8px 12px;
       margin: 0 auto;
       position: relative;
       z-index: 2;
-      border-radius: 0;
-      image-rendering: pixelated;
     }
     .dialogue-avatar {
       width: 64px;
       height: 64px;
       image-rendering: pixelated;
-      margin-right: 14px;
+      margin-right: 16px;
       flex-shrink: 0;
-      border-radius: 2px;
-      background: #111;
-      /* No border for gif! */
-      box-shadow: 0 0 8px #000d;
-      transition: box-shadow 0.2s;
     }
     .dialogue-text {
       flex: 1;
@@ -78,133 +68,80 @@
       min-width: 0;
     }
     .dialogue-name {
-      margin-bottom: 4px;
+      margin-bottom: 2px;
       display: block;
       font-size: 11px;
       line-height: 1.1;
       font-family: 'Press Start 2P', monospace;
       letter-spacing: 0.01em;
-      font-weight: normal;
-      color: #ffe066;
+      font-weight: bold;
+      color: #ffeb3b;
+      transition: font-size 0.2s;
     }
     .dialogue-lines {
-      margin-top: 3px;
+      margin-top: 6px;
     }
     .dialogue-lines p {
+      margin: 0;
       padding: 0;
       font-size: 10px;
       line-height: 1.8;
       font-family: 'Press Start 2P', monospace;
       color: #fff;
+      text-shadow: 0 0 0px #000;
       letter-spacing: 0.01em;
-      word-break: break-word;
-      filter: contrast(1.15) brightness(1.08);
     }
     .riddle-arrow {
       position: absolute;
-      bottom: 11px;
-      right: 18px;
+      bottom: 7px;
+      right: 14px;
       background: none;
       border: none;
       cursor: pointer;
-      font-size: 24px;
+      font-size: 22px;
       color: #fff;
-      text-shadow:
-        0 0 10px #fff,
-        2px 2px 0 #000,
-        0 0 2px #222;
+      text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s, color 0.18s;
+      transition: opacity 0.3s;
       z-index: 2;
-      font-family: 'Press Start 2P', monospace;
-      filter: contrast(1.2) brightness(1.2);
-      /* pixel effect */
     }
     .riddle-arrow.visible {
       opacity: 1;
       pointer-events: auto;
     }
     .riddle-arrow:hover {
-      color: #ffe066;
-      text-shadow:
-        0 0 14px #ffe066,
-        1px 1px 0 #000;
-      filter: brightness(1.5);
+      filter: brightness(1.2);
     }
     .btn-container {
       width: 100%;
       text-align: center;
-      margin-top: 18px;
+      margin-top: 16px;
       z-index: 2;
       display: none;
-      position: static;
     }
     .begin-btn {
       display: inline-block;
-      padding: 10px 36px 10px 36px;
+      padding: 5px 10px;
       font-family: 'Press Start 2P', monospace;
       font-size: 10px;
       color: #fff;
-      background: #000;
-      border: 4px solid #fff;
-      border-radius: 0;
+      background: transparent;
+      border: none;
       cursor: pointer;
       outline: none;
       text-decoration: none;
       text-align: center;
-      text-shadow:
-        0 2px 4px #fff9,
-        1.5px 1.5px 0 #000;
-      box-shadow:
-        0 0 0 2px #fff,
-        0 0 0 7px #000;
-      transition: background 0.22s, color 0.14s, border 0.15s, transform 0.08s, box-shadow 0.15s;
-      image-rendering: pixelated;
-      margin-top: 6px;
-      font-variant: small-caps;
-      letter-spacing: 3px;
+      text-shadow: 0 0 0px #000;
     }
-    .begin-btn:active {
-      transform: translateY(2px) scale(0.97);
-      background: #fff;
-      color: #000;
-      box-shadow: 0 0 0 5px #000, 0 0 0 10px #fff;
-    }
-    .begin-btn:hover,
-    .begin-btn:focus {
-      background: #fff;
-      color: #000;
-      box-shadow: 0 0 0 10px #fff, 0 0 0 14px #000;
-      text-shadow: none;
+    .begin-btn:hover {
+      background: white;
+      color: black;
     }
     @media (max-width: 650px) {
       .dialogue-wrapper {
         width: 99vw;
         max-width: 99vw;
-        padding: 8vw 2vw 8vw 2vw;
-      }
-      .dialogue-avatar {
-        width: 36px;
-        height: 36px;
-        margin-right: 7px;
-      }
-      .btn-container {
-        margin-top: 12px;
-      }
-      .riddle-arrow {
-        right: 6vw;
-      }
-    }
-    @media (max-width: 420px) {
-      .dialogue-wrapper {
-        font-size: 10px;
-        padding: 8px 1vw 12vw 1vw;
-      }
-      .dialogue-avatar {
-        width: 22px;
-        height: 22px;
-        margin-right: 5px;
       }
     }
   </style>
@@ -225,7 +162,7 @@
       <button class="riddle-arrow" id="dialogueArrow" aria-label="Next">&#9660;</button>
     </div>
     <div class="btn-container" id="btnContainer">
-      <a href="#" class="begin-btn" id="dialogueBtn">START</a>
+      <a href="#" class="begin-btn" id="dialogueBtn">Button</a>
     </div>
   </div>
 
@@ -253,7 +190,7 @@
           "* She's waiting up ahead!",
           "* Ready to sync up and move forward?"
         ],
-        button: { text: 'READY', href: 'https://estellearia.github.io/signal-game/' },
+        button: { text: 'Ready!', href: 'https://estellearia.github.io/signal-game/' },
         showArrow: false
       }
     ];
@@ -271,6 +208,7 @@
 
     function typeLines(idx, cb) {
       const d = dialogues[idx];
+      // Avatar and name stay the same for all
       nameEl.textContent = d.name;
       linesEl.innerHTML = '';
       arrowBtn.classList.remove('visible');
