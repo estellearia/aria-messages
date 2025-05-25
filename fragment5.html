@@ -176,58 +176,116 @@
       60% { box-shadow: 0 -2px 8px #6ee7b7; }
       80% { box-shadow: 1px 1px 10px #6ee7b7; }
     }
-    /* ---- STEADY (final message) ---- */
+    /* ---- STEADY (final message, improved) ---- */
     .signal-steady {
       display: none;
-      background: #121919;
-      border: 2px solid #5fffd0;
-      color: #d7ffec;
-      border-radius: 9px;
-      padding: 18px 10px 12px 10px;
+      border-radius: 16px;
+      padding: 24px 18px 16px 18px;
       min-width: 0;
-      max-width: 280px;
-      margin: 36px auto 0 auto;
+      max-width: 320px;
+      margin: 38px auto 0 auto;
       text-align: center;
-      box-shadow: 0 3px 16px #23cfa0a0;
       position: relative;
-      animation: fade-in 0.7s;
+      /* Glassmorphism */
+      background: rgba(16, 32, 28, 0.54);
+      box-shadow:
+        0 2px 24px #23cfa077,
+        0 0 0 2px #23cfa066 inset,
+        0 1.5px 24px 0 #5fffd044;
+      border: 2.5px solid #5fffd0;
+      border-image: linear-gradient(135deg, #5fffd0 60%, #23cfa0 100%) 1;
+      animation: steady-glow 2.4s infinite alternate;
+      backdrop-filter: blur(6px);
+      overflow: visible;
+      z-index: 2;
+      transition: box-shadow 0.3s, background 0.4s;
+    }
+    @keyframes steady-glow {
+      0% {
+        box-shadow:
+          0 2px 24px #23cfa077,
+          0 0 0 2px #5fffd066 inset,
+          0 1.5px 24px 0 #5fffd044;
+        border-color: #5fffd0;
+      }
+      50% {
+        box-shadow:
+          0 0px 36px #5fffd0cc,
+          0 0 0 2.5px #23cfa099 inset,
+          0 2.5px 38px 4px #23cfa044;
+        border-color: #23cfa0;
+      }
+      100% {
+        box-shadow:
+          0 2px 24px #23cfa077,
+          0 0 0 2px #5fffd066 inset,
+          0 1.5px 24px 0 #5fffd044;
+        border-color: #5fffd0;
+      }
+    }
+    .signal-steady::before {
+      content: "";
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      border-radius: 18px;
+      background: linear-gradient(120deg, #5fffd033 20%, #23cfa022 90%);
+      z-index: 1;
+      box-shadow: 0 0 40px 8px #5fffd055;
+      opacity: 0.55;
+      filter: blur(2px);
     }
     .signal-steady p {
-      margin: 0 0 14px 0;
+      margin: 0 0 18px 0;
       font-size: 10px;
-      color: #d7ffec;
+      color: #eefefa;
       letter-spacing: 0.01em;
+      position: relative;
+      z-index: 2;
+      text-shadow:
+        0 1px 2px #23cfa0cc,
+        0 0px 6px #5fffd088;
+      filter: brightness(1.12);
     }
     .signal-steady .btn-row {
       display: flex;
       justify-content: center;
       align-items: center;
       width: 100%;
+      position: relative;
+      z-index: 2;
     }
     .next-btn {
       display: inline-block;
       padding: 8px 18px;
-      background: #232c2c;
-      color: #5fffd0;
-      border: 2px solid #5fffd0;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #192221 0%, #243331 100%);
+      color: #39ffe0;
+      border: 2.5px solid #5fffd0;
+      box-shadow: 0 1.5px 7px #23cfa077, 0 0 0 1.5px #39ffe055 inset;
       font-family: 'Press Start 2P', monospace;
       font-size: 10px;
-      border-radius: 8px;
-      box-shadow: 0 1px 6px #1eaf7e70;
       cursor: pointer;
       text-decoration: none;
       margin: 0 auto;
-      transition: border-color 0.2s, box-shadow 0.2s, background 0.3s, color 0.2s;
+      position: relative;
+      transition: border-color 0.23s, box-shadow 0.23s, background 0.22s, color 0.18s, transform 0.10s;
+      outline: none;
+      z-index: 2;
+      filter: brightness(1.12);
     }
-    .next-btn:hover {
-      background: #111;
-      color: #23cfa0;
+    .next-btn:active {
+      transform: translateY(1.5px) scale(0.98);
+      box-shadow: 0 0.5px 2px #23cfa055;
+      background: linear-gradient(90deg, #111917 0%, #1a2422 100%);
+    }
+    .next-btn:hover,
+    .next-btn:focus {
+      background: linear-gradient(90deg, #111917 0%, #242f2e 100%);
+      color: #b6fff0;
       border-color: #23cfa0;
-      box-shadow: 0 2px 16px #5fffd0;
-    }
-    @keyframes fade-in {
-      from { opacity: 0; transform: translateY(20px);}
-      to   { opacity: 1; transform: translateY(0);}
+      box-shadow: 0 4px 16px #5fffd0, 0 0 0 2px #23cfa088 inset;
+      filter: brightness(1.18);
     }
     @media (max-width: 500px) {
       .signal-fragment, .signal-steady {
@@ -269,7 +327,7 @@
       <div id="typedLetter"></div>
     </div>
 
-    <!-- Container 2: Signal Steady -->
+    <!-- Container 2: Signal Steady (improved UI) -->
     <div class="signal-steady" id="steadyContainer">
       <p>* Signal stable. Ready for next fragment?</p>
       <div class="btn-row">
