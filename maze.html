@@ -21,6 +21,34 @@
       align-items: center;
       overflow-x: hidden;
     }
+    /* Pixelated maze background (black & white) */
+    .maze-bg {
+      position: fixed;
+      left: 0; top: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      image-rendering: pixelated;
+      background:
+        /* Maze "walls" in white */
+        repeating-linear-gradient(90deg, #fff 0 6px, transparent 6px 18px),
+        repeating-linear-gradient(180deg, #fff 0 6px, transparent 6px 18px),
+        /* Extra grid for more maze-like density */
+        repeating-linear-gradient(90deg, #333 0 1.5px, transparent 1.5px 9px),
+        repeating-linear-gradient(180deg, #333 0 1.5px, transparent 1.5px 9px),
+        /* Subtle scanlines */
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,0.07) 0px,
+          rgba(255,255,255,0.1) 2px,
+          transparent 2px,
+          transparent 8px
+        ),
+        /* Vignette for focus */
+        radial-gradient(ellipse at center, rgba(0,0,0,0) 70%, #000 100%);
+      opacity: 0.20;
+    }
     .dialogue-centerer {
       width: 100vw;
       height: 100vh;
@@ -147,6 +175,7 @@
   </style>
 </head>
 <body>
+  <div class="maze-bg"></div>
   <!-- Shared Audio -->
   <audio id="arrowSound" preload="auto">
     <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mpeg">
