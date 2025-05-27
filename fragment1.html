@@ -179,26 +179,99 @@
     /* ---- STEADY (final message, improved) ---- */
     .signal-steady {
       display: none;
-      border-radius: 16px;
-      padding: 24px 18px 16px 18px;
+      border-radius: 18px;
+      padding: 42px 28px 30px 28px;
       min-width: 0;
-      max-width: 320px;
-      margin: 38px auto 0 auto;
+      max-width: 340px;
+      margin: 58px auto 0 auto;
       text-align: center;
       position: relative;
-      /* Glassmorphism */
-      background: rgba(16, 32, 28, 0.54);
+      background: rgba(16, 32, 28, 0.66);
       box-shadow:
-        0 2px 24px #23cfa077,
+        0 2px 24px #23cfa099,
         0 0 0 2px #23cfa066 inset,
         0 1.5px 24px 0 #5fffd044;
       border: 2.5px solid #5fffd0;
-      border-image: linear-gradient(135deg, #5fffd0 60%, #23cfa0 100%) 1;
       animation: steady-glow 2.4s infinite alternate;
-      backdrop-filter: blur(6px);
-      overflow: visible;
+      backdrop-filter: blur(7px);
       z-index: 2;
       transition: box-shadow 0.3s, background 0.4s;
+      overflow: visible;
+      letter-spacing: 0.05em;
+      font-family: 'Press Start 2P', monospace;
+    }
+    .steady-icon {
+      margin-bottom: 12px;
+      animation: pop-in 0.7s cubic-bezier(.42,0,.58,1);
+    }
+    @keyframes pop-in {
+      from { opacity: 0; transform: scale(0.7);}
+      to   { opacity: 1; transform: scale(1);}
+    }
+    .steady-message {
+      margin-bottom: 14px;
+    }
+    .steady-title {
+      color: #5fffd0;
+      font-size: 1.13em;
+      font-weight: bold;
+      margin-bottom: 4px;
+      text-shadow: 0 1px 8px #39ffe033, 0 0 1px #23cfa0;
+      letter-spacing: 0.13em;
+    }
+    .steady-desc {
+      color: #eefefa;
+      font-size: 1em;
+      margin-bottom: 0;
+      opacity: 0.92;
+      line-height: 1.9;
+    }
+    .steady-divider {
+      border: none;
+      border-top: 1.7px dashed #39ffe0;
+      margin: 18px 0 16px 0;
+      opacity: 0.4;
+    }
+    .next-btn {
+      display: inline-block;
+      padding: 13px 32px 13px 26px;
+      border-radius: 13px;
+      background: linear-gradient(90deg, #192221 0%, #243331 100%);
+      color: #39ffe0;
+      border: 2.5px solid #5fffd0;
+      box-shadow: 0 2px 12px #23cfa077, 0 0 0 1.5px #39ffe055 inset;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      margin: 0 auto;
+      position: relative;
+      transition: border-color 0.19s, box-shadow 0.19s, background 0.19s, color 0.16s, transform 0.09s;
+      outline: none;
+      z-index: 2;
+      filter: brightness(1.13);
+      letter-spacing: 0.08em;
+    }
+    .next-btn:active {
+      transform: translateY(2px) scale(0.98);
+      box-shadow: 0 0.5px 2px #23cfa055;
+      background: linear-gradient(90deg, #111917 0%, #1a2422 100%);
+    }
+    .next-btn:hover,
+    .next-btn:focus {
+      background: linear-gradient(90deg, #111917 0%, #242f2e 100%);
+      color: #b6fff0;
+      border-color: #23cfa0;
+      box-shadow: 0 4px 16px #5fffd0, 0 0 0 2px #23cfa088 inset;
+      filter: brightness(1.18);
+    }
+    @media (max-width: 520px) {
+      .signal-steady {
+        max-width: 99vw;
+        padding: 14vw 2vw 10vw 2vw;
+      }
+      .steady-title { font-size: 1em; }
+      .next-btn { font-size: 12px; padding: 10px 18px 10px 16px; }
     }
     @keyframes steady-glow {
       0% {
@@ -235,71 +308,6 @@
       opacity: 0.55;
       filter: blur(2px);
     }
-    .signal-steady p {
-      margin: 0 0 18px 0;
-      font-size: 10px;
-      color: #eefefa;
-      letter-spacing: 0.01em;
-      position: relative;
-      z-index: 2;
-      text-shadow:
-        0 1px 2px #23cfa0cc,
-        0 0px 6px #5fffd088;
-      filter: brightness(1.12);
-    }
-    .signal-steady .btn-row {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      position: relative;
-      z-index: 2;
-    }
-    .next-btn {
-      display: inline-block;
-      padding: 8px 18px;
-      border-radius: 10px;
-      background: linear-gradient(90deg, #192221 0%, #243331 100%);
-      color: #39ffe0;
-      border: 2.5px solid #5fffd0;
-      box-shadow: 0 1.5px 7px #23cfa077, 0 0 0 1.5px #39ffe055 inset;
-      font-family: 'Press Start 2P', monospace;
-      font-size: 10px;
-      cursor: pointer;
-      text-decoration: none;
-      margin: 0 auto;
-      position: relative;
-      transition: border-color 0.23s, box-shadow 0.23s, background 0.22s, color 0.18s, transform 0.10s;
-      outline: none;
-      z-index: 2;
-      filter: brightness(1.12);
-    }
-    .next-btn:active {
-      transform: translateY(1.5px) scale(0.98);
-      box-shadow: 0 0.5px 2px #23cfa055;
-      background: linear-gradient(90deg, #111917 0%, #1a2422 100%);
-    }
-    .next-btn:hover,
-    .next-btn:focus {
-      background: linear-gradient(90deg, #111917 0%, #242f2e 100%);
-      color: #b6fff0;
-      border-color: #23cfa0;
-      box-shadow: 0 4px 16px #5fffd0, 0 0 0 2px #23cfa088 inset;
-      filter: brightness(1.18);
-    }
-    @media (max-width: 500px) {
-      .signal-fragment, .signal-steady {
-        width: 98vw;
-        min-width: unset;
-        padding: 14vw 2vw 6vw 2vw;
-      }
-      .signal-steady { max-width: 96vw; }
-      .signal-steady p { font-size: 11px; }
-      .next-btn { font-size: 10px; padding: 8px 12px; }
-      .fragment-opening { width: 54px; height: 54px; }
-      .fragment-circle { width: 26px; height: 26px; }
-      .fragment-crack { width: 22px; height: 4px; left: 11px; top: 23px;}
-    }
   </style>
 </head>
 <body>
@@ -329,9 +337,21 @@
 
     <!-- Container 2: Signal Steady (improved UI) -->
     <div class="signal-steady" id="steadyContainer">
-      <p>* Signal stable. Ready for next fragment?</p>
+      <div class="steady-icon">
+        <svg viewBox="0 0 36 36" width="38" height="38" fill="none">
+          <circle cx="18" cy="18" r="16" stroke="#5fffd0" stroke-width="3" fill="#192221" opacity="0.4"/>
+          <polyline points="11,19 16,25 25,13" stroke="#39ffe0" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="steady-message">
+        <div class="steady-title">Signal Stable</div>
+        <div class="steady-desc">Ready for next fragment?</div>
+      </div>
+      <hr class="steady-divider" />
       <div class="btn-row">
-        <a href="#" class="next-btn" id="continueBtn">Continue &gt;</a>
+        <a href="#" class="next-btn" id="continueBtn">
+          Continue <span style="font-size:1.25em;vertical-align:-2px;">&gt;</span>
+        </a>
       </div>
     </div>
   </div>
@@ -380,11 +400,11 @@
           const paragraphs = [
             "* 1/5 fragment recovered... 📡",
             "Hehehe, hi there baby!",
-  "It’s wild how we’re on opposite sides of the world, yet we always find ways to make time for each other ><",
-  "I don’t really mind the long 2 AMs as long as I get to sync into your world, to see you, hear you, and share our days, no matter how far apart we are!!",
-  "I'd like to think na maybe that’s what makes us special? Na even when the world feels out of sync, we keep tuning in to each other, again and agaaaain.",
-  "You’re my favorite frequency, looove. Thank you for showing me that this kind of love exists.",
-  "I love you, always."
+            "It’s wild how we’re on opposite sides of the world, yet we always find ways to make time for each other ><",
+            "I don’t really mind the long 2 AMs as long as I get to sync into your world, to see you, hear you, and share our days, no matter how far apart we are!!",
+            "I'd like to think na maybe that’s what makes us special? Na even when the world feels out of sync, we keep tuning in to each other, again and agaaaain.",
+            "You’re my favorite frequency, looove. Thank you for showing me that this kind of love exists.",
+            "I love you, always."
           ];
 
           const container = document.getElementById("typedLetter");
