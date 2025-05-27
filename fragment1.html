@@ -44,7 +44,6 @@
     @keyframes blink {
       50% { opacity: 0; }
     }
-    /* Fragment Opening Animation */
     .fragment-opening {
       width: 68px;
       height: 68px;
@@ -98,14 +97,12 @@
       80%  { opacity: 1; width: 34px;}
       100% { opacity: 1; width: 34px;}
     }
-    /* After animation, fade out the fragment opening */
     .fragment-opening.hide {
       animation: fragment-fadeout 0.5s cubic-bezier(.42,0,.58,1) forwards;
     }
     @keyframes fragment-fadeout {
       to { opacity: 0; transform: scale(1.6); }
     }
-    /* --- SIGNAL FRAGMENT BOX --- */
     .signal-fragment {
       width: 360px;
       min-height: 248px;
@@ -169,88 +166,51 @@
       0% { opacity: 1; }
       100% { opacity: 0.96; }
     }
-    @keyframes glitch-border {
-      0%, 100% { box-shadow: 0 0 8px #6ee7b7; }
-      20% { box-shadow: -2px 0 6px #6ee7b7; }
-      40% { box-shadow: 2px 2px 12px #6ee7b7; }
-      60% { box-shadow: 0 -2px 8px #6ee7b7; }
-      80% { box-shadow: 1px 1px 10px #6ee7b7; }
-    }
-    /* ---- STEADY (final message, improved) ---- */
-    .signal-steady {
-      display: none;
-      border-radius: 18px;
-      padding: 42px 28px 30px 28px;
-      min-width: 0;
-      max-width: 340px;
-      margin: 58px auto 0 auto;
-      text-align: center;
-      position: relative;
-      background: rgba(16, 32, 28, 0.66);
-      box-shadow:
-        0 2px 24px #23cfa099,
-        0 0 0 2px #23cfa066 inset,
-        0 1.5px 24px 0 #5fffd044;
-      border: 2.5px solid #5fffd0;
-      animation: steady-glow 2.4s infinite alternate;
-      backdrop-filter: blur(7px);
-      z-index: 2;
-      transition: box-shadow 0.3s, background 0.4s;
-      overflow: visible;
-      letter-spacing: 0.05em;
+    /* ---- STEADY (final message, same as DATA FRAGMENT style) ---- */
+    .signal-steady-blink {
+      margin: 0 auto 12px auto;
+      color: #39ffe0;
+      font-size: 18px;
       font-family: 'Press Start 2P', monospace;
+      padding: 22px 38px;
+      border: 3px dashed #5fffd0;
+      border-radius: 10px;
+      background: #192221;
+      box-shadow: 0 0 8px #5fffd0;
+      animation: blink 1s step-start infinite;
+      letter-spacing: 0.03em;
+      max-width: 90vw;
+      text-align: center;
     }
-    .steady-icon {
-      margin-bottom: 12px;
-      animation: pop-in 0.7s cubic-bezier(.42,0,.58,1);
-    }
-    @keyframes pop-in {
-      from { opacity: 0; transform: scale(0.7);}
-      to   { opacity: 1; transform: scale(1);}
-    }
-    .steady-message {
-      margin-bottom: 14px;
-    }
-    .steady-title {
-      color: #5fffd0;
-      font-size: 1.13em;
-      font-weight: bold;
-      margin-bottom: 4px;
-      text-shadow: 0 1px 8px #39ffe033, 0 0 1px #23cfa0;
-      letter-spacing: 0.13em;
-    }
-    .steady-desc {
+    .signal-steady-desc {
+      margin: 25px 0 0 0;
       color: #eefefa;
-      font-size: 1em;
-      margin-bottom: 0;
-      opacity: 0.92;
-      line-height: 1.9;
-    }
-    .steady-divider {
-      border: none;
-      border-top: 1.7px dashed #39ffe0;
-      margin: 18px 0 16px 0;
-      opacity: 0.4;
+      font-size: 13px;
+      line-height: 2.1;
+      opacity: 0.96;
+      text-align: center;
+      font-family: 'Press Start 2P', monospace;
+      letter-spacing: 0.03em;
     }
     .next-btn {
       display: inline-block;
-      padding: 13px 32px 13px 26px;
+      padding: 16px 44px;
       border-radius: 13px;
+      margin: 36px auto 0 auto;
       background: linear-gradient(90deg, #192221 0%, #243331 100%);
       color: #39ffe0;
-      border: 2.5px solid #5fffd0;
+      border: 3px solid #5fffd0;
       box-shadow: 0 2px 12px #23cfa077, 0 0 0 1.5px #39ffe055 inset;
       font-family: 'Press Start 2P', monospace;
-      font-size: 13px;
+      font-size: 17px;
       cursor: pointer;
       text-decoration: none;
-      margin: 0 auto;
       position: relative;
       transition: border-color 0.19s, box-shadow 0.19s, background 0.19s, color 0.16s, transform 0.09s;
       outline: none;
       z-index: 2;
       filter: brightness(1.13);
-      letter-spacing: 0.08em;
+      letter-spacing: 0.09em;
     }
     .next-btn:active {
       transform: translateY(2px) scale(0.98);
@@ -266,47 +226,15 @@
       filter: brightness(1.18);
     }
     @media (max-width: 520px) {
-      .signal-steady {
-        max-width: 99vw;
-        padding: 14vw 2vw 10vw 2vw;
+      .signal-steady-blink {
+        font-size: 15px;
+        padding: 12vw 2vw;
       }
-      .steady-title { font-size: 1em; }
-      .next-btn { font-size: 12px; padding: 10px 18px 10px 16px; }
-    }
-    @keyframes steady-glow {
-      0% {
-        box-shadow:
-          0 2px 24px #23cfa077,
-          0 0 0 2px #5fffd066 inset,
-          0 1.5px 24px 0 #5fffd044;
-        border-color: #5fffd0;
+      .signal-steady-desc {
+        font-size: 11px;
+        line-height: 1.7;
       }
-      50% {
-        box-shadow:
-          0 0px 36px #5fffd0cc,
-          0 0 0 2.5px #23cfa099 inset,
-          0 2.5px 38px 4px #23cfa044;
-        border-color: #23cfa0;
-      }
-      100% {
-        box-shadow:
-          0 2px 24px #23cfa077,
-          0 0 0 2px #5fffd066 inset,
-          0 1.5px 24px 0 #5fffd044;
-        border-color: #5fffd0;
-      }
-    }
-    .signal-steady::before {
-      content: "";
-      pointer-events: none;
-      position: absolute;
-      inset: 0;
-      border-radius: 18px;
-      background: linear-gradient(120deg, #5fffd033 20%, #23cfa022 90%);
-      z-index: 1;
-      box-shadow: 0 0 40px 8px #5fffd055;
-      opacity: 0.55;
-      filter: blur(2px);
+      .next-btn { font-size: 13px; padding: 11px 13vw; }
     }
   </style>
 </head>
@@ -335,24 +263,17 @@
       <div id="typedLetter"></div>
     </div>
 
-    <!-- Container 2: Signal Steady (improved UI) -->
-    <div class="signal-steady" id="steadyContainer">
-      <div class="steady-icon">
-        <svg viewBox="0 0 36 36" width="38" height="38" fill="none">
-          <circle cx="18" cy="18" r="16" stroke="#5fffd0" stroke-width="3" fill="#192221" opacity="0.4"/>
-          <polyline points="11,19 16,25 25,13" stroke="#39ffe0" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+    <!-- Container 2: Signal Steady (matches DATA FRAGMENT style) -->
+    <div id="steadyContainer" style="display:none; flex-direction:column; align-items:center;">
+      <div class="signal-steady-blink" style="animation:none;">
+        * SIGNAL STABLE *
       </div>
-      <div class="steady-message">
-        <div class="steady-title">Signal Stable</div>
-        <div class="steady-desc">Ready for next fragment?</div>
+      <div class="signal-steady-desc">
+        Ready for next fragment?
       </div>
-      <hr class="steady-divider" />
-      <div class="btn-row">
-        <a href="#" class="next-btn" id="continueBtn">
-          Continue <span style="font-size:1.25em;vertical-align:-2px;">&gt;</span>
-        </a>
-      </div>
+      <a href="#" class="next-btn" id="continueBtn">
+        Continue &gt;
+      </a>
     </div>
   </div>
 
@@ -380,9 +301,9 @@
         sigContainer.style.display = "block";
         setTimeout(() => {
           sigContainer.classList.add('visible');
-        }, 20); // allow display:block before animating in
+        }, 20);
 
-        sigContainer.classList.remove('expanded'); // start with static min height
+        sigContainer.classList.remove('expanded');
 
         const bgAudio = document.getElementById("bgStatic");
         bgAudio.volume = 0.2;
@@ -423,7 +344,6 @@
                 window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
                 setTimeout(typeChar, 45 + Math.random() * 40);
               } else {
-                // if content is overflowing, expand the container
                 if (sigContainer.scrollHeight > sigContainer.clientHeight) {
                   sigContainer.classList.add('expanded');
                 }
@@ -443,7 +363,7 @@
             } else {
               setTimeout(() => {
                 sigContainer.style.display = "none";
-                document.getElementById("steadyContainer").style.display = "block";
+                document.getElementById("steadyContainer").style.display = "flex";
                 window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
               }, 800);
             }
